@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-export default function HomeScreen() {
+export default function connect() {
 	return (
 		<View style={styles.container}>
-			<Text>Home</Text>
+			<Text>Connect</Text>
 		</View>
 	);
 }
