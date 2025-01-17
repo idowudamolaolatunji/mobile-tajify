@@ -31,12 +31,12 @@ export default function RootLayout() {
 
 	return (
         <>
-		<FetchedProvider>
-			<Stack screenOptions={{ statusBarBackgroundColor: variables.colors.background }}>
-				<Stack.Screen name="(tabs)" options={{ headerTransparent: true, headerTitle: "", }}/>
-			</Stack>
-			<StatusBar style="dark" />
-		</FetchedProvider>
+			<FetchedProvider>
+				<Stack screenOptions={{ statusBarBackgroundColor: variables.colors.background }}>
+					<Stack.Screen name="(tabs)" options={{ headerTransparent: true, headerTitle: "", }}/>
+				</Stack>
+				<StatusBar style="dark" />
+			</FetchedProvider>
         </>
 	);
 }

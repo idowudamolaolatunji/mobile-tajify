@@ -1,5 +1,6 @@
 import variables from "@/constants/variables";
 import { Ionicons } from "@expo/vector-icons";
+import { Link } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
@@ -10,7 +11,9 @@ function Header() {
 			    <Image source={require('@/assets/images/logo.png')} style={styles.logo} />
             </TouchableOpacity>
 			<View style={styles.container}>
-				<Ionicons name="search" size={28} color={variables.colors.text} />
+				<Link href={"/(modal)/searchModal"}>
+					<Ionicons name="search" size={28} color={variables.colors.text} />
+				</Link>
 				<TouchableOpacity>
 					<Ionicons name="notifications" size={28} color={variables.colors.text} />
 				</TouchableOpacity>
