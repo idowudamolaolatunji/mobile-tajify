@@ -12,7 +12,9 @@ const variables = {
 		tabInactive: "#aaa",
 		card: '#1A1A1A',
 
+
 		white: "#f9f9f9",
+		tintedWhite: "#b1b1b1",
 		bgDark: "#1D1D1D",
 		bgLight: "#7c7c7c",
 	},

@@ -8,6 +8,12 @@ export const typography = {
         fontFamily: "Inter-Bold"
 	},
 	h2: {
+		fontSize: 28.5,
+		lineHeight: 32,
+		letterSpacing: 0.3,
+        fontFamily: "Inter-SemiBold"
+	},
+	h3: {
 		fontSize: 24,
 		lineHeight: 32,
 		letterSpacing: 0.3,

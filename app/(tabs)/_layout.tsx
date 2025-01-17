@@ -12,7 +12,7 @@ import { useAuth } from "@/context/AuthContext";
 export default function TabLayout() {
 	const { authenticated } = useAuth();
 	
-	if(!authenticated) return <Redirect href={"/login"} />
+	// if(!authenticated) return <Redirect href={"/otp"} />
 
 	return (
 		<Tabs screenOptions={{

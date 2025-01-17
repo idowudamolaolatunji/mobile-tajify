@@ -14,19 +14,15 @@ const Login = () => {
 			<Stack.Screen options={{ headerShown: false }} />
 
 			<View style={styles.textBox}>
-				<Text style={styles.title}>Let’s help you get started</Text>
-				<Text style={styles.subtitle}>Create an account to start your Journey with us!</Text>
+				<Text style={styles.title}>Forget Password?</Text>
+				<Text style={styles.subtitle}>No worries, we will send you reset instructions</Text>
 			</View>
 
-			<View style={styles.options}>
+			<View>
 				<TouchableOpacity style={[styles.button, styles.btnNormal]} onPress={() => router.push('/signup')}>
 					<Ionicons name="phone-portrait-outline" size={22} color="#fff" />
 					<Text style={{ color: "#fff", fontSize: 20 }}>Use Phone or Email</Text>
 				</TouchableOpacity>
-				<Pressable style={[styles.button, styles.btnGoogle]} onPress={() => router.replace("/forgot-password")}>
-					<Image source={require("@/assets/images/elements/google.png")} />
-					<Text style={{ fontSize: 20 }}>Continue with Gooogle </Text>
-				</Pressable>
 			</View>
 		</ScrollView>
 	);
