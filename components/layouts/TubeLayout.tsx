@@ -1,10 +1,15 @@
 import variables from "@/constants/variables";
+import { truncateString } from "@/utils/helper";
 import React from "react";
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+
+
+
 
 function TubeLayout({ video }: { video: any }) {
+    
 	return (
-		<Pressable style={styles.videoCard}>
+		<Pressable style={styles.videoCard} onPress={() => {}}>
 			<Image source={{ uri: video.thumbnail }} style={styles.thumbnail} />
             <View style={styles.videoTiming}>
                 <Text style={styles.videoTimingText}>10:00</Text>
@@ -13,10 +18,10 @@ function TubeLayout({ video }: { video: any }) {
 				<Image source={{ uri: video.channel.avatar }} style={styles.channelAvatar} />
 				<View style={styles.textContainer}>
 					<Text style={styles.videoTitle} numberOfLines={2}>
-						{video.title}
+						{truncateString(video.title, 50)}
 					</Text>
 					<Text style={styles.channelName}>
-						{video.channel.name} • {video.views} views
+						{video.channel.name} • {video.views} views • {video.datePosted}
 					</Text>
 				</View>
 			</View>
