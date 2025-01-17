@@ -1,10 +1,10 @@
 {
 	"expo": {
-		"name": "mobile-tajify",
-		"slug": "mobile-tajify",
+		"name": "Tajify",
+		"slug": "tajify-app",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/images/logo.png",
+		"icon": "./assets/images/favicon.png",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
