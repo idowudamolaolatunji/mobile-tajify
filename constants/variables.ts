@@ -9,6 +9,7 @@ const variables = {
 		success: "#34C759",
 		tabActive: "#007AFF",
 		tabInactive: "#aaa",
+		card: '#1A1A1A',
 
 		white: "#f9f9f9",
 		bgDark: "#1D1D1D",
