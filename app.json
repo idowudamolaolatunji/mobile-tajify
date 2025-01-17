@@ -4,18 +4,31 @@
 		"slug": "mobile-tajify",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/images/icon.png",
+		"icon": "./assets/images/logo.png",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
+		"splash": {
+			"image": "./assets/images/logo.png",
+			"resizeMode": "contain",
+			"imageWidth": 200,
+			"backgroundColor": "#0066FF",
+			"color": "#fff"
+		},
 		"ios": {
-			"supportsTablet": true
+			"supportsTablet": true,
+			"infoPlist": {
+				"NSCameraUsageDescription": "This app uses the camera for live streaming and video recording.",
+				"NSMicrophoneUsageDescription": "This app uses the microphone for live streaming and video recording."
+			}
 		},
 		"android": {
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/images/logo.png",
-				"backgroundColor": "#ffffff"
-			}
+				"backgroundColor": "#000000",
+				"color": "#fff"
+			},
+			"permissions": ["CAMERA", "RECORD_AUDIO", "android.permission.CAMERA", "android.permission.RECORD_AUDIO"]
 		},
 		"web": {
 			"bundler": "metro",
@@ -30,7 +43,7 @@
 					"image": "./assets/images/logo.png",
 					"imageWidth": 200,
 					"resizeMode": "contain",
-					"backgroundColor": "#ffffff"
+					"backgroundColor": "#000000"
 				}
 			]
 		],

@@ -1,35 +1,42 @@
-import React, { useEffect } from 'react';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
+import React, { useEffect } from "react";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
+import "react-native-reanimated";
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, Inter_800ExtraBold, useFonts } from '@expo-google-fonts/inter';
+import variables from "@/constants/variables";
+import { FetchedProvider } from "@/context/FetchedContext";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+	const [loaded] = useFonts({
+        'Inter-Regular': Inter_400Regular,
+        'Inter-Medium': Inter_500Medium,
+        'Inter-SemiBold': Inter_600SemiBold,
+        'Inter-Bold': Inter_700Bold,
+        'Inter-ExtraBold': Inter_800ExtraBold,
+	});
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+	useEffect(() => {
+		if (loaded) {
+			SplashScreen.hideAsync();
+		}
+	}, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
+	if (!loaded) {
+		return null;
+	}
 
-  return (
-    <>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </>
-  );
+	return (
+        <>
+		<FetchedProvider>
+			<Stack screenOptions={{ statusBarBackgroundColor: variables.colors.background }}>
+				<Stack.Screen name="(tabs)" options={{ headerTransparent: true, headerTitle: "", }}/>
+			</Stack>
+			<StatusBar style="dark" />
+		</FetchedProvider>
+        </>
+	);
 }

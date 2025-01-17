@@ -1,3 +1,4 @@
+import variables from "@/constants/variables";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -12,5 +13,8 @@ export default function contest() {
 const styles = StyleSheet.create({
 	container: {
 		display: "flex",
+		backgroundColor: variables.colors.background,
+		flex: 1,
+
 	},
 });

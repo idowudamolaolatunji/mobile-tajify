@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import variables from "@/constants/variables";
 
 export default function more() {
 	return (
@@ -11,6 +12,8 @@ export default function more() {
 
 const styles = StyleSheet.create({
 	container: {
+		backgroundColor: variables.colors.background,
+		flex: 1,
 		display: "flex",
 	},
 });
