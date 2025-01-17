@@ -6,9 +6,8 @@ import { FlatList, View } from 'react-native'
 const data = [
 	{
 		creator: { _id: "232", profileName: "The Creator hub", profileImage: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1735905932/1735905927238.jpg" },
-		title: "A good way to make money",
+		videoUrl: "https://res.cloudinary.com/dy3bwvkeb/video/upload/v1710941120/Download_byehba.mp4",
 		description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam omnis, pariatur nobis numquam quidem quo?",
-		videoUrl: "https://res.cloudinary.com/du8iw1efa/video/upload/v1736758182/original-60dad17677eecdfdb5bc2a979f141c23_dkemi9_ar05cv.mp4",
 		thumbnailUrl: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1735849346/grbxt58knxbcpsayjnrs.jpg",
 		views: 0,
 		likes: 0,
@@ -26,9 +25,8 @@ const data = [
 	},
 	{
 		creator: { _id: "76", profileName: "The Creator hub", profileImage: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1735905932/1735905927238.jpg" },
-		title: "A good way to make money",
 		description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam omnis, pariatur nobis numquam quidem quo?",
-		videoUrl: "https://res.cloudinary.com/dy3bwvkeb/video/upload/v1710941120/Download_byehba.mp4",
+		videoUrl: "https://res.cloudinary.com/du8iw1efa/video/upload/v1736758182/original-60dad17677eecdfdb5bc2a979f141c23_dkemi9_ar05cv.mp4",
 		thumbnailUrl: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1735849346/grbxt58knxbcpsayjnrs.jpg",
 		views: 0,
 		likes: 0,
@@ -46,7 +44,6 @@ const data = [
 	},
 	{
 		creator: { _id: "176", profileName: "The Creator hub", profileImage: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1735905932/1735905927238.jpg" },
-		title: "A good way to make money",
 		description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam omnis, pariatur nobis numquam quidem quo?",
 		videoUrl: "https://res.cloudinary.com/dy3bwvkeb/video/upload/v1735849999/A%20good%20way%20to%20make%20money.mp4",
 		thumbnailUrl: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1735849346/grbxt58knxbcpsayjnrs.jpg",
