@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect, Tabs } from "expo-router";
 import variables from "@/constants/variables";
 
@@ -10,10 +10,10 @@ import { useAuth } from "@/context/AuthContext";
 
 
 export default function TabLayout() {
-	const { authenticated } = useAuth();
-	
-	// if(!authenticated) return <Redirect href={"/otp"} />
+	const { isAuthenticated } = useAuth()
 
+	if (!isAuthenticated) return <Redirect href={"/"} />;
+	
 	return (
 		<Tabs screenOptions={{
 			headerShown: false,

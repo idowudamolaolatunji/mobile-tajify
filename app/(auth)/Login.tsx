@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Dimensions, ScrollView, ActivityIndicator, Alert } from "react-native";
-import { Stack, useRouter } from "expo-router";
+import { Link, Redirect, Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
+import BackButton from "@/components/elements/BackButton";
+import { useAuth } from "@/context/AuthContext";
 
 {
 	/* <ActivityIndicator color="#fff" /> */
@@ -13,35 +15,52 @@ const { width } = Dimensions.get("window");
 
 const Login = () => {
 	const router = useRouter();
+	const { onLogin, authState, loading } = useAuth();
 	const [checked, setChecked] = useState(false);
-	const [email, setEmail] = useState("");
+	const [identifier, setIdentifier] = useState("");
 	const [password, setPassword] = useState("");
-	const [loading, setLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 
-	const handleLogin = async () => {
-		if (!email || !password) {
+	async function handleLogin() {
+		console.log(identifier, password, "loading...")
+		
+		if (!identifier || !password) {
 			Alert.alert("Error", "Please fill in all fields");
 			return;
 		}
 
-		try {
-			setLoading(true);
-			console.log("Login..");
-		} catch (error) {
-			Alert.alert("Error", (error as any).message);
-		} finally {
-			setLoading(false);
+        try {
+
+		const result = await onLogin();
+		console.log(result, loading)
+		if(result.error) {
+			Alert.alert("Error", result.message);
+			return;
+		}
+		
+		Alert.alert("Success", result.data.message);
+		} catch(err) {
+			console.log("err")
 		}
 	};
+
+
+	useEffect(function() {
+		if(authState.isAuthenticated) {
+			console.log(authState.isAuthenticated)
+			router.push("/")
+		}
+	}, [authState]);
 
 	return (
 		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
 			<Stack.Screen options={{ headerShown: false }} />
 
+			<BackButton action={() => router.push("/welcome")} />
+
 			<ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
 				<View style={styles.header}>
-					<Image source={require("@/assets/images/favicon.png")} style={styles.headerImage} resizeMode="contain" />
+					<Image source={require("@/assets/images/pngs/favicon.png")} style={styles.headerImage} resizeMode="contain" />
 				</View>
 
 				<View style={styles.formContainer}>
@@ -49,13 +68,13 @@ const Login = () => {
 					<Text style={styles.subtitle}>Log into your account to connect, create, share, and monetize!</Text>
 
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Email or Username" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
-						<Ionicons name="person-add-outline" size={20} color={variables.colors.tintedWhite} style={styles.inputIcon} />
+						<TextInput style={styles.input} placeholder="Email or phone" value={identifier} onChangeText={setIdentifier} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+						<Ionicons name="person-add-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
-						<TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+						<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
 							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={20} color={variables.colors.tintedWhite} />
 						</TouchableOpacity>
 					</View>
@@ -68,9 +87,9 @@ const Login = () => {
 							<Text style={styles.checkBoxText}>Remeber me</Text>
 						</TouchableOpacity>
 
-						<TouchableOpacity style={styles.forgotPassword}>
+						<Link href="/forgot-password" style={styles.forgotPassword}>
 							<Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-						</TouchableOpacity>
+						</Link>
 					</View>
 				</View>
 
@@ -95,10 +114,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: variables.colors.background,
+		paddingTop: Platform.OS === "ios" ? 60 : 40,
+		paddingHorizontal: 20,
+		minHeight: "100%"
 	},
 	scrollContainer: {
 		flexGrow: 1,
-		paddingTop: Platform.OS === "ios" ? 60 : 40,
 	},
 	header: {
 		height: width * 0.6,
@@ -111,7 +132,6 @@ const styles = StyleSheet.create({
 	},
 	formContainer: {
 		flex: 1,
-		paddingHorizontal: 20,
 		paddingTop: 20,
 	},
 	formTitle: {
@@ -131,19 +151,15 @@ const styles = StyleSheet.create({
 		backgroundColor: variables.colors.primaryTint,
 		borderRadius: 5,
 		marginBottom: 15,
-		paddingHorizontal: 20,
-		height: 45,
-	},
-	inputIcon: {
-		marginRight: 10,
+		paddingHorizontal: 16,
+		height: 48,
+		borderColor: variables.colors.border,
+		borderWidth: 1
 	},
 	input: {
 		flex: 1,
 		color: "#fff",
-		fontSize: 16.5,
-	},
-	eyeIcon: {
-		padding: 10,
+		fontSize: 18,
 	},
 
 	infoBox: {
@@ -188,6 +204,7 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		backgroundColor: variables.colors.primary,
+		width: "100%",
 		height: 45,
 		borderRadius: 5,
 		justifyContent: "center",
@@ -201,7 +218,7 @@ const styles = StyleSheet.create({
 	},
 
 	formFooter: {
-		padding: 20,
+		paddingVertical: 20,
 	},
 	footerInfo: {
 		flexDirection: "row",

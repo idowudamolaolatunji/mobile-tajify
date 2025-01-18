@@ -8,7 +8,7 @@ function Header() {
 	return (
 		<View style={styles.header}>
             <TouchableOpacity>
-			    <Image source={require('@/assets/images/logo.png')} style={styles.logo} />
+			    <Image source={require('@/assets/images/pngs/logo.png')} style={styles.logo} />
             </TouchableOpacity>
 			<View style={styles.container}>
 				<Link href={"/(modal)/searchModal"}>
@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
         justifyContent: "space-between",
 		backgroundColor: variables.colors.background,
-        paddingTop: 12,
+        // paddingTop: 12,
+        paddingTop: 36,
 		paddingLeft: 13,
 		paddingBottom: 15,
 		paddingRight: 16,

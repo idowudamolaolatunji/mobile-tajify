@@ -2,8 +2,14 @@ import { createContext, useState, useEffect, useContext } from "react";
 import * as SecureStore from "expo-secure-store";
 
 
+interface Auth {
+    user: any | null;
+    token: string | null;
+    isAuthenticated: boolean | null
+}
+
 interface AuthContextProps {
-    authState?: { user: any | null; token: string | null; authenticated: boolean | null };
+    authState?: Auth | any;
     onRegister?: (formData: any) => Promise<any>;
     onLogin?: (identifier: string, password: string) => Promise<any>;
     onLogout?: () => Promise<any>;
@@ -11,10 +17,7 @@ interface AuthContextProps {
 
 const TOKEN_KEY = "userToken";
 const USER_OBJ_KEY = "userObk"
-export const API_URL = "https://api-tajify-production.up.railway.app";
-const headers = {
-    "Content-Type": "application/json",
-}
+const API_URL = process.env.API_BASE_URL;
 
 const AuthContext = createContext<AuthContextProps | any>({});
 export default AuthContext;
@@ -23,13 +26,21 @@ export const AuthProvider = function({ children } : any) {
     const [authState, setAuthState] = useState<{
         user: any | null; 
         token: string | null;
-        authenticated: boolean | null;
+        isAuthenticated: boolean | null;
     }>({
         user: null,
         token: null,
-        authenticated: null
+        isAuthenticated: null
     });
+    const [authLoading, setAuthLoading] = useState(false);
 
+    const headers = {
+        "Content-Type": "application/json",
+        ...( authState.token && {
+                Authorization: `Bearer ${authState.token}`
+            }
+        )
+    }
 
     useEffect(function() {
         async function loadAuthentication() {
@@ -42,7 +53,7 @@ export const AuthProvider = function({ children } : any) {
                 setAuthState({
                     user: JSON.parse(user),
                     token: token,
-                    authenticated: true,
+                    isAuthenticated: true,
                 })
             }
         }
@@ -52,6 +63,7 @@ export const AuthProvider = function({ children } : any) {
 
 
     async function handleRegister(formData: any) {
+        setAuthLoading(true)
         try {
             const res = await fetch(`${API_URL}/register`, {
                 method: 'POST', headers,
@@ -65,11 +77,16 @@ export const AuthProvider = function({ children } : any) {
             return data
         } catch(err) {
             return { error: true, message: (err as any)?.message }
+        } finally {
+            setAuthLoading(false)
         }
     }
 
 
     async function handleLogin(identifier: string, password: string) {
+        setAuthLoading(true);
+        console.log(identifier, password)
+
         try {
             const res = await fetch(`${API_URL}/login`, {
                 method: 'POST', headers,
@@ -84,7 +101,7 @@ export const AuthProvider = function({ children } : any) {
             setAuthState({
                 user: data?.data?.user,
                 token: data?.token,
-                authenticated: true
+                isAuthenticated: true
             });
 
             await SecureStore.setItemAsync(USER_OBJ_KEY, JSON.stringify(data?.data?.user))
@@ -93,20 +110,23 @@ export const AuthProvider = function({ children } : any) {
             return data;
         } catch(err) {
             return { error: true, message: (err as any)?.message }
+        } finally {
+            setAuthLoading(false)
         }
     }
 
     async function handleLogout() {
         await fetch(`${API_URL}/logout`, { method: "POST", headers });
         await SecureStore.deleteItemAsync(TOKEN_KEY);
-        setAuthState({ user: null, token: null, authenticated: false })
+        setAuthState({ user: null, token: null, isAuthenticated: false })
     }
 
     const value = {
         authState,
         onRegister: handleRegister,
         onLogin: handleLogin,
-        onLogout: handleLogout
+        onLogout: handleLogout,
+        loading: authLoading
     }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

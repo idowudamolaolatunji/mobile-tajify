@@ -4,6 +4,7 @@ import { Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
+import BackButton from "@/components/elements/BackButton";
 
 {
 	/* <ActivityIndicator color="#fff" /> */
@@ -20,24 +21,14 @@ const Signup = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleRegister = async () => {
-		if (!email || !password) {
-			Alert.alert("Error", "Please fill in all fields");
-			return;
-		}
-
-		try {
-			setLoading(true);
-			console.log("Login..");
-		} catch (error) {
-			Alert.alert("Error", (error as any).message);
-		} finally {
-			setLoading(false);
-		}
+		
 	};
 
 	return (
 		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
 			<Stack.Screen options={{ headerShown: false }} />
+
+			<BackButton showText />
 
 			<ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
 				<View style={styles.formContainer}>
@@ -46,34 +37,34 @@ const Signup = () => {
 
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Full Name" value={email} onChangeText={setEmail} keyboardType="default" placeholderTextColor={variables.colors.tintedWhite} />
-						<Ionicons name="person-outline" size={20} color={variables.colors.tintedWhite} style={styles.inputIcon} />
+						<Ionicons name="person-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Username" value={email} onChangeText={setEmail} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
-						<Ionicons name="at" size={20} color={variables.colors.tintedWhite} style={styles.inputIcon} />
+						<Ionicons name="at" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
-						<Ionicons name="mail-outline" size={20} color={variables.colors.tintedWhite} style={styles.inputIcon} />
+						<Ionicons name="mail-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Phone Number" value={email} onChangeText={setEmail} keyboardType="phone-pad" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
-						<Ionicons name="keypad-outline" size={20} color={variables.colors.tintedWhite} style={styles.inputIcon} />
+						<Ionicons name="keypad-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Referal Code" value={email} onChangeText={setEmail} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
-						<Ionicons name="gift-outline" size={20} color={variables.colors.tintedWhite} style={styles.inputIcon} />
+						<Ionicons name="gift-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
-						<TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+						<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
 							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={20} color={variables.colors.tintedWhite} />
 						</TouchableOpacity>
 					</View>
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Password Confirmation" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
-						<TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+						<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
 							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={20} color={variables.colors.tintedWhite} />
 						</TouchableOpacity>
 					</View>
@@ -107,10 +98,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: variables.colors.background,
+		paddingTop: Platform.OS === "ios" ? 60 : 40,
+		paddingHorizontal: 20,
+		minHeight: "100%"
 	},
 	scrollContainer: {
 		flexGrow: 1,
-		paddingTop: Platform.OS === "ios" ? 60 : 40,
 	},
 	header: {
 		height: width * 0.6,
@@ -123,7 +116,6 @@ const styles = StyleSheet.create({
 	},
 	formContainer: {
 		flex: 1,
-		paddingHorizontal: 20,
 		paddingTop: 10,
 	},
 	formTitle: {
@@ -143,19 +135,15 @@ const styles = StyleSheet.create({
 		backgroundColor: variables.colors.primaryTint,
 		borderRadius: 5,
 		marginBottom: 15,
-		paddingHorizontal: 14,
-		height: 45,
-	},
-	inputIcon: {
-		marginRight: 10,
+		paddingHorizontal: 16,
+		height: 48,
+		borderColor: variables.colors.border,
+		borderWidth: 1
 	},
 	input: {
 		flex: 1,
 		color: "#fff",
-		fontSize: 16,
-	},
-	eyeIcon: {
-		padding: 10,
+		fontSize: 18,
 	},
 	checkContainer: {
 		alignSelf: "flex-start",
@@ -200,7 +188,7 @@ const styles = StyleSheet.create({
 	},
 
 	formFooter: {
-		padding: 20,
+		paddingVertical: 20,
 	},
 	footerInfo: {
 		flexDirection: "row",

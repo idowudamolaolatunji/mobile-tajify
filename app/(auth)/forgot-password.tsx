@@ -1,29 +1,34 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Platform, ScrollView, Pressable} from "react-native";
-import { Stack, useRouter } from "expo-router";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Platform, ScrollView, Pressable, TextInput} from "react-native";
+import { Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
+import BackButton from "@/components/elements/BackButton";
 
 
-const Login = () => {
-    const router = useRouter();
+const ForgotPassword = () => {
+    const [email, setEmail] = useState("");
 
 	return (
 		<ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
 			<Stack.Screen options={{ headerShown: false }} />
 
-			<View style={styles.textBox}>
-				<Text style={styles.title}>Forget Password?</Text>
-				<Text style={styles.subtitle}>No worries, we will send you reset instructions</Text>
-			</View>
+			<BackButton />
 
-			<View>
-				<TouchableOpacity style={[styles.button, styles.btnNormal]} onPress={() => router.push('/signup')}>
-					<Ionicons name="phone-portrait-outline" size={22} color="#fff" />
-					<Text style={{ color: "#fff", fontSize: 20 }}>Use Phone or Email</Text>
-				</TouchableOpacity>
-			</View>
+			<View style={styles.formContainer}>
+                <Text style={styles.formTitle}>Forgot Password 🤔</Text>
+                <Text style={styles.subtitle}>No worries, we will send you reset instructions.</Text>
+
+                <View style={styles.inputContainer}>
+                    <TextInput style={styles.input} placeholder="Email address" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+                    <Ionicons name="mail-outline" size={20} color={variables.colors.tintedWhite} />
+                </View>
+            </View>
+
+            <TouchableOpacity style={[styles.button]} onPress={() => {}}>
+                <Text style={{ color: "#fff", fontSize: 20 }}>Send Email</Text>
+            </TouchableOpacity>
 		</ScrollView>
 	);
 };
@@ -37,20 +42,38 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 
-	textBox: {
-		marginBottom: 35,
-		textAlign: "left",
+	formContainer: {
+		paddingTop: 20,
+        marginBottom: 10
 	},
-	title: {
-		...typography.h2,
+	formTitle: {
+		...typography.h1,
 		color: variables.colors.text,
+		textAlign: "center",
 		marginBottom: 5,
 	},
 	subtitle: {
+        fontSize: 15,
 		color: "#666",
-    fontSize: 15
+		textAlign: "center",
+		marginBottom: 30,
 	},
-	options: {},
+	inputContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		backgroundColor: variables.colors.primaryTint,
+		borderRadius: 5,
+		marginBottom: 15,
+		paddingHorizontal: 16,
+		height: 48,
+		borderColor: variables.colors.border,
+		borderWidth: 1
+	},
+	input: {
+		flex: 1,
+		color: "#fff",
+		fontSize: 18,
+	},
 	button: {
 		height: 45,
 		borderRadius: 5,
@@ -60,13 +83,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		marginBottom: 16,
 		gap: 10,
-	},
-	btnNormal: {
-		backgroundColor: variables.colors.primary,
-	},
-	btnGoogle: {
-		backgroundColor: variables.colors.white,
+        backgroundColor: variables.colors.primary,
 	},
 });
 
-export default Login;
+export default ForgotPassword;

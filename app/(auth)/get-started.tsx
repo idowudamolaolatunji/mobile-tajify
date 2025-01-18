@@ -4,6 +4,7 @@ import { Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
+import BackButton from "@/components/elements/BackButton";
 
 
 const Login = () => {
@@ -13,6 +14,8 @@ const Login = () => {
 		<ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
 			<Stack.Screen options={{ headerShown: false }} />
 
+			<BackButton showText />
+
 			<View style={styles.textBox}>
 				<Text style={styles.title}>Let’s help you get started</Text>
 				<Text style={styles.subtitle}>Create an account to start your Journey with us!</Text>
@@ -21,11 +24,11 @@ const Login = () => {
 			<View style={styles.options}>
 				<TouchableOpacity style={[styles.button, styles.btnNormal]} onPress={() => router.push('/signup')}>
 					<Ionicons name="phone-portrait-outline" size={22} color="#fff" />
-					<Text style={{ color: "#fff", fontSize: 20 }}>Use Phone or Email</Text>
+					<Text style={{ color: "#fff", fontSize: 19 }}>Use Phone or Email</Text>
 				</TouchableOpacity>
 				<Pressable style={[styles.button, styles.btnGoogle]} onPress={() => router.replace("/forgot-password")}>
 					<Image source={require("@/assets/images/elements/google.png")} />
-					<Text style={{ fontSize: 20 }}>Continue with Gooogle </Text>
+					<Text style={{ fontSize: 19 }}>Continue with Gooogle </Text>
 				</Pressable>
 			</View>
 		</ScrollView>
@@ -42,17 +45,19 @@ const styles = StyleSheet.create({
 	},
 
 	textBox: {
+		marginTop: 10,
 		marginBottom: 35,
-		textAlign: "left",
 	},
 	title: {
 		...typography.h2,
 		color: variables.colors.text,
 		marginBottom: 5,
+		textAlign: "center"
 	},
 	subtitle: {
 		color: "#666",
-    fontSize: 15
+		fontSize: 15,
+		textAlign: "center"
 	},
 	options: {},
 	button: {

@@ -2,6 +2,7 @@ const variables = {
 	colors: {
 		primary: "#007AFF",
 		primaryTint: "#0066FF30",
+		primaryTint2: "#0066FF47",
 		background: "#000000",
 		text: "#fff",
 		textSecondary: "#666666",

@@ -73,7 +73,7 @@ function TubeShorts() {
         console.log("//////////////")
         console.log(viewableItems)
 
-        if(viewableItems.length > 0 && viewableItems[0].isViewable) {
+        if(viewableItems.length > 0 && viewableItems[0]?.isViewable) {
             setActiveId(viewableItems[0].item._id)
         }
     }
