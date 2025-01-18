@@ -84,12 +84,12 @@ const Login = () => {
 					<Text style={styles.subtitle}>Log into your account to connect, create, share, and monetize!</Text>
 
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Email or phone" value={identifier} onChangeText={setIdentifier} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+						<TextInput style={styles.input} placeholder="Email or phone" value={identifier} onChangeText={setIdentifier} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="person-add-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+						<TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Pressable onPress={() => setShowPassword(!showPassword)}>
 							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={21} color={variables.colors.tintedWhite} />
 						</Pressable>

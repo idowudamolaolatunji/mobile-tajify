@@ -7,7 +7,7 @@ import { ActivityIndicator, SafeAreaView, View } from "react-native";
 export default function AppLayout() {
 	const { authState, loading } = useAuth();
 
-	// if (!authState.isAuthenticated) return <Redirect href={"/welcome"} />;
+	if (!authState.isAuthenticated) return <Redirect href={"/welcome"} />;
 
 	// if (loading) {
 	// 	return (

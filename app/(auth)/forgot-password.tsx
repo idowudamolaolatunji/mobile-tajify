@@ -21,7 +21,7 @@ const ForgotPassword = () => {
                 <Text style={styles.subtitle}>No worries, we will send you reset instructions.</Text>
 
                 <View style={styles.inputContainer}>
-                    <TextInput style={styles.input} placeholder="Email address" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+                    <TextInput style={styles.input} placeholder="Email address" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
                     <Ionicons name="mail-outline" size={20} color={variables.colors.tintedWhite} />
                 </View>
             </View>

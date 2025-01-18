@@ -1,9 +1,8 @@
 import Slide from "@/components/layouts/Slide";
-import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
 import { Stack, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { FlatList, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import React, { useState } from "react";
+import { FlatList, Image, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 
 const slides = [
 	{
@@ -49,19 +48,21 @@ function Welcome() {
 			<Stack.Screen options={{ headerShown: false }} />
 
 			<View style={styles.mainBox}>
-				<Text style={[typography.h1, styles.heading]}>Welcome to Tajify</Text>
+				<View style={styles.header}>
+					<Image source={require("@/assets/images/pngs/logo.png")} style={styles.headerImage} resizeMode="contain" />
+				</View>
 
 				<FlatList 
 					data={slides}
 					renderItem={({item}) => <Slide slideItem={item} />}
-					contentContainerStyle={{ height: height * 0.45 }}
+					contentContainerStyle={{ height: height * 0.40 }}
 					showsHorizontalScrollIndicator={false}
+					onViewableItemsChanged={onViewableItemsChanged}
 					horizontal
 					pagingEnabled
-					onViewableItemsChanged={onViewableItemsChanged}
 				/>
 
-				<View style={[styles.footer, { height: height * 0.35 }]}>
+				<View style={[styles.footer, { height: height * 0.34 }]}>
 					<View style={styles.indicatorContainer}>
 						{slides?.map((slide, i) => (
 							<View key={slide?.id} style={[styles.indicator, i == currentSlide ? { backgroundColor: variables.colors.white, width: 25 } : {}]} />
@@ -88,27 +89,28 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: variables.colors.background,
-		paddingTop: Platform.OS === "ios" ? 120 : 80,
+		paddingTop: Platform.OS === "ios" ? 60 : 40,
 		paddingHorizontal: 20,
 		minHeight: "100%",
 	},
 	mainBox: {},
-	heading: {
-		color: variables.colors.text,
-		textAlign: "center",
-		marginBottom: 20,
-		fontSize: 34,
+	header: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	headerImage: {
+		width: 130,
+		height: 130,
 	},
 	footer: {
 		justifyContent: "space-between",
 		marginHorizontal: 20,
 	},
 	indicatorContainer: {
+		marginVertical: 15,
 		flexDirection: "row",
 		justifyContent: "center",
 		gap: 6,
-		marginTop: -12,
-		height: 20
 	},
 	indicator: {
 		backgroundColor: variables.colors.textSecondary,
@@ -128,7 +130,6 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		justifyContent: "center",
 		alignItems: "center",
-		marginBottom: 20,
 	},
 	buttonLeft: {
 		backgroundColor: variables.colors.primaryTint2,

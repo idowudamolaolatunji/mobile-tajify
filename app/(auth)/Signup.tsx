@@ -34,34 +34,34 @@ const Signup = () => {
 					<Text style={styles.subtitle}>If this is your first time here, Register an Account</Text>
 
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Full Name" value={email} onChangeText={setEmail} keyboardType="default" placeholderTextColor={variables.colors.tintedWhite} />
+						<TextInput style={styles.input} placeholder="Full Name" value={email} onChangeText={setEmail} keyboardType="default" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="person-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Username" value={email} onChangeText={setEmail} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+						<TextInput style={styles.input} placeholder="Username" value={email} onChangeText={setEmail} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="at" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+						<TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="mail-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Phone Number" value={email} onChangeText={setEmail} keyboardType="phone-pad" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+						<TextInput style={styles.input} placeholder="Phone Number" value={email} onChangeText={setEmail} keyboardType="phone-pad" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="keypad-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Referal Code" value={email} onChangeText={setEmail} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+						<TextInput style={styles.input} placeholder="Referal Code" value={email} onChangeText={setEmail} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="gift-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+						<TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
 							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={21} color={variables.colors.tintedWhite} />
 						</TouchableOpacity>
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Password Confirmation" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+						<TextInput style={styles.input} placeholder="Password Confirmation" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
 							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={21} color={variables.colors.tintedWhite} />
 						</TouchableOpacity>

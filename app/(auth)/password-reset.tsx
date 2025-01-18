@@ -24,13 +24,13 @@ const PasswordReset = () => {
                 <Text style={styles.subtitle}>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</Text>
 
                 <View style={styles.inputContainer}>
-                    <TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword.pass} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+                    <TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword.pass} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
                     <TouchableOpacity onPress={() => setShowPassword({ ...showPassword, pass: !showPassword.pass })}>
                         <Ionicons name={showPassword.pass ? "eye-outline" : "eye-off-outline"} size={20} color={variables.colors.tintedWhite} />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.inputContainer}>
-                    <TextInput style={styles.input} placeholder="Password Confirmation" value={passwordConfirm} onChangeText={setPasswordConfirm} secureTextEntry={!showPassword.passConfirm} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
+                    <TextInput style={styles.input} placeholder="Password Confirmation" value={passwordConfirm} onChangeText={setPasswordConfirm} secureTextEntry={!showPassword.passConfirm} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
                     <TouchableOpacity onPress={() => setShowPassword({ ...showPassword, passConfirm: !showPassword.passConfirm })}>
                         <Ionicons name={showPassword.passConfirm ? "eye-outline" : "eye-off-outline"} size={20} color={variables.colors.tintedWhite} />
                     </TouchableOpacity>

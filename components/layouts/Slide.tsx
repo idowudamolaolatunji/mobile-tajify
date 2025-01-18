@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
 	image: {
         borderRadius: 10,
         width: "95%",
-        alignSelf: "center"
+        alignSelf: "center",
+        marginTop: -20
     },
 	title: {
         color: variables.colors.text,
