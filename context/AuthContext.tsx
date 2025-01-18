@@ -17,7 +17,7 @@ interface AuthContextProps {
 
 const TOKEN_KEY = "userToken";
 const USER_OBJ_KEY = "userObk"
-const API_URL = process.env.API_BASE_URL;
+const API_URL = `https://api-quicka.up.railway.app/api/auth`;
 
 const AuthContext = createContext<AuthContextProps | any>({});
 export default AuthContext;
@@ -30,7 +30,7 @@ export const AuthProvider = function({ children } : any) {
     }>({
         user: null,
         token: null,
-        isAuthenticated: null
+        isAuthenticated: false
     });
     const [authLoading, setAuthLoading] = useState(false);
 
@@ -41,6 +41,7 @@ export const AuthProvider = function({ children } : any) {
             }
         )
     }
+
 
     useEffect(function() {
         async function loadAuthentication() {
@@ -62,10 +63,11 @@ export const AuthProvider = function({ children } : any) {
     }, []);
 
 
+
     async function handleRegister(formData: any) {
         setAuthLoading(true)
         try {
-            const res = await fetch(`${API_URL}/register`, {
+            const res = await fetch(`${API_URL}/signup`, {
                 method: 'POST', headers,
                 body: JSON.stringify(formData),
             });
@@ -85,14 +87,17 @@ export const AuthProvider = function({ children } : any) {
 
     async function handleLogin(identifier: string, password: string) {
         setAuthLoading(true);
-        console.log(identifier, password)
 
         try {
             const res = await fetch(`${API_URL}/login`, {
                 method: 'POST', headers,
-                body: JSON.stringify({ identifier, password }),
+                body: JSON.stringify({ emai: identifier, password }),
             });
-    
+
+            console.log(res);
+            if (!res.ok) throw new Error("Cannot Login")
+          
+
             const data = await res.json();
             if (res.status !== 200 || data?.status != "success") {
                 throw new Error(data?.message || data?.error);
@@ -122,6 +127,7 @@ export const AuthProvider = function({ children } : any) {
     }
 
     const value = {
+        headers,
         authState,
         onRegister: handleRegister,
         onLogin: handleLogin,

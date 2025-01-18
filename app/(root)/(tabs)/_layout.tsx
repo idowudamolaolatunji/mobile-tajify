@@ -1,18 +1,14 @@
-import React, { useEffect } from "react";
-import { Redirect, Tabs } from "expo-router";
+import React from "react";
+import { Tabs } from "expo-router";
 import variables from "@/constants/variables";
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
-import { useAuth } from "@/context/AuthContext";
 
 
 export default function TabLayout() {
-	const { isAuthenticated } = useAuth()
-
-	if (!isAuthenticated) return <Redirect href={"/"} />;
 	
 	return (
 		<Tabs screenOptions={{

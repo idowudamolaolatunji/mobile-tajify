@@ -3,7 +3,7 @@ import Header from "@/components/layouts/Header";
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
 import { Stack } from "expo-router";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import TubeShorts from "@/components/screens/Tube/TubeShorts";
 import TubeMax from "@/components/screens/Tube/TubeMax";
@@ -15,7 +15,6 @@ import Radio from "@/components/screens/Audio/Radio";
 
 
 export default function HomeScreen() {
-	const video = useRef(null);
 	const [tabsData, setTabsData] = useState({ tab: "", subTab: "" })
 	
 	const handleTabsChange = function(tabSlug: string, subTabSlug: string | null) {

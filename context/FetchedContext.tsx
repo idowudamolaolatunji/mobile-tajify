@@ -25,8 +25,7 @@ interface FetchedProviderProps {
 export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) => {
     const [tubeShorts, setTubeShorts] = useState([])
     const [loader, setLoader] = useState(false)
-    const API_BASE_URL = "https://api-tajify-production.up.railway.app";
-    // const API_BASE_URL = "http://localhost:3001";
+    const API_BASE_URL = process.env.API_BASE_URL;
 
 
     async function handleFetchTubes(limit= 10, page= 1) {

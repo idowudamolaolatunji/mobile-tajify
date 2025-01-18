@@ -1,23 +1,21 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Dimensions, ScrollView, ActivityIndicator, Alert } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform, Dimensions, ScrollView, ActivityIndicator, SafeAreaView } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
 import BackButton from "@/components/elements/BackButton";
+import { useAuth } from "@/context/AuthContext";
 
-{
-	/* <ActivityIndicator color="#fff" /> */
-}
 
 const { width } = Dimensions.get("window");
 
 const Signup = () => {
+	const { loading } = useAuth();
 	const router = useRouter();
 	const [checked, setChecked] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [loading, setLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleRegister = async () => {
@@ -25,7 +23,7 @@ const Signup = () => {
 	};
 
 	return (
-		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<Stack.Screen options={{ headerShown: false }} />
 
 			<BackButton showText />
@@ -59,13 +57,13 @@ const Signup = () => {
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
 						<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={20} color={variables.colors.tintedWhite} />
+							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={21} color={variables.colors.tintedWhite} />
 						</TouchableOpacity>
 					</View>
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Password Confirmation" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
 						<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={20} color={variables.colors.tintedWhite} />
+							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={21} color={variables.colors.tintedWhite} />
 						</TouchableOpacity>
 					</View>
 
@@ -79,20 +77,28 @@ const Signup = () => {
 
 				<View style={styles.formFooter}>
 					<TouchableOpacity style={styles.button} onPress={handleRegister} disabled={loading}>
-						<Text style={styles.buttonText}>Register</Text>
+						{loading ? (
+							<ActivityIndicator color="#fff" size={28} />
+						) : (
+							<Text style={styles.buttonText}>Register</Text>
+						)}
 					</TouchableOpacity>
 
 					<View style={styles.footerInfo}>
 						<Text style={styles.footerInfoText}>I'm not new here? </Text>
 						<TouchableOpacity onPress={() => router.push("/login")}>
-							<Text style={styles.signupText}>Login</Text>
+							<Text style={styles.linkText}>Login</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
 			</ScrollView>
-		</KeyboardAvoidingView>
+		</SafeAreaView>
 	);
 };
+
+
+export default Signup;
+
 
 const styles = StyleSheet.create({
 	container: {
@@ -179,7 +185,7 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		justifyContent: "center",
 		alignItems: "center",
-		marginBottom: 20,
+		marginBottom: 14,
 	},
 	buttonText: {
 		color: "#fff",
@@ -198,10 +204,8 @@ const styles = StyleSheet.create({
 	footerInfoText: {
 		color: "#666",
 	},
-	signupText: {
+	linkText: {
 		...typography.button,
 		color: variables.colors.primary,
 	},
 });
-
-export default Signup;

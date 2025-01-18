@@ -1,59 +1,75 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Dimensions, ScrollView, ActivityIndicator, Alert } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Dimensions, ScrollView, ActivityIndicator, Alert, Pressable, SafeAreaView } from "react-native";
 import { Link, Redirect, Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
 import BackButton from "@/components/elements/BackButton";
 import { useAuth } from "@/context/AuthContext";
+import * as SecureStore from "expo-secure-store";
 
-{
-	/* <ActivityIndicator color="#fff" /> */
-}
 
 const { width } = Dimensions.get("window");
+const API_URL = `${process.env.API_BASE_URL}/auth`;
+
 
 const Login = () => {
 	const router = useRouter();
-	const { onLogin, authState, loading } = useAuth();
+	const { headers, authState, setAuthState } = useAuth();
 	const [checked, setChecked] = useState(false);
-	const [identifier, setIdentifier] = useState("");
-	const [password, setPassword] = useState("");
+	const [identifier, setIdentifier] = useState("test@mail.com");
+	const [password, setPassword] = useState("test1234");
 	const [showPassword, setShowPassword] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	async function handleLogin() {
-		console.log(identifier, password, "loading...")
-		
-		if (!identifier || !password) {
-			Alert.alert("Error", "Please fill in all fields");
-			return;
-		}
+		if(!identifier || !password) return Alert.alert("Error", "Email or phone number and password are required!");
+
+		setLoading(true);
 
         try {
+            const res = await fetch(`${API_URL}/login`, {
+                method: 'POST', headers,
+                body: JSON.stringify({ email: identifier, password }),
+            });
 
-		const result = await onLogin();
-		console.log(result, loading)
-		if(result.error) {
-			Alert.alert("Error", result.message);
-			return;
-		}
-		
-		Alert.alert("Success", result.data.message);
-		} catch(err) {
-			console.log("err")
-		}
-	};
+            console.log(res);
+            if (!res.ok) throw new Error("Cannot Login")
+          
 
+            const data = await res.json();
+            if (res.status !== 200 || data?.status != "success") {
+                throw new Error(data?.message || data?.error);
+            }
 
-	useEffect(function() {
-		if(authState.isAuthenticated) {
-			console.log(authState.isAuthenticated)
-			router.push("/")
-		}
-	}, [authState]);
+			Alert.alert("Success", data?.message);
+			
+            setAuthState({
+				user: data?.data?.user,
+                token: data?.token,
+                isAuthenticated: true
+            });
+			
+            await SecureStore.setItemAsync("userToken", JSON.stringify(data?.data?.user))
+            await SecureStore.setItemAsync("userObj", data?.token)
+			
+        } catch(err) {
+			Alert.alert("Error", (err as any).message);
+        } finally {
+            setLoading(false)
+        }
+    }
+    
+    useEffect(function() {
+        console.log(authState)
+        if(authState.isAuthenticated) {
+            router.push("/");
+        }
+    }, [authState]);
+
 
 	return (
-		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<Stack.Screen options={{ headerShown: false }} />
 
 			<BackButton action={() => router.push("/welcome")} />
@@ -74,9 +90,9 @@ const Login = () => {
 
 					<View style={styles.inputContainer}>
 						<TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} />
-						<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={20} color={variables.colors.tintedWhite} />
-						</TouchableOpacity>
+						<Pressable onPress={() => setShowPassword(!showPassword)}>
+							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={21} color={variables.colors.tintedWhite} />
+						</Pressable>
 					</View>
 
 					<View style={styles.infoBox}>
@@ -95,20 +111,28 @@ const Login = () => {
 
 				<View style={styles.formFooter}>
 					<TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
-						<Text style={styles.buttonText}>Login</Text>
+						{loading ? (
+							<ActivityIndicator color="#fff" size={28} />
+						) : (
+							<Text style={styles.buttonText}>Login</Text>
+						)}
 					</TouchableOpacity>
 
 					<View style={styles.footerInfo}>
 						<Text style={styles.footerInfoText}>Don't have an account? </Text>
 						<TouchableOpacity onPress={() => router.push("/get-started")}>
-							<Text style={styles.signupText}>Sign Up</Text>
+							<Text style={styles.linkText}>Sign Up</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
 			</ScrollView>
-		</KeyboardAvoidingView>
+		</SafeAreaView>
 	);
 };
+
+
+export default Login;
+
 
 const styles = StyleSheet.create({
 	container: {
@@ -116,10 +140,9 @@ const styles = StyleSheet.create({
 		backgroundColor: variables.colors.background,
 		paddingTop: Platform.OS === "ios" ? 60 : 40,
 		paddingHorizontal: 20,
-		minHeight: "100%"
 	},
 	scrollContainer: {
-		flexGrow: 1,
+        flexGrow: 1,
 	},
 	header: {
 		height: width * 0.6,
@@ -209,7 +232,7 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		justifyContent: "center",
 		alignItems: "center",
-		marginBottom: 20,
+        marginBottom: 14,
 	},
 	buttonText: {
 		color: "#fff",
@@ -228,10 +251,8 @@ const styles = StyleSheet.create({
 	footerInfoText: {
 		color: "#666",
 	},
-	signupText: {
+	linkText: {
 		...typography.button,
 		color: variables.colors.primary,
 	},
 });
-
-export default Login;

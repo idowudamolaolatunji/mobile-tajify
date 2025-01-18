@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
 		paddingTop: Platform.OS === "ios" ? 60 : 40,
 		padding: 20,
 	},
-
 	textBox: {
         marginTop: 5,
 		marginBottom: 35,
