@@ -10,7 +10,7 @@ import * as SecureStore from "expo-secure-store";
 
 
 const { width } = Dimensions.get("window");
-const API_URL = `${process.env.API_BASE_URL}/auth`;
+const API_URL = `${process.env.API_BASE_URL}/api/auth`;
 
 
 const Login = () => {

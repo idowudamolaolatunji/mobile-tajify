@@ -69,9 +69,7 @@ function TubeShorts() {
     const [activeId, setActiveId] = useState(data[0]._id);
 
     const onViewableItemsChanged = function({ changed, viewableItems } : any) {
-        console.log(changed)
-        console.log("//////////////")
-        console.log(viewableItems)
+        // console.log("changed:", changed, "viewableItems:", viewableItems)
 
         if(viewableItems.length > 0 && viewableItems[0]?.isViewable) {
             setActiveId(viewableItems[0].item._id)
