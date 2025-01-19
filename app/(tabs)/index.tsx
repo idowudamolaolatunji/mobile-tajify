@@ -58,7 +58,8 @@ export default function HomeScreen() {
 							<Text style={typography.paragraph}>{tabsData?.tab}</Text>
 						)}
 						{tabsData?.tab == "blog-and-article" && (
-							<Text style={typography.paragraph}>{tabsData?.tab}</Text>
+							// <Text style={typography.paragraph}>{tabsData?.tab}</Text>
+							<Music />
 						)}
 						{tabsData?.tab == "book" && (
 							<Text style={typography.paragraph}>{tabsData?.tab}</Text>

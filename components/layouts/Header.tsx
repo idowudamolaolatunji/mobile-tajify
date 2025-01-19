@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
         justifyContent: "space-between",
 		backgroundColor: variables.colors.background,
-        paddingTop: 12,
+        paddingTop: 24,
 		paddingLeft: 13,
 		paddingBottom: 15,
 		paddingRight: 16,
