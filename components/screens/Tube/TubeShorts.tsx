@@ -7,7 +7,7 @@ import { FlatList, View } from 'react-native'
 const data = [
 	{
 		creator: { _id: "232", profileName: "The Creator hub", profileImage: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1735905932/1735905927238.jpg" },
-		videoUrl: "https://res.cloudinary.com/dy3bwvkeb/video/upload/v1710941120/Download_byehba.mp4",
+		// videoUrl: "https://res.cloudinary.com/dy3bwvkeb/video/upload/v1710941120/Download_byehba.mp4",
 		description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam omnis, pariatur nobis numquam quidem quo?",
 		thumbnailUrl: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1735849346/grbxt58knxbcpsayjnrs.jpg",
 		views: 0,

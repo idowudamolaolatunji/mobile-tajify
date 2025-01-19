@@ -1,29 +1,30 @@
-import React from "react";
-import { ActivityIndicatorBase, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { ActivityIndicatorBase, Alert, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import variables from "@/constants/variables";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { typography } from "@/constants/typography";
 import { useAuth } from "@/context/AuthContext";
+import { router } from "expo-router";
 
 export default function more() {
-	const { onLogout, loading } = useAuth();
-
+	const { handleAuthChange } = useAuth();
+	
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<Text style={[typography.paragraphBg, { marginBottom: 30 }]}>More</Text>
 
-			<Pressable>
+			<TouchableOpacity onPress={() => router.push("/profile")}>
 				<View style={styles.actionBox}>
 					<Image source={{ uri: "https://randomuser.me/api/portraits/men/1.jpg" }} style={styles.profileAvatar} />
 					<Text style={styles.actionText}>Profile</Text>
 				</View>
-			</Pressable>
-			<Pressable onPress={onLogout}>
+			</TouchableOpacity>
+			<Pressable onPress={() => handleAuthChange(null, false)}>
 				<View style={styles.actionBox}>
 					<MaterialIcons name="logout" color="red" size={28} />
-					{loading ? <ActivityIndicatorBase color="#fff" /> : <Text style={styles.actionText}>Logout</Text>}
+					<Text style={styles.actionText}>Logout</Text>
 				</View>
 			</Pressable>
 		</SafeAreaView>
