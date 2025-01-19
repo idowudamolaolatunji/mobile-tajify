@@ -1,6 +1,6 @@
 import variables from "@/constants/variables";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
         justifyContent: "space-between",
 		backgroundColor: variables.colors.background,
-        // paddingTop: 12,
         paddingTop: 36,
 		paddingLeft: 13,
 		paddingBottom: 15,

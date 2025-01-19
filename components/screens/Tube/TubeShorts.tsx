@@ -3,6 +3,7 @@ import { useFetchedContext } from '@/context/FetchedContext';
 import React, { useEffect, useState } from 'react'
 import { FlatList, View } from 'react-native'
 
+
 const data = [
 	{
 		creator: { _id: "232", profileName: "The Creator hub", profileImage: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1735905932/1735905927238.jpg" },
@@ -79,13 +80,13 @@ function TubeShorts() {
     useEffect(function() {
         // handleFetchTubes();
     }, []);
-    
+
 
   return (
     <View>
         <FlatList
             data={data}
-            renderItem={({item}) => <ShortLayout post={item} activeId={activeId} />}
+            renderItem={({item}) => <ShortLayout post={item} activeId={activeId} key={item._id} />}
             pagingEnabled
             viewabilityConfig={{
                 viewAreaCoveragePercentThreshold: 50

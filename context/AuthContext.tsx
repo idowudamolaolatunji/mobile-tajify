@@ -86,9 +86,11 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 	}
 
 	async function handleLogout() {
+		setAuthLoading(true);
 		await fetch(`${API_URL}/logout`, { method: "POST", headers });
 		await SecureStore.deleteItemAsync(TOKEN_KEY);
 		setAuthState({ token: null, isAuthenticated: false });
+		setAuthLoading(false);
 	}
 
 	const value = {
