@@ -34,9 +34,10 @@ export default function RootLayout() {
         <AuthProvider>
 			<FetchedProvider>
 				<Stack screenOptions={{ statusBarBackgroundColor: variables.colors.background }}>
-					{/* <Stack.Screen name="(auth)" options={{ headerTransparent: true }} /> */}
-					{/* <Stack.Screen name="(modal)" options={{ headerShown: false, presentation: "modal" }}/> */}
+					<Stack.Screen name="(auth)" options={{ headerTransparent: true }} />
 					<Stack.Screen name="(tabs)" options={{ headerTransparent: true, headerTitle: "" }}/>
+					<Stack.Screen name="(modal)" options={{ headerShown: false, presentation: "modal" }}/>
+					<Stack.Screen name="(others)" options={{ headerTransparent: true, headerTitle: "" }}/>
 				</Stack>
 				<StatusBar style="dark" />
 			</FetchedProvider>

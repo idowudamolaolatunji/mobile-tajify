@@ -88,7 +88,6 @@ function TubeShorts() {
             renderItem={({item}) => <ShortLayout post={item} activeId={activeId} />}
             pagingEnabled
             viewabilityConfig={{
-                // itemVisiblePercentThreshold: 50
                 viewAreaCoveragePercentThreshold: 50
             }}
             onViewableItemsChanged={onViewableItemsChanged}

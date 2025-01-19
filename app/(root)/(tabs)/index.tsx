@@ -17,10 +17,9 @@ import Radio from "@/components/screens/Audio/Radio";
 export default function HomeScreen() {
 	const [tabsData, setTabsData] = useState({ tab: "", subTab: "" })
 	
+	// HERE HANDLES THE CURRENT TAB AND SUBTAB CHANGE AND STORES IT IN STATE
 	const handleTabsChange = function(tabSlug: string, subTabSlug: string | null) {
-		console.log(tabSlug, subTabSlug)
-
-		setTabsData({
+		setTabsData({ 
 			tab: tabSlug,
 			subTab: subTabSlug || ""
 		})

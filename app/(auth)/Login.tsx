@@ -1,72 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, Dimensions, ScrollView, ActivityIndicator, Alert, Pressable, SafeAreaView } from "react-native";
-import { Link, Redirect, Stack, useRouter } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
 import BackButton from "@/components/elements/BackButton";
 import { useAuth } from "@/context/AuthContext";
-import * as SecureStore from "expo-secure-store";
-
 
 const { width } = Dimensions.get("window");
-const API_URL = `${process.env.API_BASE_URL}/api/auth`;
-
 
 const Login = () => {
 	const router = useRouter();
-	const { headers, authState, setAuthState } = useAuth();
+	const { onLogin, authState, loading } = useAuth();
 	const [checked, setChecked] = useState(false);
-	const [identifier, setIdentifier] = useState("test@mail.com");
+	const [identifier, setIdentifier] = useState("user@example.com");
 	const [password, setPassword] = useState("test1234");
 	const [showPassword, setShowPassword] = useState(false);
-	const [loading, setLoading] = useState(false);
+
 
 	async function handleLogin() {
 		if(!identifier || !password) return Alert.alert("Error", "Email or phone number and password are required!");
 
-		setLoading(true);
-
-        try {
-            const res = await fetch(`${API_URL}/login`, {
-                method: 'POST', headers,
-                body: JSON.stringify({ email: identifier, password }),
-            });
-
-            console.log(res);
-            if (!res.ok) throw new Error("Cannot Login")
-          
-
-            const data = await res.json();
-            if (res.status !== 200 || data?.status != "success") {
-                throw new Error(data?.message || data?.error);
-            }
-
-			Alert.alert("Success", data?.message);
-			
-            setAuthState({
-				user: data?.data?.user,
-                token: data?.token,
-                isAuthenticated: true
-            });
-			
-            await SecureStore.setItemAsync("userToken", JSON.stringify(data?.data?.user))
-            await SecureStore.setItemAsync("userObj", data?.token)
-			
-        } catch(err) {
-			Alert.alert("Error", (err as any).message);
-        } finally {
-            setLoading(false)
-        }
+		const result = await onLogin(identifier, password);
+		if(result.error) Alert.alert("Error", result.message);
     }
-    
+
     useEffect(function() {
         console.log(authState)
         if(authState.isAuthenticated) {
-            router.push("/");
+			setTimeout(() => {
+				router.push("/");
+			}, 1000);
         }
     }, [authState]);
-
+	
 
 	return (
 		<SafeAreaView style={styles.container}>

@@ -1,7 +1,7 @@
 import TubeLayout from '@/components/layouts/TubeLayout'
 import variables from '@/constants/variables'
 import React from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
 
 const tubeData = [
@@ -55,11 +55,11 @@ const tubeData = [
 function TubeMax() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={{ flex: 1 }}>
-          {tubeData.length > 0 && tubeData.map(tube => (
-            <TubeLayout video={tube} />
-          ))}
-      </View>
+        <View style={{ flex: 1 }}>
+            {tubeData.length > 0 && tubeData.map(tube => (
+                <TubeLayout video={tube} />
+            ))}
+        </View>
     </ScrollView>
   )
 }
