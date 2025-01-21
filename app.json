@@ -4,12 +4,12 @@
 		"slug": "tajify-app",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/images/favicon.png",
+		"icon": "./assets/images/pngs/logo-sm.png",
 		"scheme": "myapp",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
 		"splash": {
-			"image": "./assets/images/logo.png",
+			"image": "./assets/images/pngs/logo.png",
 			"resizeMode": "contain",
 			"imageWidth": 200,
 			"backgroundColor": "#0066FF",
@@ -24,7 +24,7 @@
 		},
 		"android": {
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/images/logo.png",
+				"foregroundImage": "./assets/images/pngs/favicon.png",
 				"backgroundColor": "#000000",
 				"color": "#fff"
 			},
@@ -33,14 +33,14 @@
 		"web": {
 			"bundler": "metro",
 			"output": "static",
-			"favicon": "./assets/images/favicon.png"
+			"favicon": "./assets/images/pngs/favicon.png"
 		},
 		"plugins": [
 			"expo-router",
 			[
 				"expo-splash-screen",
 				{
-					"image": "./assets/images/logo.png",
+					"image": "./assets/images/pngs/logo-sm.png",
 					"imageWidth": 200,
 					"resizeMode": "contain",
 					"backgroundColor": "#000000"

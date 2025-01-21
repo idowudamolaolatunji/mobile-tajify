@@ -3,7 +3,7 @@ import Header from "@/components/layouts/Header";
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
 import { Stack } from "expo-router";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import TubeShorts from "@/components/screens/Tube/TubeShorts";
 import TubeMax from "@/components/screens/Tube/TubeMax";
@@ -11,17 +11,16 @@ import TubePrime from "@/components/screens/Tube/TubePrime";
 import Music from "@/components/screens/Audio/Music";
 import Podcast from "@/components/screens/Audio/Podcast";
 import Radio from "@/components/screens/Audio/Radio";
+import Blog from "@/components/screens/Blog/Blog";
 
 
 
 export default function HomeScreen() {
-	const video = useRef(null);
 	const [tabsData, setTabsData] = useState({ tab: "", subTab: "" })
 	
+	// HERE HANDLES THE CURRENT TAB AND SUBTAB CHANGE AND STORES IT IN STATE
 	const handleTabsChange = function(tabSlug: string, subTabSlug: string | null) {
-		console.log(tabSlug, subTabSlug)
-
-		setTabsData({
+		setTabsData({ 
 			tab: tabSlug,
 			subTab: subTabSlug || ""
 		})
@@ -59,7 +58,7 @@ export default function HomeScreen() {
 						)}
 						{tabsData?.tab == "blog-and-article" && (
 							// <Text style={typography.paragraph}>{tabsData?.tab}</Text>
-							<Music />
+							<Blog />
 						)}
 						{tabsData?.tab == "book" && (
 							<Text style={typography.paragraph}>{tabsData?.tab}</Text>

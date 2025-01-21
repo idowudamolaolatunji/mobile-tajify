@@ -1,6 +1,8 @@
 const variables = {
 	colors: {
 		primary: "#007AFF",
+		primaryTint: "#0066FF30",
+		primaryTint2: "#0066FF47",
 		background: "#000000",
 		text: "#fff",
 		textSecondary: "#666666",
@@ -9,8 +11,11 @@ const variables = {
 		success: "#34C759",
 		tabActive: "#007AFF",
 		tabInactive: "#aaa",
+		card: '#1A1A1A',
+
 
 		white: "#f9f9f9",
+		tintedWhite: "#b1b1b1",
 		bgDark: "#1D1D1D",
 		bgLight: "#7c7c7c",
 	},

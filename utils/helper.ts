@@ -17,3 +17,21 @@ export function countNum(val: number | any) {
 		return num.toFixed(0);
 	}
 }
+
+export function formatDate(date: string) {
+	const formattedDate = new Date(date).toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric'
+	});
+	return formattedDate;
+}
+
+export function formatTime(date: string) {
+	const formattedTime = new Date(date).toLocaleTimeString('en-US', {
+		hour: 'numeric',
+		minute: 'numeric',
+		hour12: true
+	});
+	return formattedTime;
+}

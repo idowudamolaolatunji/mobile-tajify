@@ -6,18 +6,20 @@ import { useEffect, useRef, useState } from "react";
 import { Image, Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import { FontAwesome5, AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useIsFocused } from '@react-navigation/native';
 
 
 function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
+	const pageIsFocused = useIsFocused()
     const { height } = useWindowDimensions()
-
+    
+    const videoRef = useRef<Video>(null);
     const [showMore, setShowMore] = useState(false);
     const [status, setStatus] = useState<AVPlaybackStatus>();
 
-    const videoRef = useRef<Video>(null);
-
     const isPlaying = status?.isLoaded && status.isPlaying;
 
+    // PLAY OR PLAY CURRENTLY PLAYING VIDEO
     const handlePressed = function() {
         if(!videoRef.current) return;
 
@@ -30,6 +32,7 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
         }
     }
 
+    // PAULSE OR PLAY THE CURRENT PLAYING VIDEO, WHEN YOU SCROLL INTO VIEW OR OUT OF VIEW
     useEffect(function() {
         if(!videoRef.current) return;
 
@@ -40,8 +43,24 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
             videoRef.current?.playAsync()
         }
 
-    }, [activeId, videoRef.current])
+    }, [activeId, videoRef.current]);
 
+
+    // WHEN U LEAVE THE PAGE, THE CURRENT PLAYING VIDEO IS PAUSED AND PLAYS WHEN YOU COME BACK
+    useEffect(function() {
+        if(!videoRef.current) return;
+        
+        if(!pageIsFocused) {
+            videoRef.current?.pauseAsync()
+        }
+        
+        if(isPlaying && pageIsFocused) {
+            videoRef.current?.playAsync()
+        }
+
+    }, [pageIsFocused, videoRef.current])
+
+    
     return (
         <View style={[styles.container, { height: height - 219 }]}>
             <Video
@@ -54,6 +73,7 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
                 onPlaybackStatusUpdate={setStatus}
             />
 
+            {/* THE CONTENT, IT IS POSITION ABSOLUTELY OVER THE VIDEO AND HAS A GRADIENT TOWARD THE BOTTOM OF THE SCREEN   */}
             <Pressable onPress={handlePressed} style={styles.content}>
                 {!isPlaying && (
                     <Ionicons name="play" style={{
@@ -66,8 +86,8 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
                         colors={["transparent", "rgba(0, 0, 0, .68)" ]}
                         style={[StyleSheet.absoluteFillObject, styles.overlay]}
                     />
-                    <View style={styles.contentContainer}>
 
+                    <View style={styles.contentContainer}>
                         <View style={styles.elementContainer}>
                             <TouchableOpacity style={styles.element}>
                                 <AntDesign name="heart" size={28} color={variables.colors.text} />

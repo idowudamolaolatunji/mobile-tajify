@@ -9,6 +9,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 
 
 export default function TabLayout() {
+	
 	return (
 		<Tabs screenOptions={{
 			headerShown: false,
