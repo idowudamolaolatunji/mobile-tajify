@@ -26,11 +26,8 @@ const Login = () => {
     }
 
     useEffect(function() {
-        console.log(authState)
         if(authState.isAuthenticated) {
-			setTimeout(() => {
-				router.push("/");
-			}, 1000);
+			router.push("/");
         }
     }, [authState]);
 	
