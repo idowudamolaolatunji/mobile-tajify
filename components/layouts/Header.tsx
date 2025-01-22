@@ -18,7 +18,7 @@ function Header() {
 					<Ionicons name="notifications" size={28} color={variables.colors.text} />
 				</TouchableOpacity>
 				<TouchableOpacity>
-					<Image source={{ uri: "https://randomuser.me/api/portraits/men/1.jpg" }} style={styles.avatar} />
+					<Image source={{ uri: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.avatar} />
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -53,5 +53,6 @@ const styles = StyleSheet.create({
 		width: 34,
 		height: 34,
 		borderRadius: 50,
+		backgroundColor: variables.colors.bgDark
 	},
 });

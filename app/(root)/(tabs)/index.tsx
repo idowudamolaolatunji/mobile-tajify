@@ -13,7 +13,6 @@ import Podcast from "@/components/screens/Audio/Podcast";
 import Radio from "@/components/screens/Audio/Radio";
 
 
-
 export default function HomeScreen() {
 	const [tabsData, setTabsData] = useState({ tab: "", subTab: "" })
 	
@@ -25,6 +24,7 @@ export default function HomeScreen() {
 		})
 	}
 
+
 	return (
 		<>
 			<Stack.Screen options={{ header: () => <Header />, headerShown: true }} />
@@ -32,6 +32,7 @@ export default function HomeScreen() {
 
 				{/* GETTING THE CURRENT TAB & SUB TAB THE TABS COMPONENT */}
 				<ChannelsMainTabs handleOnChangeTabs={handleTabsChange} />
+
 
 				<View style={styles.contentView}>
 					{(tabsData?.tab == "tube" && tabsData.subTab == "tube-shorts") && (

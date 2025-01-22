@@ -9,7 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useIsFocused } from '@react-navigation/native';
 
 
-function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
+function ShortLayout({ short, activeId } : { short: any; activeId: string; }) {
 	const pageIsFocused = useIsFocused()
     const { height } = useWindowDimensions()
     
@@ -25,10 +25,10 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
 
         if(isPlaying) {
             videoRef.current.pauseAsync()
-            console.log("Pressed and Paused!", post._id, activeId);
+            console.log("Pressed and Paused!", short._id, activeId);
         } else {
             videoRef.current.playAsync();
-            console.log("Pressed and Played!", post._id, activeId);
+            console.log("Pressed and Played!", short._id, activeId);
         }
     }
 
@@ -36,10 +36,10 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
     useEffect(function() {
         if(!videoRef.current) return;
 
-        if(activeId !== post._id) {
+        if(activeId !== short._id) {
             videoRef.current?.pauseAsync()
         }
-        if(activeId === post._id) {
+        if(activeId === short._id) {
             videoRef.current?.playAsync()
         }
 
@@ -66,7 +66,7 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
             <Video
                 ref={videoRef}
                 style={[StyleSheet.absoluteFill, styles.video]}
-                source={{ uri: post.videoUrl }}
+                source={{ uri: short.video.url }}
                 useNativeControls={false}
                 isLooping
                 resizeMode={ResizeMode.COVER}
@@ -91,23 +91,23 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
                         <View style={styles.elementContainer}>
                             <TouchableOpacity style={styles.element}>
                                 <AntDesign name="heart" size={28} color={variables.colors.text} />
-                                <Text style={styles.elementText}>{countNum(post.likes)}</Text>
+                                <Text style={styles.elementText}>{countNum(short.likes)}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.element}>
                                 <FontAwesome name="commenting" size={28} color={variables.colors.text} />
-                                <Text style={styles.elementText}>{countNum(post.comments)}</Text>
+                                <Text style={styles.elementText}>{countNum(short.comments)}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.element}>
                                 <FontAwesome5 name="share" size={28} color={variables.colors.text} />
-                                <Text style={styles.elementText}>{countNum(post.shares)}</Text>
+                                <Text style={styles.elementText}>{countNum(short.shares)}</Text>
                             </TouchableOpacity>
                         </View>
 
 
                         <View style={styles.contentTop}>
                             <View style={styles.contentWriter}>
-                                <Image source={{ uri: post.creator?.profileImage }} style={styles.userImage} />
-                                <Text style={[typography.paragraphBg, styles.profileName]}>{post.creator?.profileName}</Text>
+                                <Image source={{ uri: short.creatorProfile?.profileImage?.url || "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.userImage} />
+                                <Text style={[typography.paragraphBg, styles.profileName]}>{short.creatorProfile.profileName || "Channel Unknown"}</Text>
                             </View>
 
                             <TouchableOpacity style={styles.followBtn}>
@@ -118,7 +118,7 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
 
                         <View style={styles.captionBox}>
                             <Text style={styles.caption}>
-                                {truncateString(post.description, showMore ? 1000000 : 50)}
+                                {truncateString(short.description, showMore ? 1000000 : 50)}
                                 
                                 <TouchableOpacity onPress={() => setShowMore(!showMore)}>
                                     <Text
@@ -131,7 +131,7 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
 
 
                             <View style={styles.hashtags}>
-                                {post.hashTags.length > 0 && post.hashTags.map((hashtag: string, i: any) => (
+                                {short.hashTags.length > 0 && short.hashTags.map((hashtag: string, i: any) => (
                                     <Text key={i} style={{ color: "#aaa", marginRight: 3 }}>{hashtag}</Text>
                                 ))}
                             </View>
