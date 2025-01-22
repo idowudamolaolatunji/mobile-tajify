@@ -94,7 +94,9 @@ function ShortLayout({ post, activeId } : { post: any; activeId: string; }) {
                                 <Text style={styles.elementText}>{countNum(post.likes)}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.element}>
-                                <FontAwesome name="commenting" size={28} color={variables.colors.text} />
+                                <FontAwesome name="commenting" size={28} color={variables.colors.text}
+                                
+                                />
                                 <Text style={styles.elementText}>{countNum(post.comments)}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.element}>
