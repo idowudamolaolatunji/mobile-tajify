@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import { useAuth } from "./AuthContext";
 
 
 //////////////////////////////////////////////
@@ -6,8 +7,9 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 //////////////////////////////////////////////
 interface FetchedContextType {
     loader: boolean;
-    tubeShorts: [] | any;
-    handleFetchTubes: (limit: number, page: number) => void;
+    tubeMax: Array<unknown> | any;
+  tubeShorts: Array<unknown> | any;
+    handleFetchTubes: (type: string, limit: number, page: number) => void;
 }
 
 const FetchedContext = createContext<FetchedContextType | any>(null);
@@ -23,18 +25,23 @@ interface FetchedProviderProps {
 
   
 export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) => {
-    const [tubeShorts, setTubeShorts] = useState([])
-    const [loader, setLoader] = useState(false)
-    const API_BASE_URL = process.env.API_BASE_URL;
+    const [tubeShorts, setTubeShorts] = useState([]);
+    const [tubeMax, setTubeMax] = useState([]);
+    const [loader, setLoader] = useState(true)
+    const { headers } = useAuth()
+    const API_BASE_URL = "https://api-tajify-production.up.railway.app";
 
 
-    async function handleFetchTubes(limit= 10, page= 1) {
+    async function handleFetchTubes(type:string="tube-short", limit:number=10, page:number=1) {
         try {
             setLoader(true)
-            const res = await fetch(`${API_BASE_URL}/api/channels/tubes?type=tube-short&limit=${limit}&page=${page}`);
+            const res = await fetch(`${API_BASE_URL}/api/channels/tubes?type=${type}&limit=${limit}&page=${page}`, {
+                headers, method: "GET",
+            });
             const data = await res.json();
 
-            setTubeShorts(data.data?.tubes);
+            if(type == "tube-short") setTubeShorts(data.data?.tubes);
+            if(type == "tube-max") setTubeMax(data.data.tubes)
         } catch (err: any) {
             console.error(err?.message);
         } finally {
@@ -42,15 +49,13 @@ export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) =>
         }
     }
 
-
-
     // CREATE CONTEXT DATA
     let contextData: FetchedContextType = {
         loader,
+        tubeMax,
         tubeShorts,
         handleFetchTubes,
     }
-
 
     return <FetchedContext.Provider value={contextData}>{children}</FetchedContext.Provider>
 }

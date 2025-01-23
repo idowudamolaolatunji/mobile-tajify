@@ -1,27 +1,26 @@
 import variables from "@/constants/variables";
-import { truncateString } from "@/utils/helper";
+import { formatDateAgo, secondsToTime, truncateString } from "@/utils/helper";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 
+function TubeLayout({ tube }: { tube: any }) {
 
-
-function TubeLayout({ video }: { video: any }) {
-    
 	return (
 		<Pressable style={styles.videoCard} onPress={() => {}}>
-			<Image source={{ uri: video.thumbnail }} style={styles.thumbnail} />
+			<Image source={{ uri: tube.thumbnail?.url }} style={styles.thumbnail} />
             <View style={styles.videoTiming}>
-                <Text style={styles.videoTimingText}>10:00</Text>
+                <Text style={styles.videoTimingText}>{secondsToTime(tube.video.duration_in_sec || 0)}</Text>
             </View>
+			
 			<View style={styles.videoInfo}>
-				<Image source={{ uri: video.channel.avatar }} style={styles.channelAvatar} />
+				<Image source={{ uri: tube.creatorProfile?.profileImage?.url || "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.channelAvatar} />
 				<View style={styles.textContainer}>
 					<Text style={styles.videoTitle} numberOfLines={2}>
-						{truncateString(video.title, 50)}
+						{truncateString(tube.title, 50)}
 					</Text>
 					<Text style={styles.channelName}>
-						{video.channel.name} • {video.views} views • {video.datePosted}
+						{tube.creatorProfile.profileName || "Channel Unknown"} • {tube.views} views • {formatDateAgo(tube.createdAt)}
 					</Text>
 				</View>
 			</View>
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
 	},
 	thumbnail: {
 		width: "100%",
-		aspectRatio: 16 / 10,
+		aspectRatio: 16 / 10
 	},
     videoTiming: {
         backgroundColor: variables.colors.card,
@@ -59,17 +58,18 @@ const styles = StyleSheet.create({
 	videoInfo: {
         marginTop: -35,
 		flexDirection: "row",
-		// paddingVertical: 15,
         paddingTop: 8,
         paddingBottom: 14,
         paddingHorizontal: 8,
 		alignItems: "center",
+		backgroundColor: variables.colors.card
 	},
 	channelAvatar: {
         width: 36,
         height: 36,
 		borderRadius: 50,
 		marginRight: 6,
+		backgroundColor: variables.colors.tabInactive
 	},
 	textContainer: {
 		flex: 1,
