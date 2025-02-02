@@ -11,6 +11,7 @@ import TubePrime from "@/components/screens/Tube/TubePrime";
 import Music from "@/components/screens/Audio/Music";
 import Podcast from "@/components/screens/Audio/Podcast";
 import Radio from "@/components/screens/Audio/Radio";
+import Blog from "@/components/screens/Blog/Blog";
 
 
 export default function HomeScreen() {
@@ -57,7 +58,7 @@ export default function HomeScreen() {
 							<Text style={typography.paragraph}>{tabsData?.tab}</Text>
 						)}
 						{tabsData?.tab == "blog-and-article" && (
-							<Text style={typography.paragraph}>{tabsData?.tab}</Text>
+							<Blog />
 						)}
 						{tabsData?.tab == "book" && (
 							<Text style={typography.paragraph}>{tabsData?.tab}</Text>

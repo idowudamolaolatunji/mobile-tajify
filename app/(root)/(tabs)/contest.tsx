@@ -1,12 +1,18 @@
+import ComingSoon from "@/components/layouts/ComingSoon";
+import Header from "@/components/layouts/Header";
 import variables from "@/constants/variables";
+import { Stack } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function contest() {
 	return (
-		<View style={styles.container}>
-			<Text>Contest</Text>
-		</View>
+		<>
+			<Stack.Screen options={{ header: () => <Header />, headerShown: true }} />
+			<View style={styles.container}>
+				<ComingSoon feature="Contest" />
+			</View>
+		</>
 	);
 }
 

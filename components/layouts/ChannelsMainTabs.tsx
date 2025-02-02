@@ -22,7 +22,6 @@ const tabs = [
         subTabs: [
             { name: "Tube Shorts", slug: "tube-shorts" },
             { name: "Tube Max", slug: "tube-max" },
-            { name: "Tube prime", slug: "tube-prime" },
             { name: "favorite", slug: "favorite" },
         ]
     },
@@ -32,14 +31,13 @@ const tabs = [
         subTabs: [
             { name: "Podcast", slug: "podcast" },
             { name: "Music", slug: "music" },
-            { name: "Radio", slug: "radio" },
             { name: "favorite", slug: "favorite" },
         ]
     },
     { name: "Image", slug: "image", subTabs: [] },
     { name: "Blog & Articles", slug: "blog-and-article", subTabs: [] },
     { name: "Book", slug: "book", subTabs: [] }
-];  
+];
   
 
 interface Props {
@@ -61,6 +59,7 @@ function ChannelsMainTabs({ handleOnChangeTabs } : Props) {
     useEffect(function() {
         handleOnChangeTabs(activeTab.slug, activeSubTab?.slug || null)
     }, [activeTab, activeSubTab])
+
 
   return (
     <>

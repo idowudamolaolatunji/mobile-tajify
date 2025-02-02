@@ -38,7 +38,9 @@ export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) =>
             const res = await fetch(`${API_BASE_URL}/api/channels/tubes?type=${type}&limit=${limit}&page=${page}`, {
                 headers, method: "GET",
             });
+            console.log(res)
             const data = await res.json();
+            console.log(data)
 
             if(type == "tube-short") setTubeShorts(data.data?.tubes);
             if(type == "tube-max") setTubeMax(data.data.tubes)
