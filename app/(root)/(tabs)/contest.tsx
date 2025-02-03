@@ -21,6 +21,5 @@ const styles = StyleSheet.create({
 		display: "flex",
 		backgroundColor: variables.colors.background,
 		flex: 1,
-
 	},
 });
