@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons'
 import musicData from '@/assets/data/library.json'
 import { Audio } from 'expo-av'
 
-function Podcast({ onNavigateToMusic }: { onNavigateToMusic: () => void }) {
+function Podcast({ onNavigateToMusic }: { onNavigateToMusic?: () => void }) {
   const [sound, setSound] = React.useState<Audio.Sound | null>(null)
   const [isPlaying, setIsPlaying] = React.useState(false)
   const [currentTrack, setCurrentTrack] = React.useState<string | null>(null)
