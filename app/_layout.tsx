@@ -7,11 +7,24 @@ import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, In
 import variables from "@/constants/variables";
 import { FetchedProvider } from "@/context/FetchedContext";
 import { AuthProvider } from "@/context/AuthContext";
+import TrackPlayer from 'react-native-track-player';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+	// useEffect(() => {
+	// 	const setupTrackPlayer = async () => {
+	// 		try {
+	// 			await TrackPlayer.registerPlaybackService(() => require('../services/trackPlayerService').default);
+	// 		} catch (error) {
+	// 			console.error('Error registering playback service:', error);
+	// 		}
+	// 	};
+		
+	// 	setupTrackPlayer();
+	// }, []);
+
 	const [loaded] = useFonts({
         'Inter-Regular': Inter_400Regular,
         'Inter-Medium': Inter_500Medium,

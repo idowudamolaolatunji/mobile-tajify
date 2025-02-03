@@ -12,6 +12,8 @@ import Music from "@/components/screens/Audio/Music";
 import Podcast from "@/components/screens/Audio/Podcast";
 import Radio from "@/components/screens/Audio/Radio";
 import Blog from "@/components/screens/Blog/Blog";
+import BookLibraryScreen from "@/components/screens/Book/BookLibraryScreen";
+import ImageScreen from "@/components/screens/Image/ImageScreen";
 
 
 export default function HomeScreen() {
@@ -55,14 +57,22 @@ export default function HomeScreen() {
 							</>
 						)}
 						{tabsData?.tab == "image" && (
-							<Text style={typography.paragraph}>{tabsData?.tab}</Text>
+							// <Text style={typography.paragraph}>{tabsData?.tab}</Text>
+							<Text>
+							<ImageScreen />
+							</Text>
 						)}
 						{tabsData?.tab == "blog-and-article" && (
-							// <Text style={typography.paragraph}>{tabsData?.tab}</Text>
-							<Blog />
+							
+							< Text>
+								<Blog />
+							</Text>
 						)}
 						{tabsData?.tab == "book" && (
-							<Text style={typography.paragraph}>{tabsData?.tab}</Text>
+							// <Text style={typography.paragraph}>{tabsData?.tab}</Text>
+							<Text  style={typography.paragraph}>
+							<BookLibraryScreen />
+							</ Text>
 						)}
 					</View>
 

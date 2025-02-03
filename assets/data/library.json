@@ -20,6 +20,21 @@
     "playlist": ["Chill 🌱", "Instrumental 🎵", "Rap 🎤"]
   },
   {
+    "url": "https://cdn.trendybeatz.com/audio/Asake-Lonely-At-The-Top-(TrendyBeatz.com).mp3",
+    "title": "Lonely At The Top ",
+    "artist": "Asake",
+    "artwork": "https://www.vistanaij.com/wp-content/uploads/2024/11/Asake-Lonely-At-The-Top.jpg",
+    "playlist": ["Chill 🌱", "Instrumental 🎵", "Rap 🎤"]
+  },
+  {
+    "url": "https://cdn.trendybeatz.com/audio/Wizkid-Pray-(TrendyBeatz.com).mp3",
+    "title": "Pray Wizkid ",
+    "artist": "Wizkid",
+    "artwork": "https://trendybeatz.com/images/Wizkid-Morayo-AlbumArtwork1.jpg",
+    "playlist": ["Chill 🌱", "Instrumental 🎵", "Rap 🎤"]
+  },
+
+  {
     "url": "https://audio.jukehost.co.uk/ZLdoXNocDAcsgeq6QKtPRHyvlqslNbke",
     "title": "As You Fade Away",
     "artist": "NEFFEX",

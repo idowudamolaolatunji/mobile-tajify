@@ -82,6 +82,7 @@ function ChannelsMainTabs({ handleOnChangeTabs } : Props) {
                         </Text>
                     </TouchableOpacity>
                 ))}
+                
             </ScrollView>
         </View>
 
