@@ -1,31 +1,134 @@
 import variables from '@/constants/variables'
-import React from 'react'
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, TextInput, Animated } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import musicData from '@/assets/data/library.json'
+import { Audio } from 'expo-av'
 
-function Music() {
+function Music({ onNavigateToPodcast }: { onNavigateToPodcast?: () => void }) {
+  const [sound, setSound] = useState<Audio.Sound | null>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTrack, setCurrentTrack] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [currentStation, setCurrentStation] = useState<{ name: string; genre: string; image: string } | null>(null)
+  const [currentPlaybackPosition, setCurrentPlaybackPosition] = useState('0:00')
+  const [trackDuration, setTrackDuration] = useState('0:00')
+
+  const animation = useRef(new Animated.Value(0)).current
+
+  const filteredMusicData = musicData.filter(item => 
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+
+  
+  useEffect(() => {
+    if (currentStation) {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(animation, {
+            toValue: 1,
+            duration: 3000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(animation, {
+            toValue: 0,
+            duration: 0,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    }
+  }, [currentStation]);
+
+  const translateX = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 10],
+  });
+
+  const playSound = async (url: string, stationDetails: { name: string; genre: string; image: string }) => {
+    if (sound) {
+      await sound.unloadAsync()
+    }
+    setLoading(true)
+    const { sound: newSound } = await Audio.Sound.createAsync({ uri: url })
+    setSound(newSound)
+    setCurrentTrack(url)
+    setCurrentStation(stationDetails)
+    await newSound.playAsync()
+    setIsPlaying(true)
+    setLoading(false)
+
+
+
+    newSound.setOnPlaybackStatusUpdate(status => {
+      if (status.isLoaded) {
+        const position = status.positionMillis;
+        const duration = status.durationMillis;
+        setCurrentPlaybackPosition(formatTime(Number(position)));
+        setTrackDuration(formatTime(Number(duration)));
+      }
+    });
+
+    newSound.setOnPlaybackStatusUpdate((status: any) => {
+      if (status?.didJustFinish) {
+        const currentIndex = filteredMusicData.findIndex(item => item.url === currentTrack);
+        if (currentIndex < filteredMusicData.length - 1) {
+          playSound(filteredMusicData[currentIndex + 1].url, { name: filteredMusicData[currentIndex + 1].title, genre: filteredMusicData[currentIndex + 1].genre, image: filteredMusicData[currentIndex + 1].artwork });
+        }
+      }
+    });
+  }
+
+  const pauseSound = async () => {
+    if (sound) {
+      await sound.pauseAsync()
+      setIsPlaying(false)
+    }
+  }
+
+  const togglePlayPause = (url: string) => {
+    if (currentTrack === url && isPlaying) {
+      pauseSound()
+    } else {
+      playSound(url, { name: '', genre: '', image: '' })
+    }
+  }
+
+  const handleNavigateToPodcast = () => {
+    pauseSound()
+    onNavigateToPodcast()
+  }
+
   const renderMusicCards = () => (
     <View style={styles.section}>
       <Text style={[styles.sectionTitle, { fontFamily: 'Outfit_600SemiBold' }]}>
         Music
       </Text>
-      {[
-        { title: "Best Asake", image: "https://picsum.photos/200/200?random=1" },
-        { title: "Song Title 2", image: "https://picsum.photos/200/200?random=2" },
-        { title: "Song Title 3", image: "https://picsum.photos/200/200?random=3" },
-      ].map((item, index) => (
-        <TouchableOpacity key={index} style={styles.musicItem}>
+      {filteredMusicData.map((item, index) => (
+        <TouchableOpacity 
+          key={index} 
+          style={[
+            styles.musicItem, 
+            currentTrack === item.url && isPlaying ? styles.currentlyPlaying : null
+          ]} 
+          onPress={() => togglePlayPause(item.url)}
+        >
           <Image
-            source={{ uri: item.image }}
+            source={{ uri: item.artwork }}
             style={styles.musicImage}
           />
           <View style={styles.musicInfo}>
             <Text style={[styles.musicTitle, { fontFamily: 'Outfit_500Medium' }]}>
               {item.title}
             </Text>
+            {currentTrack === item.url && loading && (
+              <ActivityIndicator size="small" color={variables.colors.primary} />
+            )}
           </View>
           <TouchableOpacity style={styles.downloadButton}>
-            <Ionicons name="download" size={24} color={variables.colors.primary} />
+            <Ionicons name={isPlaying && currentTrack === item.url ? "pause" : "play"} size={24} color={variables.colors.primary} />
           </TouchableOpacity>
         </TouchableOpacity>
       ))}
@@ -57,10 +160,42 @@ function Music() {
     </View>
   );
 
+  
+  const formatTime = (millis: number) => {
+    const minutes = Math.floor(millis / 60000);
+    const seconds = Math.floor((millis % 60000) / 1000);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
   return (
-    <ScrollView >
+    <ScrollView>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search for music..."
+        placeholderTextColor="#AAA"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
       {renderMusicCards()} 
       {renderTrendingPlaylist()}
+      {currentStation && currentStation.image && (
+        <Animated.View style={[styles.nowPlayingBar, { transform: [{ translateX }] }]}>
+          <Image source={{ uri: currentStation.image }} style={styles.nowPlayingImage} />
+          <View style={styles.nowPlayingDetails}>
+            <Text style={styles.nowPlayingName}>{currentStation.name}</Text>
+            <Text style={styles.nowPlayingGenre}>{currentStation.genre}</Text>
+            <Text style={styles.nowPlayingDuration}>
+              {currentPlaybackPosition} / {trackDuration}
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.nowPlayingControls} onPress={pauseSound}>
+            <Ionicons name="stop" size={30} color="#ffffff" />
+          </TouchableOpacity>
+        </Animated.View>
+      )}
+      <TouchableOpacity onPress={handleNavigateToPodcast}>
+        {/* <Text style={{ color: variables.colors.primary }}>Go to Podcast</Text> */}
+      </TouchableOpacity>
     </ScrollView>
   )
 }
@@ -68,20 +203,31 @@ function Music() {
 const styles = StyleSheet.create({
   section: {
     marginTop: 16,
-   
+  },
+  searchInput: {
+    height: 40,
+    backgroundColor: '#FFF',
+    color: '#000',
+    borderColor: 'gray',
+    borderWidth: 1,
+    margin: 10,
+    paddingHorizontal: 10,
+    borderRadius: 5,
   },
   sectionTitle: {
     fontSize: 20,
     marginBottom: 8,
-     color: '#FFF'
   },
   musicItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: variables.colors.border,
     borderRadius: 8,
     padding: 8,
     marginBottom: 8,
+  },
+  currentlyPlaying: {
+    backgroundColor: '#444',
+    transform: [{ translateY: 5 }],
   },
   musicImage: {
     width: 50,
@@ -91,6 +237,8 @@ const styles = StyleSheet.create({
   musicInfo: {
     flex: 1,
     marginLeft: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   musicTitle: {
     color: variables.colors.text,
@@ -115,7 +263,40 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 8,
   },
+  nowPlayingBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#444',
+    borderRadius: 5,
+    margin: 10,
+  },
+  nowPlayingImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+  },
+  nowPlayingDetails: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  nowPlayingName: {
+    color: '#ffffff',
+    fontSize: 16,
+  },
+  nowPlayingGenre: {
+    color: '#cccccc',
+    fontSize: 12,
+  },
+  nowPlayingControls: {
+    padding: 10,
+  },
+  nowPlayingDuration: {
+    color: '#cccccc',
+    fontSize: 12,
+  },
 });
 
 export default Music
+
 

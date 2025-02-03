@@ -2,8 +2,45 @@ import variables from '@/constants/variables'
 import React from 'react'
 import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import musicData from '@/assets/data/library.json'
+import { Audio } from 'expo-av'
 
-function Podcast() {
+function Podcast({ onNavigateToMusic }: { onNavigateToMusic: () => void }) {
+  const [sound, setSound] = React.useState<Audio.Sound | null>(null)
+  const [isPlaying, setIsPlaying] = React.useState(false)
+  const [currentTrack, setCurrentTrack] = React.useState<string | null>(null)
+
+  const playSound = async (url: string) => {
+    if (sound) {
+      await sound.unloadAsync()
+    }
+    const { sound: newSound } = await Audio.Sound.createAsync({ uri: url })
+    setSound(newSound)
+    setCurrentTrack(url)
+    await newSound.playAsync()
+    setIsPlaying(true)
+  }
+
+  const pauseSound = async () => {
+    if (sound) {
+      await sound.pauseAsync()
+      setIsPlaying(false)
+    }
+  }
+
+  const togglePlayPause = (url: string) => {
+    if (currentTrack === url && isPlaying) {
+      pauseSound()
+    } else {
+      playSound(url)
+    }
+  }
+
+  const handleNavigateToMusic = () => {
+    pauseSound();
+    onNavigateToMusic();
+  }
+
   const renderTrendingPlaylist = () => (
     <View style={styles.section}>
       <Text style={[styles.sectionTitle, { fontFamily: 'Outfit_600SemiBold' }]}>
@@ -31,21 +68,14 @@ function Podcast() {
 
   const renderTopPodcasts = () => (
     <View style={styles.section}>    
-    <Text style={{ color: variables.colors.text }}>Top Podcast </Text>
-
+      <Text style={{ color: variables.colors.text }}>Top Podcast </Text>
       <Text style={[styles.sectionTitle, { fontFamily: 'Outfit_600SemiBold' }]}>
         Top Podcasts
       </Text>
-      {[
-        { title: "Timini Egbuson Podcast", image: "https://picsum.photos/200/200?random=10" },
-        { title: "Money Browser", image: "https://picsum.photos/200/200?random=11" },
-        { title: "Acai Born Gosto Podcast", image: "https://picsum.photos/200/200?random=12" },
-        { title: "The Honest Brunch", image: "https://picsum.photos/200/200?random=13" },
-        { title: "Revolution now or Never?", image: "https://picsum.photos/200/200?random=14" }
-      ].map((item, index) => (
-        <TouchableOpacity key={index} style={styles.podcastItem}>
+      {musicData.map((item, index) => (
+        <TouchableOpacity key={index} style={styles.podcastItem} onPress={() => togglePlayPause(item.url)}>
           <Image
-            source={{ uri: item.image }}
+            source={{ uri: item.artwork }}
             style={styles.podcastImage}
           />
           <View style={styles.podcastInfo}>
@@ -57,7 +87,7 @@ function Podcast() {
             </Text>
           </View>
           <TouchableOpacity style={styles.playButton}>
-            <Ionicons name="play" size={24} color={variables.colors.primary} />
+            <Ionicons name={isPlaying && currentTrack === item.url ? "pause" : "play"} size={24} color={variables.colors.primary} />
           </TouchableOpacity>
         </TouchableOpacity>
       ))}
@@ -73,6 +103,9 @@ function Podcast() {
       
       
     </View>
+    <TouchableOpacity onPress={handleNavigateToMusic}>
+      <Text style={{ color: variables.colors.primary }}>Go to Music</Text>
+    </TouchableOpacity>
     </ScrollView>
   )
 }

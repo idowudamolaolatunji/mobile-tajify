@@ -12,6 +12,13 @@ import Music from "@/components/screens/Audio/Music";
 import Podcast from "@/components/screens/Audio/Podcast";
 import Radio from "@/components/screens/Audio/Radio";
 import Blog from "@/components/screens/Blog/Blog";
+import BookLibraryScreen from "@/components/screens/Book/BookLibraryScreen";
+import ImageScreen from "@/components/screens/Image/ImageScreen";
+<<<<<<< HEAD
+=======
+import BookLibraryScreen from "@/components/screens/Book/BookLibraryScreen";
+import ImageScreen from "@/components/screens/Image/ImageScreen";
+>>>>>>> 3d0e243aad57fc89871230560babfe1eb54f3e40
 
 
 export default function HomeScreen() {
@@ -55,13 +62,13 @@ export default function HomeScreen() {
 							</>
 						)}
 						{tabsData?.tab == "image" && (
-							<Text style={typography.paragraph}>{tabsData?.tab}</Text>
+							<ImageScreen />
 						)}
 						{tabsData?.tab == "blog-and-article" && (
 							<Blog />
 						)}
 						{tabsData?.tab == "book" && (
-							<Text style={typography.paragraph}>{tabsData?.tab}</Text>
+							<BookLibraryScreen />
 						)}
 					</View>
 
