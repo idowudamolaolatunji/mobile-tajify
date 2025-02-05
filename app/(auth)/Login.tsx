@@ -9,7 +9,8 @@ import { useAuth } from "@/context/AuthContext";
 
 const { width } = Dimensions.get("window");
 
-const Login = () => {
+
+function Login() {
 	const router = useRouter();
 	const { onLogin, authState, loading } = useAuth();
 	const [checked, setChecked] = useState(false);
@@ -22,6 +23,7 @@ const Login = () => {
 		if(!identifier || !password) return Alert.alert("Error", "Email or phone number and password are required!");
 
 		const result = await onLogin(identifier, password);
+		// if(result.success) Alert.alert("Success", result.message);
 		if(result.error) Alert.alert("Error", result.message);
     }
 

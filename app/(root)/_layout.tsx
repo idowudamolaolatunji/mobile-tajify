@@ -1,4 +1,3 @@
-import Spinner from "@/components/elements/Spinner";
 import { useAuth } from "@/context/AuthContext";
 import { Redirect, Slot, Stack } from "expo-router";
 import React from "react";
@@ -6,8 +5,7 @@ import { View } from "react-native";
 
 export default function AppLayout() {
 	const { authState } = useAuth();
-
-	// handleAuthChange(null, false)
+	console.log(authState);
 
 	if (!authState.isAuthenticated) return <Redirect href={"/welcome"} />;
 

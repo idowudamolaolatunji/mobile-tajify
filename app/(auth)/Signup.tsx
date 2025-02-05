@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform, Dimensions, ScrollView, ActivityIndicator, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform, Dimensions, ScrollView, ActivityIndicator, SafeAreaView, Alert, Pressable } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { typography } from "@/constants/typography";
@@ -10,16 +10,42 @@ import { useAuth } from "@/context/AuthContext";
 
 const { width } = Dimensions.get("window");
 
-const Signup = () => {
-	const { loading } = useAuth();
+function Signup () {
 	const router = useRouter();
-	const [checked, setChecked] = useState(false);
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [showPassword, setShowPassword] = useState(false);
+	const { loading, onRegister, authState } = useAuth();
 
+	const [checked, setChecked] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+	const [email, setEmail] = useState("user@example.com");
+	const [fullname, setFullname] = useState("Idowu Olatunji");
+	const [username, setUsername] = useState("test1111");
+	const [phoneNumber, setPhoneNumber] = useState("09057643470");
+	const [referralCode, setReferralCode] = useState("");
+	const [password, setPassword] = useState("test1234");
+	const [passwordConfirm, setPasswordConfirm] = useState("test1234");
+
+console.log(authState)
 	const handleRegister = async () => {
-		
+		if(!email || !fullname || !username || !phoneNumber || !password || !passwordConfirm) {
+			return Alert.alert("Error", "Fill up required fields!");
+		}
+		if(password !== passwordConfirm) {
+			return Alert.alert("Error", "Passwords are not the same!");
+		}
+		if(!checked) return Alert.alert("Error", "Agree to terms & conditions")
+
+		const result = await onRegister({
+			email, password, fullname, username, phoneNumber, passwordConfirm, referralCode
+		});
+
+		// if(result.success) {
+		// 	// Alert.alert("Success", result.message)
+		// 	setTimeout(() => 
+		// 		router.push("/otp");
+		// 	}, 1000);
+		// };
+
+		if(result.error) Alert.alert("Error", result.message);
 	};
 
 	return (
@@ -34,11 +60,11 @@ const Signup = () => {
 					<Text style={styles.subtitle}>If this is your first time here, Register an Account</Text>
 
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Full Name" value={email} onChangeText={setEmail} keyboardType="default" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
+						<TextInput style={styles.input} placeholder="Full Name" value={fullname} onChangeText={setFullname} keyboardType="default" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="person-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Username" value={email} onChangeText={setEmail} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
+						<TextInput style={styles.input} placeholder="Username" value={username} onChangeText={setUsername} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="at" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
@@ -46,11 +72,11 @@ const Signup = () => {
 						<Ionicons name="mail-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Phone Number" value={email} onChangeText={setEmail} keyboardType="phone-pad" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
+						<TextInput style={styles.input} placeholder="Phone Number" value={phoneNumber} onChangeText={setPhoneNumber} keyboardType="phone-pad" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="keypad-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Referal Code" value={email} onChangeText={setEmail} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
+						<TextInput style={styles.input} placeholder="Referal Code (optional)" value={referralCode} onChangeText={setReferralCode} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="gift-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 
@@ -61,18 +87,18 @@ const Signup = () => {
 						</TouchableOpacity>
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Password Confirmation" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
+						<TextInput style={styles.input} placeholder="Password Confirmation" value={passwordConfirm} onChangeText={setPasswordConfirm} secureTextEntry={!showPassword} autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
 							<Ionicons name={showPassword ? "eye-outline" : "eye-off-outline"} size={21} color={variables.colors.tintedWhite} />
 						</TouchableOpacity>
 					</View>
 
-					<TouchableOpacity style={styles.checkContainer} onPress={() => setChecked(!checked)}>
+					<Pressable style={styles.checkContainer} onPress={() => setChecked(!checked)}>
 						<View style={[styles.checkBox, checked ? styles.checkBoxActive : ""]}>
 							<Ionicons name="checkmark-sharp" color={checked ? "#fff" : "#000"} size={10} />
 						</View>
 						<Text style={styles.checkBoxText}>By creating an account, you agree to our terms and conditions</Text>
-					</TouchableOpacity>
+					</Pressable>
 				</View>
 
 				<View style={styles.formFooter}>

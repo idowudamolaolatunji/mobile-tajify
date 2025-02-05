@@ -59,3 +59,54 @@ export function formatDateAgo(givenDate: string | any) {
 	}
 	
 }
+
+
+
+export function getRemainingMinutes(dateTimeStr: string) {
+	const currentTime = new Date(Date.now());
+	const expiresTime = new Date(dateTimeStr);
+	// @ts-ignore
+	const timeDiff = expiresTime - currentTime;
+	let remainingTime;
+
+	const minutes = Math.floor(timeDiff / 60000);
+	const seconds = Math.floor((timeDiff % 60000) / 1000);
+
+	if (timeDiff <= 0) {
+		return "00:00";
+	}
+
+	return `${minutes?.toString().padStart(2, "0")}:${seconds?.toString().padStart(2, "0")}`;
+}
+
+
+
+export function countdownTimer(callback: (data: string) => void) {
+	let intervalId: any = null;
+
+	// let timeLeft = getRemainingMinutes(dateTimeStr);
+	let timeLeft = 3 * 60
+	let initialTimeLeft = timeLeft;
+
+	intervalId = setInterval(() => {
+		const minutes = Math.floor(timeLeft / 60);
+		const seconds = Math.floor(timeLeft % 60);
+	
+		timeLeft -= 1;
+	
+		if (timeLeft >= 0) {
+		  callback(`${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`);
+		} else {
+		  clearInterval(intervalId);
+		  intervalId = null;
+		  callback("00:00");
+		}
+	}, 1000);
+	
+	// Return a function to reset the timer
+	return () => {
+		clearInterval(intervalId);
+		intervalId = null;
+	};
+	
+}

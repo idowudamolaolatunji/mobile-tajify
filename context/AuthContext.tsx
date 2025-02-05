@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import * as SecureStore from "expo-secure-store";
+import { router } from "expo-router";
 
 interface Auth {
 	token: string | null;
@@ -7,8 +8,8 @@ interface Auth {
 }
 
 interface AuthContextProps {
-	// onRegister?: (formData: any) => Promise<any>;
 	onLogout?: () => Promise<any>;
+	onRegister?: (formData: any) => Promise<any>;
 	onLogin?: (identifier: string, password: string) => Promise<any>;
 	handleAuthChange?: (token: string | null, isAuthenticated: boolean | null) => void;
 }
@@ -59,6 +60,33 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
         storeAuth();
     }, [authState]);
 
+	async function handleRegister(formData: any) {
+		setAuthLoading(true);
+
+		try {
+			const res = await fetch(`${API_URL}/signup`, {
+				method: "POST",
+				headers,
+				body: JSON.stringify(formData),
+			});
+
+			if (!res.ok) throw new Error("Cannot Signup, Server Connection Issues");
+			const data = await res.json();
+			if (res.status !== 201 || data?.status != "success") {
+				throw new Error(data?.message || data?.error);
+			}
+
+			await SecureStore.setItemAsync("opt_user", JSON.stringify(data?.data?.newUser?.email));
+			setTimeout(() => router.push("/(auth)/otp"), 1000);
+			return { success: true, message: data?.message };
+
+		} catch (err) {
+			return { error: true, message: (err as any)?.message };
+		} finally {
+			setAuthLoading(false);
+		}
+	}
+
 	async function handleLogin(identifier: string, password: string) {
 		setAuthLoading(true);
 
@@ -77,7 +105,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 
 			handleAuthChange(data?.token, true);
 
-			return { success: true };
+			return { success: true, message: data?.message };
 		} catch (err) {
 			return { error: true, message: (err as any)?.message };
 		} finally {
@@ -97,9 +125,10 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 		headers,
 		authState,
 		handleAuthChange,
+		loading: authLoading,
 		onLogin: handleLogin,
 		onLogout: handleLogout,
-		loading: authLoading,
+		onRegister: handleRegister,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

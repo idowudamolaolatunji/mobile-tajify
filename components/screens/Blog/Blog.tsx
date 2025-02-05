@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import { View, Text } from "react-native"
-
-const Blog = () => {
-    return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>Blog</Text>
-        </View>
-    );
-}
-
-export default Blog
-=======
 // import React from "react";
 // import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 
@@ -109,7 +96,7 @@ const Blog = () => {
 
   ];
 
-  const renderBlogCard = (blog) => (
+  const renderBlogCard = (blog: any) => (
     <TouchableOpacity 
       key={blog.id}
       style={styles.cardContainer}
@@ -315,4 +302,3 @@ const styles = StyleSheet.create({
 });
 
 export default Blog; 
->>>>>>> 3d0e243aad57fc89871230560babfe1eb54f3e40

@@ -14,11 +14,6 @@ import Radio from "@/components/screens/Audio/Radio";
 import Blog from "@/components/screens/Blog/Blog";
 import BookLibraryScreen from "@/components/screens/Book/BookLibraryScreen";
 import ImageScreen from "@/components/screens/Image/ImageScreen";
-<<<<<<< HEAD
-=======
-import BookLibraryScreen from "@/components/screens/Book/BookLibraryScreen";
-import ImageScreen from "@/components/screens/Image/ImageScreen";
->>>>>>> 3d0e243aad57fc89871230560babfe1eb54f3e40
 
 
 export default function HomeScreen() {
