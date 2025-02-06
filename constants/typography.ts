@@ -19,6 +19,12 @@ export const typography = {
 		letterSpacing: 0.3,
         fontFamily: "Inter-SemiBold"
 	},
+	h4: {
+		fontSize: 20,
+		lineHeight: 32,
+		letterSpacing: 0.3,
+        fontFamily: "Inter-SemiBold"
+	},
     paragraphBg: {
 		fontSize: 18,
 		lineHeight: 20,
@@ -27,6 +33,12 @@ export const typography = {
     },
     paragraph: {
 		fontSize: 16,
+		lineHeight: 20,
+        color: variables.colors.text,
+        fontFamily: "Inter-Regular",
+    },
+    paragraphSm: {
+		fontSize: 14,
 		lineHeight: 20,
         color: variables.colors.text,
         fontFamily: "Inter-Regular",

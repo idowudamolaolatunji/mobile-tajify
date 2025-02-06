@@ -37,15 +37,15 @@ export default function TabLayout() {
 
 			<Tabs.Screen name="contest" options={{ tabBarLabel: "Contest", tabBarIcon: ({ color }) => (
 				<Entypo name="price-ribbon" size={26} color={color} />
-			) }} />
+			)}} />
 
 			<Tabs.Screen name="earning" options={{ tabBarLabel: "Earnings", tabBarIcon: ({ color }) => (
 				<MaterialCommunityIcons name="gold" size={26} color={color} />
-			) }} />
+			)}} />
 
 			<Tabs.Screen name="more" options={{ tabBarLabel: "More", tabBarIcon: ({ color }) => (
 				<Ionicons name="bag-handle" size={26} color={color} />
-			) }} />
+			)}} />
 		</Tabs>
 	);
 }
