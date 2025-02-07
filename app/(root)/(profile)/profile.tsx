@@ -1,30 +1,83 @@
 import variables from "@/constants/variables";
 import { router, Stack } from "expo-router";
-import { View, Text, ScrollView, RefreshControl, StyleSheet, Pressable, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, RefreshControl, StyleSheet, Pressable, TouchableOpacity, Platform, ActivityIndicator, SafeAreaView } from "react-native";
 import NoItem from "@/components/layouts/NoItem";
 import SubHeader from "@/components/layouts/SubHeader";
 import { typography } from "@/constants/typography";
 import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
-import Header from "@/components/layouts/Header";
+import Spinner from "@/components/elements/Spinner";
+import BoxSpinner from "@/components/elements/BoxSpinner";
+import ProfilePost from "@/components/layouts/ProfilePost";
 
+
+type PostState = Record<string, any[]>;
+type PostLoaderState = Record<string, boolean>;
 
 function Profile() {
 	const [tab, setTab] = useState("shorts");
+	const [loading, setLoading] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
+	const [postLoader, setPostLoader] = useState<PostLoaderState>({
+		shorts: true,
+		tube_max: true,
+		audio: true,
+		podcasts: true,
+		images: true,
+		blog_and_article: true,
+		book: true,
+	})
+	const [posts, setPosts] = useState<PostState>({
+		shorts: [],
+		tube_max: [],
+		audio: [],
+		podcasts: [],
+		images: [],
+		blog_and_article: [],
+		book: [],
+	})
+
 
 	const handleRefreshing = function () {
 		setRefreshing(true);
-		setRefreshing(false);
+		setLoading(true);
+		// Implementation...
+		
+		setTimeout(() => {
+			setRefreshing(false);
+		setLoading(false);
+		}, 1000);
 	};
+
+
+	useEffect(function() {
+		async function handleFetchPosts() {
+			try {
+				setPostLoader({ ...postLoader, [tab]: true });
+				console.log(tab);
+				// Implementation...
+			} catch(err) {
+				return err;
+			} finally {
+				setTimeout(() => {
+					setPostLoader({ ...postLoader, [tab]: false });
+				}, 1000);
+			}
+		}
+
+		handleFetchPosts()
+	}, [tab])
 
 	return (
 		<React.Fragment>
-			<Stack.Screen options={{ header: () => <Header />, headerShown: true }} />
+			<Stack.Screen options={{ header: () => <SubHeader />, headerShown: true }} />
 
-			<ScrollView style={styles.container} refreshControl={<RefreshControl onRefresh={handleRefreshing} refreshing={refreshing} />}>
+			{loading && <Spinner />}
+
+			{(!loading) && (
+				<ScrollView style={styles.container} refreshControl={<RefreshControl onRefresh={handleRefreshing} refreshing={refreshing} />}>
 				<View style={styles.profileTop}>
 					<Image style={styles.coverImage} source={{ uri: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1738250329/book-coverimage-1738250325179.jpg" }} />
 					<LinearGradient colors={["rgba(0,0,0,0.35)", "rgba(0,0,0,0.35)"]} style={styles.linearGradient}>
@@ -77,8 +130,8 @@ function Profile() {
 						<Pressable style={styles.tabItem} onPress={() => setTab("shorts")}>
 							<Text style={[typography.paragraphBg, tab === "shorts" ? { color: variables.colors.primary } : {}]}>Shorts</Text>
 						</Pressable>
-						<Pressable style={styles.tabItem} onPress={() => setTab("tube max")}>
-							<Text style={[typography.paragraphBg, tab === "tube max" ? { color: variables.colors.primary } : {}]}>Tube Max</Text>
+						<Pressable style={styles.tabItem} onPress={() => setTab("tube_max")}>
+							<Text style={[typography.paragraphBg, tab === "tube_max" ? { color: variables.colors.primary } : {}]}>Tube Max</Text>
 						</Pressable>
 						<Pressable style={styles.tabItem} onPress={() => setTab("audio")}>
 							<Text style={[typography.paragraphBg, tab == "audio" ? { color: variables.colors.primary } : {}]}>Audio</Text>
@@ -89,8 +142,8 @@ function Profile() {
 						<Pressable style={styles.tabItem} onPress={() => setTab("images")}>
 							<Text style={[typography.paragraphBg, tab == "images" ? { color: variables.colors.primary } : {}]}>Images</Text>
 						</Pressable>
-						<Pressable style={styles.tabItem} onPress={() => setTab("blog and article")}>
-							<Text style={[typography.paragraphBg, tab == "blog and article" ? { color: variables.colors.primary } : {}]}>Blog and Article</Text>
+						<Pressable style={styles.tabItem} onPress={() => setTab("blog_and_article")}>
+							<Text style={[typography.paragraphBg, tab == "blog_and_article" ? { color: variables.colors.primary } : {}]}>Blog and Article</Text>
 						</Pressable>
 						<Pressable style={styles.tabItem} onPress={() => setTab("book")}>
 							<Text style={[typography.paragraphBg, tab == "book" ? { color: variables.colors.primary } : {}]}>Book</Text>
@@ -98,10 +151,22 @@ function Profile() {
 					</ScrollView>
 
 					<View>
-						<NoItem title={tab} />
+						{/* NO DATA, BUT LOADER */}
+						{(postLoader[tab] && posts[tab].length < 1) && <BoxSpinner />}
+
+						{/* NO DATA, AND NO LOADER */}
+						{(!postLoader[tab] && posts[tab].length < 1) && <NoItem title={tab} />}
+
+						{/* DATA, BUT NO LOADER */}
+						{(!postLoader[tab] && posts[tab].length > 1) && (
+							posts[tab].map((post: any) => (
+								<ProfilePost post={post} />
+							))
+						)}
 					</View>
 				</View>
 			</ScrollView>
+			)}
 		</React.Fragment>
 	);
 }
@@ -113,6 +178,7 @@ const styles = StyleSheet.create({
 		display: "flex",
 		backgroundColor: variables.colors.background,
 		flex: 1,
+		paddingTop: Platform.OS === "ios" ? 60 : 40,
 	},
 	profileTop: {
 		width: "100%",
@@ -132,8 +198,7 @@ const styles = StyleSheet.create({
 	},
     backIcon: {
 		position: "absolute",
-        // top: 10,
-        top: 20,
+        top: 10,
 		left: 20,
     },
 	menuIcon: {

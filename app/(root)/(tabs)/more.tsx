@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
 		display: "flex",
 		paddingHorizontal: 20
 	},
-
 	actionBox: {
 		flexDirection: "row",
 		alignItems: "center",

@@ -10,7 +10,7 @@ function NoItem({ title }: { title: string }) {
 			<View style={styles.box}>
 				<Image style={styles.image} source={{ uri: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1738849713/9214777_c1hmta.jpg" }} />
 				<Text style={[typography.paragraphBg, { textAlign: "center", lineHeight: 30 }]}>
-                    No {title} found!
+                    No {title?.replaceAll("_", " ")} found!
                 </Text>
 			</View>
 		</View>
