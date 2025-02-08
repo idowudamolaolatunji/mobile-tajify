@@ -16,9 +16,10 @@ import ProfilePost from "@/components/layouts/ProfilePost";
 type PostState = Record<string, any[]>;
 type PostLoaderState = Record<string, boolean>;
 
-function Profile() {
+function Profile({ id } : { id?: string; }) {
 	const [tab, setTab] = useState("shorts");
-	const [loading, setLoading] = useState(false);
+	const [profile, setProfile] = useState<Record<string, unknown>>({});
+	const [loading, setLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 	const [postLoader, setPostLoader] = useState<PostLoaderState>({
 		shorts: true,
@@ -28,7 +29,8 @@ function Profile() {
 		images: true,
 		blog_and_article: true,
 		book: true,
-	})
+	});
+
 	const [posts, setPosts] = useState<PostState>({
 		shorts: [],
 		tube_max: [],
@@ -37,19 +39,36 @@ function Profile() {
 		images: [],
 		blog_and_article: [],
 		book: [],
-	})
+	});
 
 
 	const handleRefreshing = function () {
-		setRefreshing(true);
 		setLoading(true);
+		setRefreshing(true);
 		// Implementation...
-		
-		setTimeout(() => {
-			setRefreshing(false);
-		setLoading(false);
-		}, 1000);
+		handleFetchProfile()
+		setRefreshing(false);
 	};
+
+	// fetch the profile
+	async function handleFetchProfile() {
+		try {
+			// implement...
+		} catch(err) {
+			console.log(err);
+		} finally {
+			// for now
+			setTimeout(() => setLoading(false), 100);
+			// setLoading(false);
+		}
+	}
+
+	
+	useEffect(function() {
+		if(id) {
+			handleFetchProfile()
+		}
+	}, [id]);
 
 
 	useEffect(function() {
@@ -79,7 +98,7 @@ function Profile() {
 			{(!loading) && (
 				<ScrollView style={styles.container} refreshControl={<RefreshControl onRefresh={handleRefreshing} refreshing={refreshing} />}>
 				<View style={styles.profileTop}>
-					<Image style={styles.coverImage} source={{ uri: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1738250329/book-coverimage-1738250325179.jpg" }} />
+					<Image style={styles.coverImage} source={{ uri: profile?.coverPhoto ? profile?.coverPhoto?.url : "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1738927546/31284806_cs2c23.jpg" }} />
 					<LinearGradient colors={["rgba(0,0,0,0.35)", "rgba(0,0,0,0.35)"]} style={styles.linearGradient}>
 						<TouchableOpacity style={styles.backIcon} onPress={() => router.push("/more")}>
 							<AntDesign name="arrowleft" size={28} color="#fff" />
@@ -90,7 +109,7 @@ function Profile() {
 						</TouchableOpacity>
 
 						<View style={styles.profileImage}>
-							<Image style={{ width: "100%", height: "100%" }} source={{ uri: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737406822/audio-coverimage-1737406820552.jpg" }} />
+							<Image style={{ width: "100%", height: "100%" }} source={{ uri: profile?.profileImage ? profile?.profileImage?.url : "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} />
 						</View>
 					</LinearGradient>
 				</View>
@@ -216,6 +235,7 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 		bottom: -30,
 		left: 15,
+		backgroundColor: variables.colors.bgDark,
 	},
 	details: {
 		padding: 20,
