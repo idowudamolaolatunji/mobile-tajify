@@ -11,9 +11,9 @@ function Header() {
 			    <Image source={require('@/assets/images/pngs/logo.png')} style={styles.logo} />
             </TouchableOpacity>
 			<View style={styles.container}>
-				<Link href={"/(modal)/searchModal"}>
+				{/* <Link href={"/(modal)/searchModal"}>
 					<Ionicons name="search" size={28} color={variables.colors.text} />
-				</Link>
+				</Link> */}
 				<TouchableOpacity>
 					<Ionicons name="notifications" size={28} color={variables.colors.text} />
 				</TouchableOpacity>

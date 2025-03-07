@@ -1,19 +1,17 @@
 import ChannelsMainTabs from "@/components/layouts/ChannelsMainTabs";
 import Header from "@/components/layouts/Header";
-import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import TubeShorts from "@/components/screens/Tube/TubeShorts";
 import TubeMax from "@/components/screens/Tube/TubeMax";
-import TubePrime from "@/components/screens/Tube/TubePrime";
-import Music from "@/components/screens/Audio/Music";
 import Podcast from "@/components/screens/Audio/Podcast";
-import Radio from "@/components/screens/Audio/Radio";
-import Blog from "@/components/screens/Blog/Blog";
-import BookLibraryScreen from "@/components/screens/Book/BookLibraryScreen";
-import ImageScreen from "@/components/screens/Image/ImageScreen";
+import Books from "@/components/screens/Books/Book";
+import BlogAndArticle from "@/components/screens/BlogAndArticle/Blog";
+import Music from "@/components/screens/Audio/Music";
+import FloatingPlayer from "@/components/layouts/FloatingPlayer";
+import ImageAndArts from "@/components/screens/Images/ImageAndArts";
 
 
 export default function HomeScreen() {
@@ -36,7 +34,6 @@ export default function HomeScreen() {
 				{/* GETTING THE CURRENT TAB & SUB TAB THE TABS COMPONENT */}
 				<ChannelsMainTabs handleOnChangeTabs={handleTabsChange} />
 
-
 				<View style={styles.contentView}>
 					{(tabsData?.tab == "tube" && tabsData.subTab == "tube-shorts") && (
 						<TubeShorts />
@@ -44,34 +41,31 @@ export default function HomeScreen() {
 					
 					<View style={styles.view}>
 						{(tabsData?.tab == "tube") && (
-							<>
-								{(tabsData.subTab == "tube-max") && <TubeMax />}
-								{(tabsData.subTab == "tube-prime") && <TubePrime />}
-							</>
+							(tabsData.subTab == "tube-max") && <TubeMax />
 						)}
 						{tabsData?.tab == "audio" && (
-							<>
+							<React.Fragment>
 								{(tabsData.subTab == "music") && <Music />}
 								{(tabsData.subTab == "podcast") && <Podcast />}
-								{(tabsData.subTab == "radio") && <Radio />}
-							</>
+								<FloatingPlayer emptyText={`Select ${tabsData.subTab}!`} />
+							</React.Fragment>
 						)}
 						{tabsData?.tab == "image" && (
-							<ImageScreen />
+							<ImageAndArts />
 						)}
 						{tabsData?.tab == "blog-and-article" && (
-							<Blog />
+							<BlogAndArticle />
 						)}
 						{tabsData?.tab == "book" && (
-							<BookLibraryScreen />
+							<Books />
 						)}
 					</View>
-
 				</View>
 			</View>
 		</>
 	);
 }
+
 
 const styles = StyleSheet.create({
 	container: {
@@ -84,6 +78,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	view: {
-		paddingHorizontal: 16
+		paddingHorizontal: 16,
+		flex: 1,
 	}
 });

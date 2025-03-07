@@ -43,10 +43,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 	};
 
 	const handleAuthChange = function (token: string, isAuthenticated: boolean) {
-		setAuthState({
-			token,
-			isAuthenticated,
-		});
+		setAuthState({ token, isAuthenticated });
 	};
 
 	useEffect(function () {

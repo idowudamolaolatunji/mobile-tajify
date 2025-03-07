@@ -39,8 +39,9 @@ export default function TabLayout() {
 				<Entypo name="price-ribbon" size={26} color={color} />
 			)}} />
 
-			<Tabs.Screen name="earning" options={{ tabBarLabel: "Earnings", tabBarIcon: ({ color }) => (
-				<MaterialCommunityIcons name="gold" size={26} color={color} />
+			<Tabs.Screen name="wallet" options={{ tabBarLabel: "Wallet", tabBarIcon: ({ color }) => (
+				<MaterialIcons name="wallet" size={26} color={color} />
+			// <MaterialCommunityIcons name="gold" size={26} color={color} />
 			)}} />
 
 			<Tabs.Screen name="more" options={{ tabBarLabel: "More", tabBarIcon: ({ color }) => (

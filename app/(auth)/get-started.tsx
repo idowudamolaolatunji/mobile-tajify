@@ -7,7 +7,7 @@ import variables from "@/constants/variables";
 import BackButton from "@/components/elements/BackButton";
 
 
-const Login = () => {
+export default function GetStrted () {
     const router = useRouter();
 
 	return (
@@ -77,5 +77,3 @@ const styles = StyleSheet.create({
 		backgroundColor: variables.colors.white,
 	},
 });
-
-export default Login;

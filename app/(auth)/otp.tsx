@@ -10,7 +10,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const API_URL = `https://api-tajify-production.up.railway.app/api/auth`;
 
-function Otp() {
+export default function Otp() {
 	const { headers } = useAuth();
 	const [timeLeft, setTimeLeft] = useState("00:00");
 	const [formData, setFormData] = useState({ email: "", otp: "" });
@@ -197,5 +197,3 @@ const styles = StyleSheet.create({
 		color: variables.colors.primary,
 	},
 });
-
-export default Otp;

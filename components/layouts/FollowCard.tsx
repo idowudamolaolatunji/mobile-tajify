@@ -2,8 +2,9 @@ import { typography } from '@/constants/typography'
 import variables from '@/constants/variables'
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import FollowButton from '../elements/FollowButton'
 
-function FollowCard() {
+export default function FollowCard() {
   return (
     <View style={styles.container}>
         <Image source={{ uri: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.image} />
@@ -11,14 +12,11 @@ function FollowCard() {
             <Text style={typography.paragraphBg}>mojez prime </Text>
             <Text style={[typography.paragraph, { fontSize: 13 }]}>Nigeria</Text>
         </View>
-        <TouchableOpacity style={styles.followBtn}>
-            <Text style={typography.paragraph}>Follow</Text>
-        </TouchableOpacity>
+        
+        <FollowButton />
     </View>
   )
 }
-
-export default FollowCard
 
 
 const styles = StyleSheet.create({
@@ -37,11 +35,4 @@ const styles = StyleSheet.create({
     details: {
        gap: 4
     },
-    followBtn: {
-        backgroundColor: variables.colors.primary,
-        marginLeft: "auto",
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-        borderRadius: 4
-    }
 })

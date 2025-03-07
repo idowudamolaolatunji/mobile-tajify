@@ -7,7 +7,7 @@ import variables from "@/constants/variables";
 import BackButton from "@/components/elements/BackButton";
 
 
-const ForgotPassword = () => {
+export default function ForgotPassword() {
     const [email, setEmail] = useState("");
 
 	return (
@@ -86,5 +86,3 @@ const styles = StyleSheet.create({
         backgroundColor: variables.colors.primary,
 	},
 });
-
-export default ForgotPassword;

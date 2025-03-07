@@ -10,7 +10,7 @@ import { useAuth } from "@/context/AuthContext";
 const { width } = Dimensions.get("window");
 
 
-function Login() {
+export default function Login() {
 	const router = useRouter();
 	const { onLogin, authState, loading } = useAuth();
 	const [checked, setChecked] = useState(false);
@@ -95,9 +95,6 @@ function Login() {
 		</SafeAreaView>
 	);
 };
-
-
-export default Login;
 
 
 const styles = StyleSheet.create({

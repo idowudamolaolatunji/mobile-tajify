@@ -1,26 +1,34 @@
+import { unknownUserImageUri } from "@/constants/images";
 import variables from "@/constants/variables";
-import { formatDateAgo, secondsToTime, truncateString } from "@/utils/helper";
+import { TubeMaxType } from "@/types/type";
+import { formatDateAgo, durationTimeFormat, truncateString } from "@/utils/helper";
+import { useNavigation, useRouter } from "expo-router";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 
-function TubeLayout({ tube }: { tube: any }) {
+function TubeLayout({ tube }: { tube: TubeMaxType }) {
+	const router = useRouter()
+
+	const handlePress = function() {
+		router.navigate('/videoItem')
+	}
 
 	return (
-		<Pressable style={styles.videoCard} onPress={() => {}}>
-			<Image source={{ uri: tube.thumbnail?.url }} style={styles.thumbnail} />
+		<Pressable style={styles.videoCard} onPress={handlePress}>
+			<Image source={{ uri: tube.thumbnail.url }} style={styles.thumbnail} />
             <View style={styles.videoTiming}>
-                <Text style={styles.videoTimingText}>{secondsToTime(tube.video.duration_in_sec || 0)}</Text>
+                <Text style={styles.videoTimingText}>{durationTimeFormat(tube.video.duration_in_sec || 0)}</Text>
             </View>
 			
 			<View style={styles.videoInfo}>
-				<Image source={{ uri: tube.creatorProfile?.profileImage?.url || "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.channelAvatar} />
+				<Image source={{ uri: tube.creatorProfile?.profileImage?.url ? tube.creatorProfile?.profileImage?.url : unknownUserImageUri }} style={styles.channelAvatar} />
 				<View style={styles.textContainer}>
 					<Text style={styles.videoTitle} numberOfLines={2}>
 						{truncateString(tube.title, 50)}
 					</Text>
 					<Text style={styles.channelName}>
-						{tube.creatorProfile.profileName || "Channel Unknown"} • {tube.views} views • {formatDateAgo(tube.createdAt)}
+						{tube.creatorProfile?.profileName ? tube.creatorProfile?.profileName : "Channel Unknown"} • {tube.views} views • {formatDateAgo(tube.createdAt)}
 					</Text>
 				</View>
 			</View>

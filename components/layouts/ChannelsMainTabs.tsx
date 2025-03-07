@@ -22,7 +22,7 @@ const tabs = [
         subTabs: [
             { name: "Tube Shorts", slug: "tube-shorts" },
             { name: "Tube Max", slug: "tube-max" },
-            { name: "favorite", slug: "favorite" },
+            // { name: "favorite", slug: "favorite" },
         ]
     },
     { 
@@ -31,7 +31,7 @@ const tabs = [
         subTabs: [
             { name: "Podcast", slug: "podcast" },
             { name: "Music", slug: "music" },
-            { name: "favorite", slug: "favorite" },
+            // { name: "favorite", slug: "favorite" },
         ]
     },
     { name: "Image", slug: "image", subTabs: [] },

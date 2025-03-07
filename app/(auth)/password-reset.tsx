@@ -7,11 +7,10 @@ import variables from "@/constants/variables";
 import BackButton from "@/components/elements/BackButton";
 
 
-const PasswordReset = () => {
+export default function PasswordReset () {
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState({ pass: false, passConfirm: false });
-
 
 	return (
 		<ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
@@ -97,5 +96,3 @@ const styles = StyleSheet.create({
         backgroundColor: variables.colors.primary,
 	},
 });
-
-export default PasswordReset;

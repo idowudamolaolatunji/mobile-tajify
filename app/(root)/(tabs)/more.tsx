@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { ActivityIndicatorBase, Alert, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicatorBase, Alert, Image, Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import variables from "@/constants/variables";
 import { MaterialIcons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { typography } from "@/constants/typography";
 import { useAuth } from "@/context/AuthContext";
 import { router, Stack } from "expo-router";
@@ -19,24 +18,19 @@ export default function more() {
 			<SafeAreaView style={styles.container}>
 				<Text style={[typography.paragraphBg, { marginBottom: 30 }]}>More</Text>
 
-				<TouchableOpacity onPress={() => router.push("/profile")}>
+				<TouchableOpacity onPress={() => router.navigate("/profile")}>
 					<View style={styles.actionBox}>
 						<Image source={{ uri: "https://randomuser.me/api/portraits/men/1.jpg" }} style={styles.profileAvatar} />
 						<Text style={styles.actionText}>Profile</Text>
 					</View>
 				</TouchableOpacity>
-				<Pressable onPress={() => router.push("/earning")}>
-					<View style={styles.actionBox}>
-						<MaterialIcons name="wallet" color="#fff" size={28} />
-						<Text style={styles.actionText}>Wallet</Text>
-					</View>
-				</Pressable>
-				<Pressable onPress={() => {}}>
+				
+				{/* <Pressable onPress={() => {}}>
 					<View style={styles.actionBox}>
 						<MaterialIcons name="settings" color="#fff" size={28} />
 						<Text style={styles.actionText}>Settings</Text>
 					</View>
-				</Pressable>
+				</Pressable> */}
 				<Pressable onPress={() => handleAuthChange(null, false)}>
 					<View style={styles.actionBox}>
 						<MaterialIcons name="logout" color="red" size={28} />

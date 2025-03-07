@@ -31,7 +31,8 @@ const slides = [
 	},
 ];
 
-function Welcome() {
+
+export default function Welcome() {
 	const router = useRouter();
 	const { height } = useWindowDimensions();
 	const [currentSlide, setCurrentSlide] = useState(0);
@@ -83,7 +84,6 @@ function Welcome() {
 	);
 }
 
-export default Welcome;
 
 const styles = StyleSheet.create({
 	container: {

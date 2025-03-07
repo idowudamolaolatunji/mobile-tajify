@@ -16,11 +16,12 @@ import ProfilePost from "@/components/layouts/ProfilePost";
 type PostState = Record<string, any[]>;
 type PostLoaderState = Record<string, boolean>;
 
-function Profile({ id } : { id?: string; }) {
+function Profile() {
 	const [tab, setTab] = useState("shorts");
-	const [profile, setProfile] = useState<Record<string, unknown>>({});
 	const [loading, setLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
+	
+	const [profile, setProfile] = useState<Record<string, unknown>>({});
 	const [postLoader, setPostLoader] = useState<PostLoaderState>({
 		shorts: true,
 		tube_max: true,
@@ -64,11 +65,11 @@ function Profile({ id } : { id?: string; }) {
 	}
 
 	
-	useEffect(function() {
-		if(id) {
-			handleFetchProfile()
-		}
-	}, [id]);
+	// useEffect(function() {
+	// 	if(id) {
+	// 		handleFetchProfile()
+	// 	}
+	// }, [id]);
 
 
 	useEffect(function() {

@@ -32,8 +32,6 @@ function Profile() {
         <FollowCard />
         <FollowCard />
         <FollowCard />
-        <FollowCard />
-        <FollowCard />
     </ScrollView>
   )
 }

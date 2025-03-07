@@ -11,7 +11,7 @@ function BackButton({ action, showText=false }: { action?: any; showText?: boole
 
 	return (
 		<TouchableOpacity style={styles.button} onPress={() => (action ? action() : router.back())}>
-			<Ionicons name="chevron-back" color={variables.colors.text} size={28} />
+			<Ionicons name="chevron-back" color={variables.colors.text} size={25} />
 			{showText && <Text style={[styles.text, typography.paragraph]}>Back</Text>}
 		</TouchableOpacity>
 	);
@@ -23,9 +23,12 @@ const styles = StyleSheet.create({
 	button: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 5,
+        gap: 2,
         marginLeft: -6,
         marginBottom: 20,
     },
-	text: {},
+	text: {
+		fontWeight: "700",
+		fontSize: 18
+	},
 });

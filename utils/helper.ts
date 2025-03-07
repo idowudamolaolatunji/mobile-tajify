@@ -21,7 +21,7 @@ export function countNum(val: number | any) {
 }
 
 
-export function secondsToTime(seconds: number): string {
+export function durationTimeFormat(seconds: number): string {
 	const hours = Math.floor(seconds / 3600);
 	const minutes = Math.floor((seconds % 3600) / 60);
 	const secondsRemaining = Math.floor(seconds % 60);
@@ -32,6 +32,13 @@ export function secondsToTime(seconds: number): string {
 		return `${String(minutes).padStart(2, '0')}:${String(secondsRemaining).padStart(2, '0')}`;
 	}
 }
+
+export function durationMinTimeFormat(seconds: number): string {
+	const minutes = Math.floor(seconds / 60);
+
+	return `${minutes} ${minutes > 1 ? "mins" : "min"}`;
+}
+  
 	
 
 
@@ -53,9 +60,11 @@ export function formatDateAgo(givenDate: string | any) {
 			const hours = Math.floor(diff / 3600000);
 			return `${hours} hours ago`;
 		}
+	} else if (diff < 172800000) {
+		// yesterday
+		return `Yesterday at ${date.format("h:mm a")}`;
 	} else {
-		const days = Math.floor(diff / 86400000);
-		return `${days} days ago`;
+		return date.format("d mmm, h:mm");
 	}
 	
 }
