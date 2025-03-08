@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import VideoPlayer from "../components/layouts/VideoPlayer";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
@@ -10,6 +10,7 @@ import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import { unknownUserImageUri } from "@/constants/images";
 import BackButton from "../components/elements/BackButton";
+import FollowButton from "@/components/elements/FollowButton";
 
 export default function VideoItem() {
 	const tube = tubeMax[0];
@@ -23,24 +24,15 @@ export default function VideoItem() {
 	//   DataStore.query(Video, videoId).then(setVideo);
 	// }, [videoId]);
 
-
-	// const commentsSheetRef = useRef<BottomSheetModal>(null);
-
-	// const openComments = () => {
-	//   commentsSheetRef.current?.present();
-	// };
-
-	if (!video) {
-		return <ActivityIndicator />;
-	}
-
 	return (
-		<ScrollView style={styles.pageContainer}>
-			<BackButton showText />
+		<View style={styles.pageContainer}>
+			<View style={{ paddingHorizontal: 12 }}>
+				<BackButton showText />
+			</View>
 
-			<VideoPlayer videoUrl={video?.video?.url} thumbnail={video?.thumbnail?.url} />
+			<VideoPlayer videoUrl={video?.video?.url} />
 
-			<View style={{ flex: 1 }}>
+			<ScrollView style={{ flex: 1, paddingHorizontal: 12 }}>
 				<View style={styles.videoInfoContainer}>
 					<Text style={styles.title}>{video.title}</Text>
 					<Text style={styles.subtitle}>
@@ -49,29 +41,28 @@ export default function VideoItem() {
 				</View>
 
 				<View style={styles.actionListContainer}>
-					<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-						<View style={styles.actionListItem}>
-							<AntDesign name="like1" size={24} color="lightgrey" />
-							<Text style={styles.actionText}>{video.likes} likes</Text>
-						</View>
+					<View style={styles.actionListItem}>
+						<AntDesign name="like1" size={24} color="lightgrey" />
+						<Text style={styles.actionText}>{video.likes} likes</Text>
+					</View>
 
-						<View style={styles.actionListItem}>
-							<FontAwesome name="comment" size={24} color="lightgrey" />
-							<Text style={styles.actionText}>2 comments</Text>
-						</View>
+					<View style={styles.actionListItem}>
+						<FontAwesome name="comment" size={24} color="lightgrey" />
+						<Text style={styles.actionText}>2 comments</Text>
+					</View>
 
-						<View style={styles.actionListItem}>
-							<FontAwesome name="gift" size={24} color="lightgrey" />
-							<Text style={styles.actionText}>0 gift</Text>
-						</View>
-					</ScrollView>
+					<View style={styles.actionListItem}>
+						<FontAwesome name="gift" size={24} color="lightgrey" />
+						<Text style={styles.actionText}>0 gift</Text>
+					</View>
 				</View>
 
 				<View
 					style={{
 						flexDirection: "row",
 						alignItems: "center",
-						padding: 10,
+						paddingVertical: 12,
+						paddingHorizontal: 5,
 						borderColor: "#3d3d3d",
 						borderTopWidth: 1,
 						borderBottomWidth: 1,
@@ -84,33 +75,17 @@ export default function VideoItem() {
 						<Text style={{ color: "grey", fontSize: 18 }}>10 subscribers</Text>
 					</View>
 
-					<TouchableOpacity style={styles.followBtn}>
-						<Text style={typography.paragraph}>Follow</Text>
-					</TouchableOpacity>
+					<FollowButton />
 				</View>
 
-            {/* Commnets */}
-            {/* <Pressable
-                onPress={openComments}
-                style={{ padding: 10, marginVertical: 10 }}
-            >
-                <Text style={{ color: "white" }}>Comments 333</Text>
-                {comments.length > 0 && <VideoComment comment={comments[0]} />}
-            </Pressable> */}
+				{/* Commnets */}
+				<View style={{ padding: 10, marginVertical: 20 }}>
+					<Text style={[typography.paragraphBg, { color: variables.colors.text }]}>Comments 333</Text>
+					{/* {comments.length > 0 && <VideoComment comment={comments[0]} />} */}
+				</View>
 
-            {/* All comments */}
-            {/* <BottomSheetModal
-                ref={commentsSheetRef}
-                snapPoints={["70%"]}
-                index={0}
-                backgroundComponent={({ style }) => (
-                    <View style={[style, { backgroundColor: "#4d4d4d" }]} />
-                )}
-            >
-                <VideoComments comments={comments} videoID={video.id} />
-            </BottomSheetModal> */}
-			</View>
-		</ScrollView>
+			</ScrollView>
+		</View>
 	);
 }
 
@@ -118,41 +93,34 @@ const styles = StyleSheet.create({
 	pageContainer: {
 		flex: 1,
 		paddingTop: 40,
-		paddingHorizontal: 12,
 		backgroundColor: variables.colors.background
 	},
 	videoInfoContainer: {
-		marginHorizontal: 10,
-		marginVertical: 6,
+		marginVertical: 10,
 	},
 	title: {
 		color: "white",
-		fontSize: 20,
+		fontSize: 22,
 		fontWeight: "500",
 		marginBottom: 5,
-	},
-	tags: {
-		color: "#0094e3",
-		fontSize: 16,
-		fontWeight: "500",
 	},
 	subtitle: {
 		color: variables.colors.bgLight,
 		fontSize: 15,
 	},
 
-	// action list
 	actionListContainer: {
-		marginVertical: 10,
+		flexDirection: "row",
+		gap: 30,
+		padding: 10,
+		paddingLeft: 4
 	},
 	actionListItem: {
-		width: 70,
-		height: 60,
 		justifyContent: "space-around",
 		alignItems: "center",
 	},
 	actionText: {
-		color: "white",
+		color: variables.colors.text,
 	},
 	followBtn: {
 		backgroundColor: variables.colors.primary,

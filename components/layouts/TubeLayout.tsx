@@ -11,7 +11,7 @@ function TubeLayout({ tube }: { tube: TubeMaxType }) {
 	const router = useRouter()
 
 	const handlePress = function() {
-		router.navigate('/videoItem')
+		router.navigate('/videoViewer')
 	}
 
 	return (

@@ -2,7 +2,6 @@ import variables from "@/constants/variables";
 import React, { useState } from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, TextInput, Pressable, FlatList, RefreshControl } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Audio } from "expo-av";
 import { typography } from "@/constants/typography";
 import { podcasts } from "@/utils/data";
 import NoItem from "@/components/layouts/NoItem";

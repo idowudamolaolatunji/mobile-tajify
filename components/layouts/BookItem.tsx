@@ -12,7 +12,7 @@ export default function BookItem({ data } : BookType | any) {
     const router = useRouter()
 
     const handlePress = function() {
-		// router.navigate('')
+		router.navigate("/bookViewer");
 	}
 
   return (

@@ -6,11 +6,18 @@ import { StyleSheet, Text, TextStyle, TouchableOpacity } from 'react-native'
 interface Props {
     name?: string;
     customStyle?: TextStyle | any;
+    // for now, id optional
+    id?: string;
 }
 
-export default function FollowButton({ name, customStyle } : Props) {
+export default function FollowButton({ name, customStyle, id } : Props) {
+    
+    const handleFollow = function() {
+        console.log(id);
+    }
+
     return (
-        <TouchableOpacity style={[styles.followBtn, customStyle]}>
+        <TouchableOpacity style={[styles.followBtn, customStyle]} onPress={handleFollow}>
             <Text style={typography.paragraph}>Follow {name ?? ""}</Text>
         </TouchableOpacity>
     )

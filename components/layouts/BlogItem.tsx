@@ -10,12 +10,8 @@ import { useRouter } from 'expo-router';
 export default function BlogItem({ data } : BlogType | any) {
 	const router = useRouter()
 
-    const handlePress = function() {
-		// router.navigate('')
-	}
-
     return (
-        <TouchableHighlight onPress={handlePress}>
+        <TouchableHighlight onPress={() => router.navigate("/articleViewer")}>
             <View style={styles.itemContainer}>
                 <View>
                     <Image

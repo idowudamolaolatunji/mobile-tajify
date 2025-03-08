@@ -11,6 +11,7 @@ import { Image } from "react-native";
 import Spinner from "@/components/elements/Spinner";
 import BoxSpinner from "@/components/elements/BoxSpinner";
 import ProfilePost from "@/components/layouts/ProfilePost";
+import BackButton from "@/components/elements/BackButton";
 
 
 type PostState = Record<string, any[]>;
@@ -18,7 +19,7 @@ type PostLoaderState = Record<string, boolean>;
 
 function Profile() {
 	const [tab, setTab] = useState("shorts");
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
 	
 	const [profile, setProfile] = useState<Record<string, unknown>>({});
@@ -92,17 +93,18 @@ function Profile() {
 
 	return (
 		<React.Fragment>
-			<Stack.Screen options={{ header: () => <SubHeader />, headerShown: true }} />
+			{/* <Stack.Screen options={{ header: () => <SubHeader />, headerShown: true }} /> */}
 
 			{loading && <Spinner />}
 
 			{(!loading) && (
 				<ScrollView style={styles.container} refreshControl={<RefreshControl onRefresh={handleRefreshing} refreshing={refreshing} />}>
 				<View style={styles.profileTop}>
-					<Image style={styles.coverImage} source={{ uri: profile?.coverPhoto ? profile?.coverPhoto?.url : "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1738927546/31284806_cs2c23.jpg" }} />
+					<Image style={styles.coverImage} source={{ uri: profile?.coverPhoto?.url ?? "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1738927546/31284806_cs2c23.jpg" }} />
 					<LinearGradient colors={["rgba(0,0,0,0.35)", "rgba(0,0,0,0.35)"]} style={styles.linearGradient}>
-						<TouchableOpacity style={styles.backIcon} onPress={() => router.push("/more")}>
-							<AntDesign name="arrowleft" size={28} color="#fff" />
+
+						<TouchableOpacity style={styles.backIcon}>
+							<BackButton showText />
 						</TouchableOpacity>
 
 						<TouchableOpacity style={styles.menuIcon}>
@@ -110,7 +112,7 @@ function Profile() {
 						</TouchableOpacity>
 
 						<View style={styles.profileImage}>
-							<Image style={{ width: "100%", height: "100%" }} source={{ uri: profile?.profileImage ? profile?.profileImage?.url : "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} />
+							<Image style={{ width: "100%", height: "100%" }} source={{ uri: profile?.profileImage?.url ?? "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} />
 						</View>
 					</LinearGradient>
 				</View>

@@ -15,7 +15,7 @@ import { useAudioContext } from '@/context/AudioContext'
 import { AVPlaybackStatus } from 'expo-av'
 
 
-export default function PodcastEpisodes({ }) {
+export default function PodcastEpisodes() {
     const { sound, isPlaying, currentAudioId, playSound, handlePlayPause } = useAudioContext();
     
     const data = podcasts[0];
@@ -72,7 +72,7 @@ export default function PodcastEpisodes({ }) {
                     <Text style={[typography.h3, { color: variables.colors.text }]}>{data.name}</Text>
                     <Text style={[typography.h4, { color: variables.colors.bgLight }]}>{data.creatorProfile?.profileName ?? "Unknown Creator"}</Text>
 
-                    <FollowButton name={data.creatorProfile?.profileName} customStyle={{ marginVertical: 5, marginHorizontal: "auto" }} />
+                    <FollowButton name={data.creatorProfile?.profileName} customStyle={{ marginVertical: 5, marginHorizontal: "auto" }} id={data.creatorProfile._id} />
 
                     <Text numberOfLines={2} style={styles.description}>{data.description}</Text>
 

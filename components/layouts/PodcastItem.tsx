@@ -11,7 +11,7 @@ import { useAudioContext } from '@/context/AudioContext';
 
 export default function PodcastItem({ data } : PodcastType | any) {
 	const router = useRouter()
-    const { currentEpsParent, currentAudioType } = useAudioContext();
+    const { currentEpsParent, currentAudioType, isPlaying } = useAudioContext();
     const isActive = currentAudioType == "podcast" && currentEpsParent?._id == data?._id
 
     return (
@@ -46,7 +46,7 @@ export default function PodcastItem({ data } : PodcastType | any) {
                                 Last Updated {formatDateAgo(data.updatedAt ? data.updatedAt : data.createdAt)}
                             </Text>
 
-                            {isActive && <Text style={{ color: variables.colors.primary, fontSize: 11, marginBottom: -5 }}>Current Podcast</Text>}
+                            {isActive && <Text style={{ color: variables.colors.primary, fontSize: 11, marginBottom: -5 }}>Currently {isPlaying ? "playing" : "paused"}</Text>}
                         </View>
                     </View>
 

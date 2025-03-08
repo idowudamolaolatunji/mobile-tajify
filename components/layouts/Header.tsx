@@ -11,13 +11,10 @@ function Header() {
 			    <Image source={require('@/assets/images/pngs/logo.png')} style={styles.logo} />
             </TouchableOpacity>
 			<View style={styles.container}>
-				{/* <Link href={"/(modal)/searchModal"}>
-					<Ionicons name="search" size={28} color={variables.colors.text} />
-				</Link> */}
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => router.navigate("/notification")}>
 					<Ionicons name="notifications" size={28} color={variables.colors.text} />
 				</TouchableOpacity>
-				<TouchableOpacity onPress={() => router.push("/profile")}>
+				<TouchableOpacity onPress={() => router.navigate("/profile")}>
 					<Image source={{ uri: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.avatar} />
 				</TouchableOpacity>
 			</View>

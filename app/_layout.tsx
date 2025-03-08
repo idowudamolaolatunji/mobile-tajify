@@ -42,7 +42,7 @@ export default function RootLayout() {
 							<Stack.Screen name="(tabs)" options={{ headerTransparent: true, headerTitle: "" }}/>
 							<Stack.Screen name="(modal)" options={{ headerShown: false, presentation: "modal" }}/>
 							
-							<Stack.Screen name="videoItem" options={{
+							<Stack.Screen name="videoViewer" options={{
 								presentation: 'card',
 								gestureEnabled: true,
 								gestureDirection: 'vertical',
@@ -59,6 +59,38 @@ export default function RootLayout() {
 							}} />
 
 							<Stack.Screen name="profile" options={{
+								presentation: 'card',
+								gestureEnabled: true,
+								gestureDirection: 'vertical',
+								animationDuration: 400,
+								headerShown: false,
+							}} />
+							
+							<Stack.Screen name="imageViewer" options={{
+								presentation: 'card',
+								gestureEnabled: true,
+								gestureDirection: 'vertical',
+								animationDuration: 400,
+								headerShown: false,
+							}} />
+
+							<Stack.Screen name="notification" options={{
+								presentation: 'card',
+								gestureEnabled: true,
+								gestureDirection: 'vertical',
+								animationDuration: 400,
+								headerShown: false,
+							}} />
+
+							<Stack.Screen name="articleViewer" options={{
+								presentation: 'card',
+								gestureEnabled: true,
+								gestureDirection: 'vertical',
+								animationDuration: 400,
+								headerShown: false,
+							}} />
+
+							<Stack.Screen name="bookViewer" options={{
 								presentation: 'card',
 								gestureEnabled: true,
 								gestureDirection: 'vertical',
