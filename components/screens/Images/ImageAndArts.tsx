@@ -1,18 +1,25 @@
 import ImageItem from '@/components/layouts/ImageItem';
+import NoItem from '@/components/layouts/NoItem';
 import { unknownBookImageUri } from '@/constants/images';
 import { typography } from '@/constants/typography'
 import variables from '@/constants/variables';
 import { useDataContext } from '@/context/DataContext';
+import { PicsImageType } from '@/types/type';
+import { picsImage } from '@/utils/data';
 import { Entypo, Foundation, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Image } from 'react-native';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { MasonryFlashList } from "@shopify/flash-list";
 
 export default function ImageAndArts() {
-    const { imageView, handleChangeImageView } = useDataContext();
-
+    const { imagesView, handleChangeImagesView } = useDataContext();
+    const [picsImagesData, setPicsImagesData] = useState<PicsImageType[] | any>(picsImage);
     const [searchQuery, setSearchQuery] = useState("");
     const [refreshing, setRefreshing] = useState(false);
+
+    const searchedResult = picsImagesData.filter((item: PicsImageType) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    const data = searchQuery ? searchedResult : picsImagesData;
 
     const handleRefreshing = function() {}
 
@@ -25,10 +32,10 @@ export default function ImageAndArts() {
                 <Text style={[ typography.h4, { color: variables.colors.text, marginTop: 15, marginBottom: 10 } ]}>Images</Text>
 
                 <View style={styles.tabContainer}>
-                    <Pressable style={[styles.tab, { backgroundColor: imageView == "single" ? variables.colors.primary : variables.colors.bgLight }]} onPress={() => handleChangeImageView("single")}>
+                    <Pressable style={[styles.tab, { backgroundColor: imagesView == "single" ? variables.colors.primary : variables.colors.bgLight }]} onPress={() => handleChangeImagesView("single")}>
                         <Foundation name="list" size={30} color={variables.colors.text} />
                     </Pressable>
-                    <Pressable style={[styles.tab, { backgroundColor: imageView == "double" ? variables.colors.primary : variables.colors.bgLight }]} onPress={() => handleChangeImageView("double")}>
+                    <Pressable style={[styles.tab, { backgroundColor: imagesView == "double" ? variables.colors.primary : variables.colors.bgLight }]} onPress={() => handleChangeImagesView("double")}>
                         <Ionicons name="grid" size={24} color={variables.colors.text} />
                     </Pressable>
                 </View>
@@ -48,13 +55,25 @@ export default function ImageAndArts() {
                 )}
             </View>
 
-            <View style={[styles.container, { flexDirection: imageView == "single" ? "column" : "row", }]}>
-               <ImageItem />
-               <ImageItem />
-               <ImageItem />
-               <ImageItem />
-               <ImageItem />
-            </View>
+
+            {data?.length > 0 ? (
+                imagesView == "single" ? (
+                    <View style={{ marginTop: 10 }}>
+                        {data.map((pics: PicsImageType) => (
+                            <ImageItem data={pics} key={pics._id} />
+                        ))}
+                    </View>
+                ) : (
+                    <MasonryFlashList
+                        data={data}
+                        numColumns={2}
+                        renderItem={({ item }) => <ImageItem data={item} />}
+                        estimatedItemSize={500}
+                    />
+                )
+            ) : (
+                <NoItem title={`pictures for with the title "${searchQuery}" was`} />
+            )}
 
         </ScrollView>
     )
@@ -76,12 +95,6 @@ const styles = StyleSheet.create({
         paddingVertical: 3,
         paddingHorizontal: 8,
         borderRadius: 6
-    },
-    container: {
-        marginTop: 10,
-        rowGap: 20,
-        columnGap: 10,
-        flexWrap: "wrap"
     },
     tabContainer: {
         flexDirection: "row",

@@ -116,6 +116,12 @@ export function countdownTimer(callback: (data: string) => void) {
 	return () => {
 		clearInterval(intervalId);
 		intervalId = null;
-	};
-	
+	};	
+}
+
+
+export function getImageSize(height: number, width: number) {	
+	if (width > height) return 250; // landscape
+	else if (width < height) return 300; // portrait
+	else return 200; // square
 }

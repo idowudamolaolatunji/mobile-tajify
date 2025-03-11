@@ -1,6 +1,7 @@
 import { unknownBookImageUri } from '@/constants/images'
 import { typography } from '@/constants/typography'
 import variables from '@/constants/variables'
+import { useDataContext } from '@/context/DataContext'
 import { BookType } from '@/types/type'
 import { truncateString } from '@/utils/helper'
 import { useRouter } from 'expo-router'
@@ -9,14 +10,16 @@ import { Image } from 'react-native'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 
 export default function BookItem({ data } : BookType | any) {
-    const router = useRouter()
+    const router = useRouter();
+    const { setSelectedData } = useDataContext();
 
     const handlePress = function() {
+        setSelectedData(data);
 		router.navigate("/bookViewer");
 	}
 
   return (
-    <TouchableHighlight onPress={handlePress}>
+    <TouchableHighlight onPress={handlePress} key={data._id}>
         <View style={styles.itemContainer}>
                 <View>
                     <Image

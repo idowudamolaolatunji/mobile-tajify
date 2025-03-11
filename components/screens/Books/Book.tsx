@@ -47,6 +47,7 @@ export default function Book() {
                 data={booksData}
                 renderItem={({item: data}) => <BookItem data={data} />}
                 contentContainerStyle={{  }}
+                keyExtractor={data._id}
             />
 
         ) : (

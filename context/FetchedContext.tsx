@@ -29,7 +29,7 @@ export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) =>
     const [tubeMax, setTubeMax] = useState([]);
     const [loader, setLoader] = useState(true)
     const { headers } = useAuth()
-    const API_BASE_URL = "https://api-tajify-production.up.railway.app";
+    const API_BASE_URL = "https://api-tajify.koyeb.app";
 
 
     async function handleFetchTubes(type:string="tube-short", limit:number=10, page:number=1) {

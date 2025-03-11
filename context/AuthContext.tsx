@@ -16,7 +16,7 @@ interface AuthContextProps {
 
 const TOKEN_KEY = "userToken";
 const AUTH_KEY = "authenticated";
-const API_URL = `https://api-tajify-production.up.railway.app/api/auth`;
+const API_URL = `https://api-tajify.koyeb.app/api/auth`;
 
 const AuthContext = createContext<AuthContextProps | any>({});
 export default AuthContext;

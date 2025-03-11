@@ -7,15 +7,22 @@ import {  Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native
 import { PodcastType } from '@/types/type';
 import { useRouter } from 'expo-router';
 import { useAudioContext } from '@/context/AudioContext';
+import { useDataContext } from '@/context/DataContext';
 
 
 export default function PodcastItem({ data } : PodcastType | any) {
 	const router = useRouter()
+    const { setSelectedData } = useDataContext()
     const { currentEpsParent, currentAudioType, isPlaying } = useAudioContext();
     const isActive = currentAudioType == "podcast" && currentEpsParent?._id == data?._id
 
+    const handlePress = function() {
+        setSelectedData(data);
+        router.navigate("/podcastEpisodes")
+    }
+
     return (
-        <TouchableHighlight onPress={() => router.navigate("/podcastEpisodes")}>
+        <TouchableHighlight onPress={handlePress}>
             <View style={styles.itemContainer}>
                 <View>
                     <Image

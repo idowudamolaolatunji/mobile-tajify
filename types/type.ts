@@ -86,3 +86,17 @@ export type TubeMaxType = {
 
 
 export type BlogType = {}
+
+
+export type PicsImageType = {
+	_id: string;
+	creatorProfile: any;
+	title: string;
+	preview: CoverImageType;
+	likes: number;
+	downloads: number;
+	views: number;
+	width: number;
+	height: number;
+	size: number;
+};

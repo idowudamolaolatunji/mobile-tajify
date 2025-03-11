@@ -13,12 +13,13 @@ import FollowButton from '@/components/elements/FollowButton'
 import { formatDateAgo } from '@/utils/helper'
 import { useAudioContext } from '@/context/AudioContext'
 import { AVPlaybackStatus } from 'expo-av'
+import { useDataContext } from '@/context/DataContext'
 
 
 export default function PodcastEpisodes() {
+    const { selectedData: data } : { selectedData: PodcastType } = useDataContext()
     const { sound, isPlaying, currentAudioId, playSound, handlePlayPause } = useAudioContext();
     
-    const data = podcasts[0];
     const [loader, setLoader] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [position, setPosition] = useState<number>(0);

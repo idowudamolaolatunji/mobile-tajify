@@ -12,8 +12,8 @@ export const books = [
 			public_id: "book-cover-1738324880584",
 		},
 		file: {
-			url: "https://res.cloudinary.com/dy3bwvkeb/raw/upload/v1738324886/ebook-file-1738324885021",
-			fileType: "pdf",
+			url: "https://res.cloudinary.com/dy3bwvkeb/raw/upload/v1741618483/book-file-1741618483043",
+			public_id: "book-file-1741618483043"
 		},
 		likes: 0,
 		_id: "679cbb966ed9204a2696f5e9",
@@ -61,66 +61,64 @@ export const books = [
 	// },
 ];
 
-export const artPics = [
+export const picsImage = [
 	{
 		id: 1,
 		title: "Digital Dreams",
-		image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5",
-		artist: "Sarah Chen",
-		category: "Digital Art",
+		creatorProfile: { _id: "678e0e14abb0db93f3706e18", profileName: "Idexx01" },
+		preview: {
+			url: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5",
+			public_url: ""
+		},
 		likes: 2453,
-		comments: 184,
-		description: "A mesmerizing digital artwork that explores the boundaries between reality and imagination.",
+		width: 1000,
+		height: 1414,
+		size: "546.65 KB",
+		downloads: 4,
+		views: 10
 	},
 	{
 		id: 2,
 		title: "Abstract Flow",
-		image: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968",
-		artist: "Michael Torres",
-		category: "Abstract",
-		likes: 1234,
-		comments: 56,
-		description: "An abstract artwork that captures the essence of fluid motion.",
+		creatorProfile: { _id: "678e0e14abb0db93f3706e18", profileName: "Idexx01" },
+		preview: {
+			url: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968",
+			public_url: ""
+		},
+		likes: 2453,
+		width: 1300,
+		height: 1014,
+		size: "946.65 KB",
+		downloads: 0,
+		views: 1,
 	},
 	{
-		id: 3,
-		title: "Nature's Canvas",
-		image: "https://images.unsplash.com/photo-1549490349-8643362247b5",
-		artist: "Emma Wilson",
-		category: "Nature",
-		likes: 987,
-		comments: 34,
-		description: "A breathtaking landscape that showcases the beauty of nature.",
+		id: 200,
+		title: "The Art of Programming",
+		creatorProfile: { _id: "678e0e14abb0db93f3706e18", profileName: "Idexx101" },
+		preview: {
+			url: "https://res.cloudinary.com/dy3bwvkeb/image/upload/c_fill,g_auto,q_70/pics-1741620255757?_a=BAMCkGOY0",
+			public_url: "pics-1741620255757"
+		},
+		width: 2000,
+		height: 1414,
+		size: "546.65 KB",
+		downloads: 2,
+		views: 4
 	},
 	{
 		id: 4,
 		title: "Urban Perspective",
-		image: "https://images.unsplash.com/photo-1561214115-f2f134cc4912",
-		artist: "James Lee",
-		category: "Photography",
-		likes: 567,
-		comments: 23,
-		description: "A captivating urban landscape that highlights the beauty of city life.",
-	},
-	{
-		id: 5,
-		title: "Cosmic Wonder",
-		image: "https://images.unsplash.com/photo-1541701494587-cb58502866ab",
-		artist: "Luna Park",
-		category: "Space",
-		likes: 432,
-		comments: 17,
-		description: "A stunning astronomical artwork that explores the mysteries of the universe.",
-	},
-	{
-		id: 6,
-		title: "Ocean Dreams",
-		image: "https://images.unsplash.com/photo-1518998053901-5348d3961a04",
-		artist: "David Ocean",
-		category: "Nature",
-		likes: 321,
-		comments: 12,
-		description: "A serene ocean landscape that evokes feelings of calmness and tranquility.",
+		creatorProfile: { _id: "678e0e14abb0db93f3706e18", profileName: "Idexx101" },
+		preview: {
+			url: "https://images.unsplash.com/photo-1561214115-f2f134cc4912",
+			public_url: ""
+		},
+		width: 2000,
+		height: 1414,
+		size: "1.65 MB",
+		downloads: 2,
+		views: 0
 	},
 ];
 

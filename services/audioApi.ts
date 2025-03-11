@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://api-tajify-production.up.railway.app";
+const API_BASE_URL = "https://api-tajify.koyeb.app";
 
 const audioApi = {
   uploadMusic: async (formData: FormData) => {

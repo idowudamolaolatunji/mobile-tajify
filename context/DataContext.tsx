@@ -5,8 +5,14 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 //// CREATING CONTEXT ////
 //////////////////////////////////////////////
 interface DataContextType {
-    imageView: string;
-    handleChangeImageView: (view: string) => void;
+    imagesView: string;
+    handleChangeImagesView: (view: string) => void;
+
+    selectedData: unknown;
+    setSelectedData: (data: unknown) => void;
+    selectedProfile: unknown;
+    setSelectedProfile: (profile: unknown) => void;
+
 }
 
 const DataContext = createContext<DataContextType | any>(null);
@@ -22,17 +28,23 @@ interface DataProviderProps {
 
   
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
-    const [imageView, setImageView] = useState("double") // single | double
+    const [imagesView, setImagesView] = useState<string>("double") // single | double
+    const [selectedData, setSelectedData] = useState<unknown>(null);
+    const [selectedProfile, setSelectedProfile] = useState<unknown>(null);
 
-    const handleChangeImageView = function(view: string) {
-        setImageView(view)
+    const handleChangeImagesView = function(view: string) {
+        setImagesView(view)
     }
 
    
     // CREATE CONTEXT DATA
     let contextData: DataContextType = {
-        imageView,
-        handleChangeImageView
+        imagesView,
+        handleChangeImagesView,
+        selectedData,
+        setSelectedData,
+        selectedProfile,
+        setSelectedProfile
     }
 
     return <DataContext.Provider value={contextData}>{children}</DataContext.Provider>

@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import VideoPlayer from "../components/layouts/VideoPlayer";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import { TubeMaxType } from "@/types/type";
-import { tubeMax } from "@/utils/data";
 import { formatDateAgo } from "@/utils/helper";
 import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import { unknownUserImageUri } from "@/constants/images";
 import BackButton from "../components/elements/BackButton";
 import FollowButton from "@/components/elements/FollowButton";
+import { useDataContext } from "@/context/DataContext";
 
 export default function VideoItem() {
-	const tube = tubeMax[0];
-	const [video, setVideo] = useState<TubeMaxType | any>(tube);
+	const { selectedData: video }: { selectedData: TubeMaxType } = useDataContext();
 
 	// const [comments, setComments] = useState<Comment[]>([]);
 	const route = useRoute();
@@ -36,7 +35,7 @@ export default function VideoItem() {
 				<View style={styles.videoInfoContainer}>
 					<Text style={styles.title}>{video.title}</Text>
 					<Text style={styles.subtitle}>
-						{tube.creatorProfile?.profileName ? tube.creatorProfile?.profileName : "Channel Unknown"} • {tube.views} views • {formatDateAgo(tube.createdAt)}
+						{video.creatorProfile?.profileName} • {video.views} views • {formatDateAgo(video.createdAt)}
 					</Text>
 				</View>
 
@@ -48,7 +47,7 @@ export default function VideoItem() {
 
 					<View style={styles.actionListItem}>
 						<FontAwesome name="comment" size={24} color="lightgrey" />
-						<Text style={styles.actionText}>2 comments</Text>
+						<Text style={styles.actionText}>0 comments</Text>
 					</View>
 
 					<View style={styles.actionListItem}>
@@ -68,11 +67,11 @@ export default function VideoItem() {
 						borderBottomWidth: 1,
 					}}
 				>
-					<Image style={styles.avatar} source={{ uri: video?.creatorProfile?.profileImage?.url ? video?.creatorProfile?.profileImage?.url : unknownUserImageUri }} />
+					<Image style={styles.avatar} source={{ uri: video.creatorProfile?.profileImage?.url ? video.creatorProfile?.profileImage?.url : unknownUserImageUri }} />
 
 					<View style={{ marginHorizontal: 10, flex: 1 }}>
-						<Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>{tube.creatorProfile?.profileName ? tube.creatorProfile?.profileName : "Channel Unknown"}</Text>
-						<Text style={{ color: "grey", fontSize: 18 }}>10 subscribers</Text>
+						<Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>{video.creatorProfile?.profileName}</Text>
+						<Text style={{ color: "grey", fontSize: 18 }}>10 Followers</Text>
 					</View>
 
 					<FollowButton />
@@ -80,7 +79,7 @@ export default function VideoItem() {
 
 				{/* Commnets */}
 				<View style={{ padding: 10, marginVertical: 20 }}>
-					<Text style={[typography.paragraphBg, { color: variables.colors.text }]}>Comments 333</Text>
+					<Text style={[typography.paragraphBg, { color: variables.colors.text }]}>Comments (0)</Text>
 					{/* {comments.length > 0 && <VideoComment comment={comments[0]} />} */}
 				</View>
 

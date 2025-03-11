@@ -1,6 +1,6 @@
 import variables from "@/constants/variables";
 import { router, Stack } from "expo-router";
-import { View, Text, ScrollView, RefreshControl, StyleSheet, Pressable, TouchableOpacity, Platform, ActivityIndicator, SafeAreaView } from "react-native";
+import { View, Text, ScrollView, RefreshControl, StyleSheet, Pressable, TouchableOpacity, Platform, ActivityIndicator, SafeAreaView, Alert } from "react-native";
 import NoItem from "@/components/layouts/NoItem";
 import SubHeader from "@/components/layouts/SubHeader";
 import { typography } from "@/constants/typography";
@@ -12,17 +12,22 @@ import Spinner from "@/components/elements/Spinner";
 import BoxSpinner from "@/components/elements/BoxSpinner";
 import ProfilePost from "@/components/layouts/ProfilePost";
 import BackButton from "@/components/elements/BackButton";
+import { useDataContext } from "@/context/DataContext";
+import { useAuth } from "@/context/AuthContext";
 
+const API_URL = `https://api-tajify.koyeb.app/api/auth`;
 
 type PostState = Record<string, any[]>;
 type PostLoaderState = Record<string, boolean>;
 
 function Profile() {
+	const { authState, headers } = useAuth();
+	const { selectedProfile } = useDataContext();
 	const [tab, setTab] = useState("shorts");
 	const [loading, setLoading] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
 	
-	const [profile, setProfile] = useState<Record<string, unknown>>({});
+	const [profile, setProfile] = useState<unknown | any>({});
 	const [postLoader, setPostLoader] = useState<PostLoaderState>({
 		shorts: true,
 		tube_max: true,
@@ -47,30 +52,40 @@ function Profile() {
 	const handleRefreshing = function () {
 		setLoading(true);
 		setRefreshing(true);
-		// Implementation...
-		handleFetchProfile()
+		handleFetchProfile(selectedProfile ? selectedProfile?._id : "")
 		setRefreshing(false);
 	};
 
 	// fetch the profile
-	async function handleFetchProfile() {
+	async function handleFetchProfile(id?: string) {
 		try {
-			// implement...
+			const res = await fetch(`${API_URL}/${!id ? "my-profile" : ""}`, {
+				method: "GET", headers,
+			});
+			console.log(res)
+			if (!res.ok) throw new Error("Cannot request, Server Connection Issues");
+			const data = await res.json();
+			console.log(data)
+			if (data?.status !== "success") {
+				throw new Error(data.message || data?.error);
+			}
+
+			Alert.alert("Sucess", data?.message);
 		} catch(err) {
-			console.log(err);
+			Alert.alert("Error", (err as any)?.message);
 		} finally {
-			// for now
-			setTimeout(() => setLoading(false), 100);
-			// setLoading(false);
+			setLoading(false);
 		}
 	}
 
 	
-	// useEffect(function() {
-	// 	if(id) {
-	// 		handleFetchProfile()
-	// 	}
-	// }, [id]);
+	useEffect(function() {
+		if(selectedProfile?._id) {
+			handleFetchProfile(selectedProfile?._id)
+		} else {
+			handleFetchProfile()
+		}
+	}, [selectedProfile?._id]);
 
 
 	useEffect(function() {

@@ -29,7 +29,7 @@ export default function wallet() {
 				<Text style={[typography.h3, { color: variables.colors.text }]}>Bilal Ikudoro's Wallet</Text>
 
 				<View style={styles.walletBox}>
-					<Image style={styles.imgElement} source={require("../../assets/images/pngs/favicon.png")} />
+					<Image style={styles.imgElement} source={require("../../../assets/images/pngs/favicon.png")} />
 
 					<View style={styles.itemBox}>
 						<Text style={[typography.h4, { color: variables.colors.text }]}>Naira (₦)</Text>

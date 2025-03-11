@@ -10,3 +10,6 @@
 //             // @ts-ignore
 //             resizeMode="contain"
 //         />
+
+// "react-native-blob-util": "^0.21.2",
+// "react-native": "0.76.6",

@@ -1,16 +1,19 @@
 import { unknownUserImageUri } from "@/constants/images";
 import variables from "@/constants/variables";
+import { useDataContext } from "@/context/DataContext";
 import { TubeMaxType } from "@/types/type";
 import { formatDateAgo, durationTimeFormat, truncateString } from "@/utils/helper";
-import { useNavigation, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 
 function TubeLayout({ tube }: { tube: TubeMaxType }) {
-	const router = useRouter()
+	const router = useRouter();
+	const { setSelectedData } = useDataContext()
 
 	const handlePress = function() {
+		setSelectedData(tube)
 		router.navigate('/videoViewer')
 	}
 

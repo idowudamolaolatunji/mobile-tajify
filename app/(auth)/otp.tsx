@@ -8,7 +8,7 @@ import { countdownTimer } from "@/utils/helper";
 import * as SecureStore from "expo-secure-store";
 import { useAuth } from "@/context/AuthContext";
 
-const API_URL = `https://api-tajify-production.up.railway.app/api/auth`;
+const API_URL = `https://api-tajify.koyeb.app/api/auth`;
 
 export default function Otp() {
 	const { headers } = useAuth();
