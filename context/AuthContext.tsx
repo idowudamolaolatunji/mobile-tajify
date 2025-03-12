@@ -4,6 +4,7 @@ import { router } from "expo-router";
 
 interface Auth {
 	token: string | null;
+	avatar: string | null;
 	isAuthenticated: boolean | null;
 }
 
@@ -16,6 +17,7 @@ interface AuthContextProps {
 
 const TOKEN_KEY = "userToken";
 const AUTH_KEY = "authenticated";
+const AVATAR_KEY = "avatar";
 const API_URL = `https://api-tajify.koyeb.app/api/auth`;
 
 const AuthContext = createContext<AuthContextProps | any>({});
@@ -28,10 +30,12 @@ interface AuthProviderProps {
 export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 	const storedToken = SecureStore.getItem(TOKEN_KEY);
 	const storedAuthenticated = SecureStore.getItem(AUTH_KEY);
+	const storedAvatar = SecureStore.getItem(AVATAR_KEY);
 
 	const [authState, setAuthState] = useState<Auth>({
 		token: storedToken ? storedToken : null,
 		isAuthenticated: storedAuthenticated ? JSON.parse(storedAuthenticated) : false,
+		avatar: storedAvatar ? storedAvatar : "",
 	});
 	const [authLoading, setAuthLoading] = useState(false);
 
@@ -42,14 +46,15 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 		}),
 	};
 
-	const handleAuthChange = function (token: string, isAuthenticated: boolean) {
-		setAuthState({ token, isAuthenticated });
+	const handleAuthChange = function (token: string, isAuthenticated: boolean, avatar: string) {
+		setAuthState({ token, isAuthenticated, avatar });
 	};
 
 	useEffect(function () {
         async function storeAuth() {
             if (authState.token && authState.isAuthenticated) {
-                await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(authState?.token));
+                await SecureStore.setItemAsync(TOKEN_KEY, authState?.token);
+                await SecureStore.setItemAsync(AVATAR_KEY, authState.avatar || "");
                 await SecureStore.setItemAsync(AUTH_KEY, JSON.stringify(authState?.isAuthenticated));
             }
         }
@@ -100,7 +105,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 				throw new Error(data?.message || data?.error);
 			}
 
-			handleAuthChange(data?.token, true);
+			handleAuthChange(data?.token, true, data.data?.avatar);
 
 			return { success: true, message: data?.message };
 		} catch (err) {
@@ -114,7 +119,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 		setAuthLoading(true);
 		await fetch(`${API_URL}/logout`, { method: "POST", headers });
 		await SecureStore.deleteItemAsync(TOKEN_KEY);
-		setAuthState({ token: null, isAuthenticated: false });
+		setAuthState({ token: null, isAuthenticated: false, avatar: null });
 		setAuthLoading(false);
 	}
 

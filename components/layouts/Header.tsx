@@ -14,7 +14,7 @@ function Header() {
 				<TouchableOpacity onPress={() => router.navigate("/notification")}>
 					<Ionicons name="notifications" size={28} color={variables.colors.text} />
 				</TouchableOpacity>
-				<TouchableOpacity onPress={() => router.navigate("/profile")}>
+				<TouchableOpacity onPress={() => router.navigate("/acctProfile")}>
 					<Image source={{ uri: "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.avatar} />
 				</TouchableOpacity>
 			</View>

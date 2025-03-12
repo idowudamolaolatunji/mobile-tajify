@@ -8,26 +8,25 @@ import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
-import Spinner from "@/components/elements/Spinner";
 import BoxSpinner from "@/components/elements/BoxSpinner";
 import ProfilePost from "@/components/layouts/ProfilePost";
 import BackButton from "@/components/elements/BackButton";
-import { useDataContext } from "@/context/DataContext";
 import { useAuth } from "@/context/AuthContext";
+import { countNum } from "@/utils/helper";
+import { CreatorProfileType } from "@/types/type";
 
-const API_URL = `https://api-tajify.koyeb.app/api/auth`;
+const API_URL = `https://api-tajify.koyeb.app/api`;
 
 type PostState = Record<string, any[]>;
 type PostLoaderState = Record<string, boolean>;
 
-function Profile() {
-	const { authState, headers } = useAuth();
-	const { selectedProfile } = useDataContext();
+export default function AcctProfile() {
+	const { headers } = useAuth();
 	const [tab, setTab] = useState("shorts");
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
-	
-	const [profile, setProfile] = useState<unknown | any>({});
+
+	const [profile, setProfile] = useState<CreatorProfileType | unknown | any>();
 	const [postLoader, setPostLoader] = useState<PostLoaderState>({
 		shorts: true,
 		tube_max: true,
@@ -52,25 +51,23 @@ function Profile() {
 	const handleRefreshing = function () {
 		setLoading(true);
 		setRefreshing(true);
-		handleFetchProfile(selectedProfile ? selectedProfile?._id : "")
+		handleFetchProfile()
 		setRefreshing(false);
 	};
 
+
 	// fetch the profile
-	async function handleFetchProfile(id?: string) {
+	async function handleFetchProfile() {
 		try {
-			const res = await fetch(`${API_URL}/${!id ? "my-profile" : ""}`, {
-				method: "GET", headers,
-			});
-			console.log(res)
-			if (!res.ok) throw new Error("Cannot request, Server Connection Issues");
+			const res = await fetch(`${API_URL}/profiles/my-profile`, { method: "GET", headers, });
+			// if (!res.ok) throw new Error("Cannot request, Server Connection Issues");
 			const data = await res.json();
-			console.log(data)
+			console.log(res, data)
 			if (data?.status !== "success") {
 				throw new Error(data.message || data?.error);
 			}
 
-			Alert.alert("Sucess", data?.message);
+			setProfile(data?.data?.profile)
 		} catch(err) {
 			Alert.alert("Error", (err as any)?.message);
 		} finally {
@@ -78,83 +75,88 @@ function Profile() {
 		}
 	}
 
+	async function handleFetchPosts() {
+		try {
+			setPostLoader({ ...postLoader, [tab]: true });
+			console.log(tab);
+
+			const res = await fetch(`${API_URL}/channels/my-${tab}`, { method: "GET", headers, });
+			// if (!res.ok) throw new Error("Cannot request, Server Connection Issues");
+			const data = await res.json();
+			console.log(res, data)
+			if (data?.status !== "success") {
+				throw new Error(data.message || data?.error);
+			}
+
+			// setPosts({ ...posts, ["my"+tab]: data?.data?. })
+		} catch(err) {
+			return err;
+		} finally {
+			setTimeout(() => {
+				setPostLoader({ ...postLoader, [tab]: false });
+			}, 1000);
+		}
+	}
+
 	
 	useEffect(function() {
-		if(selectedProfile?._id) {
-			handleFetchProfile(selectedProfile?._id)
-		} else {
-			handleFetchProfile()
-		}
-	}, [selectedProfile?._id]);
+		handleFetchProfile()
+	}, []);
 
 
 	useEffect(function() {
-		async function handleFetchPosts() {
-			try {
-				setPostLoader({ ...postLoader, [tab]: true });
-				console.log(tab);
-				// Implementation...
-			} catch(err) {
-				return err;
-			} finally {
-				setTimeout(() => {
-					setPostLoader({ ...postLoader, [tab]: false });
-				}, 1000);
-			}
+		if(profile?._id) {
+			handleFetchPosts()
 		}
+	}, [tab, profile])
 
-		handleFetchPosts()
-	}, [tab])
+
+	if(loading) {
+		return (
+			<View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50, backgroundColor: variables.colors.background }}>
+				<ActivityIndicator size={"large"} color={variables.colors.text} />
+			</View>
+		)
+	}
 
 	return (
 		<React.Fragment>
 			{/* <Stack.Screen options={{ header: () => <SubHeader />, headerShown: true }} /> */}
 
-			{loading && <Spinner />}
-
-			{(!loading) && (
-				<ScrollView style={styles.container} refreshControl={<RefreshControl onRefresh={handleRefreshing} refreshing={refreshing} />}>
+			<ScrollView style={styles.container} refreshControl={<RefreshControl onRefresh={handleRefreshing} refreshing={refreshing} />}>
 				<View style={styles.profileTop}>
-					<Image style={styles.coverImage} source={{ uri: profile?.coverPhoto?.url ?? "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1738927546/31284806_cs2c23.jpg" }} />
+					<Image style={styles.coverImage} source={{ uri: profile?.coverPhoto?.url ? profile?.coverPhoto?.url : "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1738927546/31284806_cs2c23.jpg" }} />
 					<LinearGradient colors={["rgba(0,0,0,0.35)", "rgba(0,0,0,0.35)"]} style={styles.linearGradient}>
 
-						<TouchableOpacity style={styles.backIcon}>
+						<TouchableOpacity style={styles.backBtnContainer}>
 							<BackButton showText />
 						</TouchableOpacity>
 
-						<TouchableOpacity style={styles.menuIcon}>
-							<SimpleLineIcons name="menu" size={24} color="#fff" />
-						</TouchableOpacity>
-
 						<View style={styles.profileImage}>
-							<Image style={{ width: "100%", height: "100%" }} source={{ uri: profile?.profileImage?.url ?? "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} />
+							<Image style={{ width: "100%", height: "100%" }} source={{ uri: profile?.profileImage?.url ? profile?.profileImage?.url : "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} />
 						</View>
 					</LinearGradient>
 				</View>
 
 				<View style={styles.details}>
 					<View style={styles.profileNames}>
-						<Text style={[typography.h2, { color: variables.colors.text }]}>Super Graphics</Text>
-						<Text style={[typography.paragraph, { color: variables.colors.bgLight }]}>@supergraphics_1</Text>
+						<Text style={[typography.h2, { color: variables.colors.text }]}>{profile?.profileName}</Text>
+						<Text style={[typography.paragraph, { color: variables.colors.bgLight }]}>@{profile?.username}</Text>
 					</View>
 
 					<View style={styles.profileDetails}>
 						<View style={styles.detailsSub}>
 							<View style={styles.detailsInfo}>
-								<Text style={[typography.h4, { color: variables.colors.text }]}>120</Text>
+								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.followers?.length ?? 0)}</Text>
 								<Text style={[typography.paragraph, { color: variables.colors.bgLight }]}>Followers</Text>
 							</View>
 							<View style={styles.detailsInfo}>
-								<Text style={[typography.h4, { color: variables.colors.text }]}>150.2k</Text>
+								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.followers?.length ?? 0)}</Text>
 								<Text style={[typography.paragraphSm, { color: variables.colors.bgLight }]}>Followings</Text>
 							</View>
 						</View>
 
 						<View style={styles.detailsSub}>
-							<TouchableOpacity style={styles.followBtn}>
-								<Text style={[typography.button, { color: variables.colors.text }]}>Follow</Text>
-							</TouchableOpacity>
-
 							<Pressable onPress={() => {}}>
 								<AntDesign name="edit" color={variables.colors.text} size={24} />
 							</Pressable>
@@ -165,13 +167,13 @@ function Profile() {
 				<View style={styles.contentBox}>
 					<ScrollView horizontal style={styles.tabs}>
 						<Pressable style={styles.tabItem} onPress={() => setTab("shorts")}>
-							<Text style={[typography.paragraphBg, tab === "shorts" ? { color: variables.colors.primary } : {}]}>Shorts</Text>
+							<Text style={[typography.paragraphBg, tab === "shorts" ? { color: variables.colors.primary } : {}]}>Tube Shorts</Text>
 						</Pressable>
 						<Pressable style={styles.tabItem} onPress={() => setTab("tube_max")}>
 							<Text style={[typography.paragraphBg, tab === "tube_max" ? { color: variables.colors.primary } : {}]}>Tube Max</Text>
 						</Pressable>
 						<Pressable style={styles.tabItem} onPress={() => setTab("audio")}>
-							<Text style={[typography.paragraphBg, tab == "audio" ? { color: variables.colors.primary } : {}]}>Audio</Text>
+							<Text style={[typography.paragraphBg, tab == "audio" ? { color: variables.colors.primary } : {}]}>Music</Text>
 						</Pressable>
 						<Pressable style={styles.tabItem} onPress={() => setTab("podcasts")}>
 							<Text style={[typography.paragraphBg, tab == "podcasts" ? { color: variables.colors.primary } : {}]}>Podcasts</Text>
@@ -179,11 +181,11 @@ function Profile() {
 						<Pressable style={styles.tabItem} onPress={() => setTab("images")}>
 							<Text style={[typography.paragraphBg, tab == "images" ? { color: variables.colors.primary } : {}]}>Images</Text>
 						</Pressable>
-						<Pressable style={styles.tabItem} onPress={() => setTab("blog_and_article")}>
-							<Text style={[typography.paragraphBg, tab == "blog_and_article" ? { color: variables.colors.primary } : {}]}>Blog and Article</Text>
+						<Pressable style={styles.tabItem} onPress={() => setTab("blogs")}>
+							<Text style={[typography.paragraphBg, tab == "blogs" ? { color: variables.colors.primary } : {}]}>Blogs</Text>
 						</Pressable>
-						<Pressable style={styles.tabItem} onPress={() => setTab("book")}>
-							<Text style={[typography.paragraphBg, tab == "book" ? { color: variables.colors.primary } : {}]}>Book</Text>
+						<Pressable style={styles.tabItem} onPress={() => setTab("books")}>
+							<Text style={[typography.paragraphBg, tab == "books" ? { color: variables.colors.primary } : {}]}>Books</Text>
 						</Pressable>
 					</ScrollView>
 
@@ -203,12 +205,9 @@ function Profile() {
 					</View>
 				</View>
 			</ScrollView>
-			)}
 		</React.Fragment>
 	);
 }
-
-export default Profile;
 
 const styles = StyleSheet.create({
 	container: {
@@ -233,7 +232,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		height: "100%",
 	},
-    backIcon: {
+    backBtnContainer: {
 		position: "absolute",
         top: 10,
 		left: 20,

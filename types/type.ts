@@ -20,9 +20,45 @@ type FileType = {
 	public_id?: string;
 };
 
+export type CreatorProfileType = {
+	_id: string;
+	user?: string;
+	profileName: string;
+	profileImage?: CoverImageType;
+	coverPhoto?: CoverImageType;
+	username?: string;
+	isCreator?: boolean;
+	followers?: string[];
+	following?: string[]
+	postCount?: Number;
+	interests?: string[];
+	createdAt?: string;
+	updatedAt?: string;
+}
+
+export type TubeType = {
+	_id: string;
+	creatorProfile?: CreatorProfileType | any;
+	title: string;
+	description?: string;
+	type: string;
+	views?: number;
+	likes?: number;
+	comments?: number;
+	hashTags: string[];
+	slug?: string;
+	thumbnail?: CoverImageType;
+	video: VideoFileType;
+	createdAt: string;
+	updatedAt: string;
+	lastModified?: string;
+	isFollowingCreator: boolean;
+};
+
+
 export type MusicType = {
 	_id: string;
-	creator?: any;
+	creator?: CreatorProfileType;
 	title: string;
 	streams?: number;
 	coverImage?: CoverImageType;
@@ -40,7 +76,7 @@ export type EpisodeType = {
 };
 
 export type PodcastType = {
-	creatorProfile: any;
+	creatorProfile: CreatorProfileType;
 	name: string;
 	description: string;
 	coverImage: CoverImageType;
@@ -59,29 +95,11 @@ type SpecificationType = {
 
 export type BookType = {
 	_id: string;
-	creatorProfile: any;
+	creatorProfile: CreatorProfileType;
 	title: string;
 	specification: SpecificationType;
 	coverImage: CoverImageType;
 	file: FileType;
-};
-
-export type TubeMaxType = {
-	creatorProfile: any;
-	title: string;
-	description: string;
-	video: VideoFileType;
-	thumbnail: CoverImageType;
-	views: number;
-	likes: number;
-	shares: number;
-	saves: number;
-	comments: number;
-	type: string;
-	hashTags: string[];
-	_id: string;
-	createdAt?: string;
-	updatedAt?: string;
 };
 
 
@@ -90,7 +108,7 @@ export type BlogType = {}
 
 export type PicsImageType = {
 	_id: string;
-	creatorProfile: any;
+	creatorProfile: CreatorProfileType;
 	title: string;
 	preview: CoverImageType;
 	likes: number;

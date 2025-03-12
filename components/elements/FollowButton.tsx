@@ -1,24 +1,34 @@
 import { typography } from '@/constants/typography'
 import variables from '@/constants/variables'
-import React from 'react'
-import { StyleSheet, Text, TextStyle, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { Pressable, StyleSheet, Text, TextStyle, TouchableOpacity } from 'react-native'
 
 interface Props {
     name?: string;
     customStyle?: TextStyle | any;
-    // for now, id optional
-    id?: string;
+    id: string;
+    isFollowingCreator: boolean;
+    isFollowedByCreator?: boolean;
 }
 
-export default function FollowButton({ name, customStyle, id } : Props) {
+export default function FollowButton({ name, customStyle, id, isFollowingCreator } : Props) {
+    const [hasFollowedCreator, setHasFollowedCreator] = useState(false);
     
-    const handleFollow = function() {
+    async function handleFollow() {
         console.log(id);
     }
 
     return (
-        <TouchableOpacity style={[styles.followBtn, customStyle]} onPress={handleFollow}>
-            <Text style={typography.paragraph}>Follow {name ?? ""}</Text>
+        <TouchableOpacity>
+            {(isFollowingCreator || hasFollowedCreator) ? (
+                <Pressable style={[styles.followBtn, { backgroundColor: variables.colors.primaryTint2 }]}>
+                    <Text style={[typography.button, { color: variables.colors.text }]}>Followed</Text>
+                </Pressable>
+            ) : (
+                <Pressable style={[styles.followBtn, customStyle]} onPress={handleFollow}>
+                    <Text style={typography.paragraph}>Follow {name ?? ""}</Text>
+                </Pressable>
+            )}
         </TouchableOpacity>
     )
 }

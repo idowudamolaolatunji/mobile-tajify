@@ -57,14 +57,6 @@ export default function RootLayout() {
 								animationDuration: 400,
 								headerShown: false,
 							}} />
-
-							<Stack.Screen name="profile" options={{
-								presentation: 'card',
-								gestureEnabled: true,
-								gestureDirection: 'vertical',
-								animationDuration: 400,
-								headerShown: false,
-							}} />
 							
 							<Stack.Screen name="imageViewer" options={{
 								presentation: 'card',
@@ -91,6 +83,22 @@ export default function RootLayout() {
 							}} />
 
 							<Stack.Screen name="bookViewer" options={{
+								presentation: 'card',
+								gestureEnabled: true,
+								gestureDirection: 'vertical',
+								animationDuration: 400,
+								headerShown: false,
+							}} />
+
+							<Stack.Screen name="acctProfile" options={{
+								presentation: 'card',
+								gestureEnabled: true,
+								gestureDirection: 'vertical',
+								animationDuration: 400,
+								headerShown: false,
+							}} />
+
+							<Stack.Screen name="creatorProfile" options={{
 								presentation: 'card',
 								gestureEnabled: true,
 								gestureDirection: 'vertical',

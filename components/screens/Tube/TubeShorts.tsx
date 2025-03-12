@@ -3,11 +3,13 @@ import ShortLayout from "@/components/layouts/ShortLayout";
 import { useFetchedContext } from "@/context/FetchedContext";
 import React, { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
+import { useAudioContext } from '@/context/AudioContext';
 
 function TubeShorts() {
 	const { handleFetchTubes, tubeShorts, loader } = useFetchedContext();
 	const [activeId, setActiveId] = useState(tubeShorts?.at(0)?._id);
 	const [refreshing, setRefreshing] = useState(false);
+	const { isPlaying, handlePlayPause } = useAudioContext();
 
 	const onViewableItemsChanged = function ({ changed, viewableItems }: any) {
 		// console.log("changed:", changed, "viewableItems:", viewableItems)
@@ -18,12 +20,16 @@ function TubeShorts() {
 
 	const handleRefreshing = function () {
 		setRefreshing(true);
-		handleFetchTubes("tube-shorts", 10, 1);
+		handleFetchTubes("tube-short", 10, 1);
 		setRefreshing(false);
 	};
 
 	useEffect(function () {
-		handleFetchTubes();
+		if(isPlaying) handlePlayPause()
+
+		if(tubeShorts?.length < 1) {
+			handleFetchTubes("tube-short", 10, 1);
+		}
 	}, []);
 
 	if (loader) return <Spinner />;

@@ -18,7 +18,7 @@ export default function more() {
 			<SafeAreaView style={styles.container}>
 				<Text style={[typography.paragraphBg, { marginBottom: 30 }]}>More</Text>
 
-				<TouchableOpacity onPress={() => router.navigate("/profile")}>
+				<TouchableOpacity onPress={() => router.navigate("/acctProfile")}>
 					<View style={styles.actionBox}>
 						<Image source={{ uri: "https://randomuser.me/api/portraits/men/1.jpg" }} style={styles.profileAvatar} />
 						<Text style={styles.actionText}>Profile</Text>

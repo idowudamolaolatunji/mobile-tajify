@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import VideoPlayer from "../components/layouts/VideoPlayer";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
-import { TubeMaxType } from "@/types/type";
+import { CreatorProfileType, TubeType } from "@/types/type";
 import { formatDateAgo } from "@/utils/helper";
 import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
@@ -11,17 +11,38 @@ import { unknownUserImageUri } from "@/constants/images";
 import BackButton from "../components/elements/BackButton";
 import FollowButton from "@/components/elements/FollowButton";
 import { useDataContext } from "@/context/DataContext";
+import { useAudioContext } from "@/context/AudioContext";
+import { router } from "expo-router";
+import { TouchableOpacity } from "react-native";
+
+interface ContextProps {
+	selectedData: TubeType;
+	setSelectedProfile: (profile: CreatorProfileType | null) => void;
+	setSelectedProfileId: (id: string) => void;
+}
 
 export default function VideoItem() {
-	const { selectedData: video }: { selectedData: TubeMaxType } = useDataContext();
+	const { selectedData: video, setSelectedProfile, setSelectedProfileId }: ContextProps = useDataContext();
+	const { handlePlayPause } = useAudioContext();
 
 	// const [comments, setComments] = useState<Comment[]>([]);
 	const route = useRoute();
 	// const videoId = route.params?.id;
 
+	const handleGoToProfile = function() {
+		setSelectedProfile(null);
+		setSelectedProfileId(video.creatorProfile);
+		router.navigate("/creatorProfile")
+	}
+
 	// useEffect(() => {
 	//   DataStore.query(Video, videoId).then(setVideo);
 	// }, [videoId]);
+
+	useEffect(function() {
+		handlePlayPause()
+	}, []);
+	
 
 	return (
 		<View style={styles.pageContainer}>
@@ -34,9 +55,16 @@ export default function VideoItem() {
 			<ScrollView style={{ flex: 1, paddingHorizontal: 12 }}>
 				<View style={styles.videoInfoContainer}>
 					<Text style={styles.title}>{video.title}</Text>
-					<Text style={styles.subtitle}>
-						{video.creatorProfile?.profileName} • {video.views} views • {formatDateAgo(video.createdAt)}
-					</Text>
+					<View style={{ flexDirection: "row" }}>
+						<Pressable onPress={handleGoToProfile}>
+							<Text style={[styles.subtitle, { textTransform: "capitalize", textDecorationLine: "underline" }]}>
+								{video.creatorProfile?.profileName}
+							</Text>
+						</Pressable>
+						<Text style={styles.subtitle}>
+							{" "}• {video.views} views • {formatDateAgo(video.createdAt)}
+						</Text>
+					</View>
 				</View>
 
 				<View style={styles.actionListContainer}>
@@ -67,14 +95,20 @@ export default function VideoItem() {
 						borderBottomWidth: 1,
 					}}
 				>
-					<Image style={styles.avatar} source={{ uri: video.creatorProfile?.profileImage?.url ? video.creatorProfile?.profileImage?.url : unknownUserImageUri }} />
+
+					<Pressable onPress={handleGoToProfile}>
+						<Image style={styles.avatar} source={{ uri: video.creatorProfile?.profileImage?.url ? video.creatorProfile?.profileImage?.url : unknownUserImageUri }} />
+					</Pressable>
 
 					<View style={{ marginHorizontal: 10, flex: 1 }}>
-						<Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>{video.creatorProfile?.profileName}</Text>
-						<Text style={{ color: "grey", fontSize: 18 }}>10 Followers</Text>
+						<Pressable onPress={handleGoToProfile}>
+							<Text style={{ color: "white", fontSize: 18, fontWeight: "bold", textTransform: "capitalize" }}>{video.creatorProfile?.profileName}</Text>
+						</Pressable>
+							
+						<Text style={{ color: "grey", fontSize: 18 }}>{video.creatorProfile?.followers?.length || 0} Followers</Text>
 					</View>
 
-					<FollowButton />
+					<FollowButton id={video.creatorProfile?._id} isFollowingCreator={video.isFollowingCreator} />
 				</View>
 
 				{/* Commnets */}

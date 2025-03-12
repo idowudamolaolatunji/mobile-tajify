@@ -13,3 +13,8 @@
 
 // "react-native-blob-util": "^0.21.2",
 // "react-native": "0.76.6",
+
+
+{/* <TouchableOpacity style={styles.menuIcon}>
+                            <SimpleLineIcons name="menu" size={24} color="#fff" />
+                        </TouchableOpacity> */}

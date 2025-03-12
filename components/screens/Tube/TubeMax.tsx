@@ -7,27 +7,31 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react'
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { tubeMax } from '@/utils/data';
-import { TubeMaxType } from '@/types/type';
+import { TubeType } from '@/types/type';
+import { useAudioContext } from '@/context/AudioContext';
 
 
 function TubeMax() {
-    // const { tubeMax, handleFetchTubes, loader } = useFetchedContext();
+    const { tubeMax, handleFetchTubes, loader } = useFetchedContext();
     const [refreshing, setRefreshing] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const [loader, setLoader] = useState(false);
-    const [tubeMaxData, setTubeMaxData] = useState<TubeMaxType[] | any>(tubeMax)
+    // const [loader, setLoader] = useState(false);
+    // const [tubeMaxData, setTubeMaxData] = useState<TubeType[] | any>(null);
     
     const handleRefreshing = function() {
         setRefreshing(true);
-        // handleFetchTubes("tube-max", 10, 1);
+        handleFetchTubes("tube-max", 10, 1);
         setRefreshing(false);
     }
 
     useEffect(function() {
-        // handleFetchTubes("tube-max");
+        if(tubeMax?.length < 1) {
+            handleFetchTubes("tube-max");
+        }
     }, []);
 
-	// if(loader) return <Spinner />
+
+	if(loader) return <Spinner />
     
     return (
         <ScrollView contentInsetAdjustmentBehavior="automatic" nestedScrollEnabled={true}
@@ -54,7 +58,7 @@ function TubeMax() {
                 <Spinner />
             ) : (
                 <View style={{ flex: 1 }}>
-                    {tubeMaxData.length > 0 && tubeMaxData.map((tube: TubeMaxType) => (
+                    {tubeMax.length > 0 && tubeMax.map((tube: TubeType) => (
                         <TubeLayout tube={tube} />
                     ))}
                 </View>

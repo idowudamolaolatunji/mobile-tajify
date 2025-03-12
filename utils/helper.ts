@@ -60,12 +60,11 @@ export function formatDateAgo(givenDate: string | any) {
 			const hours = Math.floor(diff / 3600000);
 			return `${hours} hours ago`;
 		}
-	} else if (diff < 172800000) {
-		// yesterday
-		return `Yesterday at ${date.format("h:mm a")}`;
 	} else {
-		return date.format("d mmm, h:mm");
+		const days = Math.floor(diff / 86400000);
+		return `${days} days ago`;
 	}
+	
 	
 }
 

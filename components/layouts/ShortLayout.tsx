@@ -1,24 +1,50 @@
 import { typography } from "@/constants/typography";
 import variables from "@/constants/variables";
-import { countNum, truncateString } from "@/utils/helper";
+import { countNum, formatDateAgo, truncateString } from "@/utils/helper";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 import { useEffect, useRef, useState } from "react";
 import { Image, Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
-import { FontAwesome5, AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useIsFocused } from '@react-navigation/native';
+import { router } from "expo-router";
+import { useDataContext } from "@/context/DataContext";
+import FollowButton from "../elements/FollowButton";
+import { TubeType } from "@/types/type";
 
 
-function ShortLayout({ short, activeId } : { short: any; activeId: string; }) {
+interface Props {
+    short: TubeType;
+    activeId: string;
+}
+
+function ShortLayout({ short, activeId } : Props) {
 	const pageIsFocused = useIsFocused()
     const { height } = useWindowDimensions()
+    const { setSelectedProfileId, setSelectedProfile } = useDataContext();
     
     const videoRef = useRef<Video>(null);
     const [showMore, setShowMore] = useState(false);
     const [status, setStatus] = useState<AVPlaybackStatus>();
+    const [hasViewed, setHasViewed] = useState(false);
 
     const isPlaying = status?.isLoaded && status.isPlaying;
+    const { profileImage, profileName } = short.creatorProfile;
 
+
+    const handleVideoStatus = function(status: any) {
+        setStatus(status);
+        if (status.didJustFinish) {
+            setHasViewed(true)
+        }
+    };
+
+    const handleGoToProfile = function() {
+        setSelectedProfile(null);
+        setSelectedProfileId(short?.creatorProfile);
+        router.navigate("/creatorProfile")
+    }
+    
     // PLAY OR PLAY CURRENTLY PLAYING VIDEO
     const handlePressed = function() {
         if(!videoRef.current) return;
@@ -58,7 +84,12 @@ function ShortLayout({ short, activeId } : { short: any; activeId: string; }) {
             videoRef.current?.playAsync()
         }
 
-    }, [pageIsFocused, videoRef.current])
+    }, [pageIsFocused, videoRef.current]);
+
+
+    async function handleViewed() {
+
+    }
 
     
     return (
@@ -70,7 +101,7 @@ function ShortLayout({ short, activeId } : { short: any; activeId: string; }) {
                 useNativeControls={false}
                 isLooping
                 resizeMode={ResizeMode.COVER}
-                onPlaybackStatusUpdate={setStatus}
+                onPlaybackStatusUpdate={handleVideoStatus}
             />
 
             {/* THE CONTENT, IT IS POSITION ABSOLUTELY OVER THE VIDEO AND HAS A GRADIENT TOWARD THE BOTTOM OF THE SCREEN   */}
@@ -97,28 +128,22 @@ function ShortLayout({ short, activeId } : { short: any; activeId: string; }) {
                                 <FontAwesome name="commenting" size={28} color={variables.colors.text} />
                                 <Text style={styles.elementText}>{countNum(short.comments)}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.element}>
-                                <FontAwesome5 name="share" size={28} color={variables.colors.text} />
-                                <Text style={styles.elementText}>{countNum(short.shares)}</Text>
-                            </TouchableOpacity>
                         </View>
 
 
                         <View style={styles.contentTop}>
-                            <View style={styles.contentWriter}>
-                                <Image source={{ uri: short.creatorProfile?.profileImage?.url || "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.userImage} />
-                                <Text style={[typography.paragraphBg, styles.profileName]}>{short.creatorProfile.profileName || "Channel Unknown"}</Text>
-                            </View>
+                            <Pressable style={styles.contentWriter} onPress={handleGoToProfile}>
+                                <Image source={{ uri: profileImage?.url ? profileImage?.url : "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.userImage} />
+                                <Text style={[typography.paragraphBg, styles.profileName]}>{profileName || "Channel Unknown"}</Text>
+                            </Pressable>
 
-                            <TouchableOpacity style={styles.followBtn}>
-                                <Text style={[typography.button, { color: variables.colors.text }]}>Follow</Text>
-                            </TouchableOpacity>
+                            <FollowButton id={short.creatorProfile?._id} isFollowingCreator={short.isFollowingCreator} />
                         </View>
 
 
                         <View style={styles.captionBox}>
                             <Text style={styles.caption}>
-                                {truncateString(short.description, showMore ? 1000000 : 50)}
+                                {truncateString(short?.description || "", showMore ? 1000000 : 50)}
                                 
                                 <TouchableOpacity onPress={() => setShowMore(!showMore)}>
                                     <Text
@@ -136,7 +161,7 @@ function ShortLayout({ short, activeId } : { short: any; activeId: string; }) {
                                 ))}
                             </View>
 
-                            <Text style={styles.dateText}>3 days ago</Text>
+                            <Text style={styles.dateText}>{formatDateAgo(short.createdAt)}</Text>
                         </View>
                     </View>
                 </SafeAreaView>
@@ -178,7 +203,7 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
-        gap: 15,
+        gap: 10,
         marginBottom: 10
     },
     userImage: {
@@ -189,13 +214,11 @@ const styles = StyleSheet.create({
         borderRadius: 50
     },
     profileName: {
-        fontSize: 16,
+        fontSize: 17,
     },
     followBtn: {
         paddingVertical: 4,
         paddingHorizontal: 8,
-
-        backgroundColor: variables.colors.primary,
         borderRadius: 4
     },
     captionBox: {},

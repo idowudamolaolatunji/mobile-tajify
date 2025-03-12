@@ -13,7 +13,8 @@ export default function FloatingPlayer({ emptyText } : { emptyText: string }) {
 	const imageURI = currentAudioType == "podcast" ? currentEpsParent?.coverImage?.url : currentAudio?.coverImage?.url
 
 	return (
-		<TouchableOpacity activeOpacity={0.9} style={[styles.container]}>
+		// <TouchableOpacity activeOpacity={0.9} style={[styles.container]}>
+		<View style={[styles.container]}>
 			<Image
 				source={{ uri: imageURI ?? unknownAudioImageUri }}
 				style={styles.trackImage}
@@ -45,7 +46,8 @@ export default function FloatingPlayer({ emptyText } : { emptyText: string }) {
 					onPress={handleNext}
 				/>
 			</View>
-		</TouchableOpacity>
+		</View>
+		// </TouchableOpacity>
 	)
 }
 

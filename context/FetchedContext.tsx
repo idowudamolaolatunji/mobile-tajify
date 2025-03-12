@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { useAuth } from "./AuthContext";
+import { TubeType } from "@/types/type";
 
 
 //////////////////////////////////////////////
@@ -25,8 +26,8 @@ interface FetchedProviderProps {
 
   
 export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) => {
-    const [tubeShorts, setTubeShorts] = useState([]);
-    const [tubeMax, setTubeMax] = useState([]);
+    const [tubeShorts, setTubeShorts] = useState<TubeType[] | any>([]);
+    const [tubeMax, setTubeMax] = useState<TubeType[] | any>([]);
     const [loader, setLoader] = useState(true)
     const { headers } = useAuth()
     const API_BASE_URL = "https://api-tajify.koyeb.app";
@@ -38,12 +39,13 @@ export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) =>
             const res = await fetch(`${API_BASE_URL}/api/channels/tubes?type=${type}&limit=${limit}&page=${page}`, {
                 headers, method: "GET",
             });
-            console.log(res)
-            const data = await res.json();
-            console.log(data)
 
-            if(type == "tube-short") setTubeShorts(data.data?.tubes);
-            if(type == "tube-max") setTubeMax(data.data.tubes)
+            const data = await res.json();
+            const tubes = data?.data?.tubes
+            console.log(tubes)
+
+            if(type == "tube-short") setTubeShorts(tubes);
+            if(type == "tube-max") setTubeMax(tubes)
         } catch (err: any) {
             console.error(err?.message);
         } finally {
