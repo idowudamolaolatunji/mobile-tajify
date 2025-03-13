@@ -106,7 +106,7 @@ export default function AcctProfile() {
 
 	useEffect(function() {
 		if(profile?._id) {
-			handleFetchPosts()
+			// handleFetchPosts()
 		}
 	}, [tab, profile])
 
@@ -147,11 +147,11 @@ export default function AcctProfile() {
 					<View style={styles.profileDetails}>
 						<View style={styles.detailsSub}>
 							<View style={styles.detailsInfo}>
-								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.followers?.length ?? 0)}</Text>
+								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.followers?.length || 0)}</Text>
 								<Text style={[typography.paragraph, { color: variables.colors.bgLight }]}>Followers</Text>
 							</View>
 							<View style={styles.detailsInfo}>
-								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.followers?.length ?? 0)}</Text>
+								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.following?.length || 0)}</Text>
 								<Text style={[typography.paragraphSm, { color: variables.colors.bgLight }]}>Followings</Text>
 							</View>
 						</View>

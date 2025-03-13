@@ -21,7 +21,7 @@ interface Props {
 function ShortLayout({ short, activeId } : Props) {
 	const pageIsFocused = useIsFocused()
     const { height } = useWindowDimensions()
-    const { setSelectedProfileId, setSelectedProfile } = useDataContext();
+    const { setSelectedProfileId } = useDataContext();
     
     const videoRef = useRef<Video>(null);
     const [showMore, setShowMore] = useState(false);
@@ -40,7 +40,6 @@ function ShortLayout({ short, activeId } : Props) {
     };
 
     const handleGoToProfile = function() {
-        setSelectedProfile(null);
         setSelectedProfileId(short?.creatorProfile);
         router.navigate("/creatorProfile")
     }

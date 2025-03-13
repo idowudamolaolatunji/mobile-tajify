@@ -10,7 +10,7 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 function TubeLayout({ tube }: { tube: TubeType }) {
 	const router = useRouter();
-	const { setSelectedData, setSelectedProfile, setSelectedProfileId } = useDataContext()
+	const { setSelectedData, setSelectedProfileId } = useDataContext()
 
 	const handlePress = function() {
 		setSelectedData(tube)
@@ -18,7 +18,6 @@ function TubeLayout({ tube }: { tube: TubeType }) {
 	}
 
 	const handleGoToProfile = function() {
-		setSelectedProfile(null);
 		setSelectedProfileId(tube?.creatorProfile);
 		router.navigate("/creatorProfile")
 	}

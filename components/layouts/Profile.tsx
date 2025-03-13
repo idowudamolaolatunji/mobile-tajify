@@ -1,5 +1,5 @@
 import variables from '@/constants/variables'
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, ScrollView, RefreshControl, StyleSheet, Pressable, TouchableOpacity, Platform, ActivityIndicator, SafeAreaView, Alert } from "react-native";
 import NoItem from "@/components/layouts/NoItem";
 import { typography } from "@/constants/typography";
@@ -25,12 +25,13 @@ interface Props {
 }
 
 export default function Profile({ profile, posts, postLoader, tab, setTab, profileType } : Props) {
+	
+	const [followersLength, setFollowersLength] = useState(profile?.followers?.length);
+	const [followingLength, SetFollowingLength] = useState(profile?.following?.length);
 
+	console.log(followersLength, followingLength)
 
     const handleEdit = function() {}
-    async function handleFollow() {
-
-    }
 
 
   return (
@@ -58,18 +59,18 @@ export default function Profile({ profile, posts, postLoader, tab, setTab, profi
 					<View style={styles.profileDetails}>
 						<View style={styles.detailsSub}>
 							<View style={styles.detailsInfo}>
-								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.followers?.length ?? 0)}</Text>
+								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.followers?.length || 0)}</Text>
 								<Text style={[typography.paragraph, { color: variables.colors.bgLight }]}>Followers</Text>
 							</View>
 							<View style={styles.detailsInfo}>
-								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.followers?.length ?? 0)}</Text>
+								<Text style={[typography.h4, { color: variables.colors.text }]}>{countNum(profile?.following?.length || 0)}</Text>
 								<Text style={[typography.paragraphSm, { color: variables.colors.bgLight }]}>Followings</Text>
 							</View>
 						</View>
 
 						<View style={styles.detailsSub}>
                             {profileType == "others" ? (
-                                <FollowButton id={profile?._id} isFollowingCreator={false} />
+                                <FollowButton id={profile?._id} isFollowingCreator={profile?.isFollowingCreator || false} />
                             ) : (
                                 <Pressable onPress={handleEdit}>
                                     <AntDesign name="edit" color={variables.colors.text} size={24} />

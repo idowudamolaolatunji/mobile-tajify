@@ -8,6 +8,7 @@ import { useDataContext } from '@/context/DataContext'
 import { CreatorProfileType } from '@/types/type'
 
 export default function FollowCard({ profile } : { profile: CreatorProfileType }) {
+    // console.log(profile)
     const router = useRouter();
     const { setSelectedProfile, setSelectedProfileId } = useDataContext();
 
@@ -25,7 +26,7 @@ export default function FollowCard({ profile } : { profile: CreatorProfileType }
             <Text style={[typography.paragraph, { fontSize: 13 }]}>@{profile?.username}</Text>
         </View>
         
-        <FollowButton id={profile._id} isFollowingCreator={true} />
+        <FollowButton id={profile._id} isFollowingCreator={profile.isFollowingCreator || false} />
     </Pressable>
   )
 }

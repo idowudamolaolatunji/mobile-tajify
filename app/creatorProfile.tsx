@@ -15,12 +15,12 @@ type PostLoaderState = Record<string, boolean>;
 export default function CreatorProfile() {
 	const router = useRouter()
 	const { headers } = useAuth();
-	const { selectedProfile, selectedProfileId } = useDataContext();
+	const { selectedProfileId } = useDataContext();
 	const [tab, setTab] = useState("shorts");
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 
-	const [profile, setProfile] = useState<CreatorProfileType | any | null>(selectedProfile);
+	const [profile, setProfile] = useState<CreatorProfileType | any | null>(null);
 	const [postLoader, setPostLoader] = useState<PostLoaderState>({
 		shorts: false,
 		tube_max: false,
@@ -43,25 +43,25 @@ export default function CreatorProfile() {
 
 
 	useEffect(function() {
-		if(selectedProfileId && !profile?._id) {
-			handleFetchProfile(selectedProfileId)
+		if(selectedProfileId) {
+			handleFetchProfile()
 		}
 	}, [selectedProfileId])
 
 	useEffect(function() {
 		if(profile?._id) {
-			handleFetchPosts()
+			// handleFetchPosts()
 		}
 	}, [tab, profile]);
 
 	const handleRefreshing = function () {
-		const id = selectedProfile?._id || selectedProfileId;
 		setRefreshing(true);
-		handleFetchProfile(id)
+		handleFetchProfile()
 		setRefreshing(false);
 	};
 
-	async function handleFetchProfile(id: any) {
+	async function handleFetchProfile() {
+		const id = selectedProfileId;
 		setLoading(true)
 		try {
 			const res = await fetch(`${API_URL}/profiles/${id}`, { 

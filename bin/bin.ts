@@ -18,3 +18,5 @@
 {/* <TouchableOpacity style={styles.menuIcon}>
                             <SimpleLineIcons name="menu" size={24} color="#fff" />
                         </TouchableOpacity> */}
+
+                        // "https://randomuser.me/api/portraits/men/1.jpg"

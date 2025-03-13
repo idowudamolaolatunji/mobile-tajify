@@ -8,7 +8,7 @@ import { router, Stack } from "expo-router";
 import SubHeader from "@/components/layouts/SubHeader";
 
 export default function more() {
-	const { handleAuthChange } = useAuth();
+	const { handleAuthChange, authState } = useAuth();
 	
 
 	return (
@@ -20,7 +20,7 @@ export default function more() {
 
 				<TouchableOpacity onPress={() => router.navigate("/acctProfile")}>
 					<View style={styles.actionBox}>
-						<Image source={{ uri: "https://randomuser.me/api/portraits/men/1.jpg" }} style={styles.profileAvatar} />
+						<Image source={{ uri: authState?.avatar ? authState.avatar : "https://res.cloudinary.com/dy3bwvkeb/image/upload/v1737549092/pngegg_yirbea.png" }} style={styles.profileAvatar} />
 						<Text style={styles.actionText}>Profile</Text>
 					</View>
 				</TouchableOpacity>

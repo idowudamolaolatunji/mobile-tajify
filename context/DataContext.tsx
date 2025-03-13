@@ -11,8 +11,6 @@ interface DataContextType {
 
     selectedData: unknown;
     setSelectedData: (data: unknown) => void;
-    selectedProfile: CreatorProfileType | any;
-    setSelectedProfile: (profile: CreatorProfileType) => void;
     selectedProfileId: string | any;
     setSelectedProfileId: (profile: string) => void;
 
@@ -47,8 +45,6 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         handleChangeImagesView,
         selectedData,
         setSelectedData,
-        selectedProfile,
-        setSelectedProfile,
         selectedProfileId,
         setSelectedProfileId
     }

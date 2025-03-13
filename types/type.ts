@@ -34,6 +34,8 @@ export type CreatorProfileType = {
 	interests?: string[];
 	createdAt?: string;
 	updatedAt?: string;
+	isFollowingCreator?: boolean;
+	isFollowedByCreator?: boolean;
 }
 
 export type TubeType = {

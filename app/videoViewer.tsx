@@ -17,12 +17,11 @@ import { TouchableOpacity } from "react-native";
 
 interface ContextProps {
 	selectedData: TubeType;
-	setSelectedProfile: (profile: CreatorProfileType | null) => void;
 	setSelectedProfileId: (id: string) => void;
 }
 
 export default function VideoItem() {
-	const { selectedData: video, setSelectedProfile, setSelectedProfileId }: ContextProps = useDataContext();
+	const { selectedData: video, setSelectedProfileId }: ContextProps = useDataContext();
 	const { handlePlayPause } = useAudioContext();
 
 	// const [comments, setComments] = useState<Comment[]>([]);
@@ -30,7 +29,6 @@ export default function VideoItem() {
 	// const videoId = route.params?.id;
 
 	const handleGoToProfile = function() {
-		setSelectedProfile(null);
 		setSelectedProfileId(video.creatorProfile);
 		router.navigate("/creatorProfile")
 	}
