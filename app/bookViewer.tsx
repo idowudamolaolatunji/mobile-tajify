@@ -10,7 +10,7 @@ import InfoBox from "@/components/layouts/InfoBox";
 // import PDFReader from 'rn-pdf-reader-js'
 // import PdfViewer from 'react-native-pdf';
 
-// import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system';
 
 
 export default function BookViewer() {
@@ -55,25 +55,25 @@ export default function BookViewer() {
     }, []);
 
 
-  // const downloadWithExpoFileSystem = useCallback(async () => {
-  //   try {
-  //     setLoading(true);
+  const downloadWithExpoFileSystem = useCallback(async () => {
+    try {
+      setLoading(true);
      
-  //     const response = await FileSystem.downloadAsync(selectedData.file.url,
-  //       FileSystem.documentDirectory + 'file.pdf',
-  //     );
-  //     setSource(response.uri);
-  //   } catch (err) {
-  //     console.warn(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, []);
+      const response = await FileSystem.downloadAsync(selectedData.file.url,
+        FileSystem.documentDirectory + 'file.pdf',
+      );
+      setSource(response.uri);
+    } catch (err) {
+      console.warn(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
 
-  // useEffect(() => {
-  //   downloadWithExpoFileSystem();
-  // }, [downloadWithExpoFileSystem]);
+  useEffect(() => {
+    downloadWithExpoFileSystem();
+  }, [downloadWithExpoFileSystem]);
 
 	return (
 		<View style={styles.pageContainer}>
@@ -122,7 +122,7 @@ export default function BookViewer() {
         /> */}
 
 
-            {/* {loading && (
+            {loading && (
                 <View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50 }}>
                     <ActivityIndicator size={"large"} color={variables.colors.text} />
                 </View>
@@ -130,7 +130,7 @@ export default function BookViewer() {
 
             {(!source && !loading) && (
                 <InfoBox text="An Error occured while loading the PDF file" />
-            )} */}
+            )}
 
             {/* {(source && !loading) && (
                 <PdfRendererView
