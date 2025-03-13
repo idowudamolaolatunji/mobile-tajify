@@ -21,8 +21,11 @@ interface ContextProps {
 }
 
 export default function VideoItem() {
-	const { selectedData: video, setSelectedProfileId }: ContextProps = useDataContext();
 	const { handlePlayPause } = useAudioContext();
+	const { selectedData: video, setSelectedProfileId }: ContextProps = useDataContext();
+	console.log(video.creatorProfile?.followers)
+	const [followersLength, setFollowersLength] = useState(video.creatorProfile?.followers?.length || 0);
+
 
 	// const [comments, setComments] = useState<Comment[]>([]);
 	const route = useRoute();
@@ -31,6 +34,14 @@ export default function VideoItem() {
 	const handleGoToProfile = function() {
 		setSelectedProfileId(video.creatorProfile?._id);
 		router.navigate("/creatorProfile")
+	}
+
+	const handleSetFollowers = function(action: string) {
+		if(action == "follow") {
+			setFollowersLength(followersLength + 1)
+		} else {
+			setFollowersLength(followersLength - 1)
+		}
 	}
 
 	// useEffect(() => {
@@ -103,10 +114,10 @@ export default function VideoItem() {
 							<Text style={{ color: "white", fontSize: 18, fontWeight: "bold", textTransform: "capitalize" }}>{video.creatorProfile?.profileName}</Text>
 						</Pressable>
 							
-						<Text style={{ color: "grey", fontSize: 18 }}>{video.creatorProfile?.followers?.length || 0} Followers</Text>
+						<Text style={{ color: "grey", fontSize: 18 }}>{followersLength || 0} Followers</Text>
 					</View>
 
-					<FollowButton id={video.creatorProfile?._id} isFollowingCreator={video.isFollowingCreator} />
+					<FollowButton id={video.creatorProfile?._id} isFollowingCreator={video.isFollowingCreator} handleFollowerAmountChange={handleSetFollowers} />
 				</View>
 
 				{/* Commnets */}

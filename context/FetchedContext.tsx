@@ -8,8 +8,8 @@ import { TubeType } from "@/types/type";
 //////////////////////////////////////////////
 interface FetchedContextType {
     loader: boolean;
-    tubeMax: Array<unknown> | any;
-  tubeShorts: Array<unknown> | any;
+    tubeMax: Array<unknown> | TubeType | any;
+    tubeShorts: Array<unknown> | TubeType | any;
     handleFetchTubes: (type: string, limit: number, page: number) => void;
 }
 

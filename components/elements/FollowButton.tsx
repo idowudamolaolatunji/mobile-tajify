@@ -2,7 +2,7 @@ import { typography } from '@/constants/typography'
 import variables from '@/constants/variables'
 import { useAuth } from '@/context/AuthContext';
 import React, { useState } from 'react'
-import { ActivityIndicator, Alert, StyleSheet, Text, TextStyle, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, TextStyle, TouchableOpacity } from 'react-native'
 
 interface Props {
     name?: string;

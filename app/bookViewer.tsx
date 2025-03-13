@@ -147,14 +147,6 @@ export default function BookViewer() {
                     }}
                 />
             )} */}
-
-{/* <PdfRendererView
-                    style={{backgroundColor: 'red'}}
-                    source={selectedData.file.url}
-                    distanceBetweenPages={16}
-                    maxZoom={20}
-                    maxPageResolution={2048}
-                /> */}
 		</View>
 	);
 }
