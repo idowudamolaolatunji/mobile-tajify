@@ -59,7 +59,7 @@ export default function AcctProfile() {
 	// fetch the profile
 	async function handleFetchProfile() {
 		try {
-			const res = await fetch(`${API_URL}/profiles/my-profile`, { method: "GET", headers, });
+			const res = await fetch(`${API_URL}/profiles/my/profile`, { method: "GET", headers, });
 			// if (!res.ok) throw new Error("Cannot request, Server Connection Issues");
 			const data = await res.json();
 			console.log(res, data)

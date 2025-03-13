@@ -8,13 +8,12 @@ import { useDataContext } from '@/context/DataContext'
 import { CreatorProfileType } from '@/types/type'
 
 export default function FollowCard({ profile } : { profile: CreatorProfileType }) {
-    // console.log(profile)
+    console.log(profile._id)
     const router = useRouter();
-    const { setSelectedProfile, setSelectedProfileId } = useDataContext();
+    const { setSelectedProfileId } = useDataContext();
 
     const handlePress = function() {
-        setSelectedProfile(profile);
-        setSelectedProfileId(null);
+        setSelectedProfileId(profile._id);
         router.navigate("/creatorProfile");
     }
 

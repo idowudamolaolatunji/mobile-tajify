@@ -7,7 +7,7 @@ import Profile from "@/components/layouts/Profile";
 import { useRouter } from "expo-router";
 import { CreatorProfileType } from "@/types/type";
 
-const API_URL = `https://api-tajify.koyeb.app/api`;
+const API_URL = `https://api-tajify.koyeb.app/api/profiles`;
 
 type PostState = Record<string, any[]>;
 type PostLoaderState = Record<string, boolean>;
@@ -41,7 +41,6 @@ export default function CreatorProfile() {
 		book: [],
 	});
 
-
 	useEffect(function() {
 		if(selectedProfileId) {
 			handleFetchProfile()
@@ -64,18 +63,17 @@ export default function CreatorProfile() {
 		const id = selectedProfileId;
 		setLoading(true)
 		try {
-			const res = await fetch(`${API_URL}/profiles/${id}`, { 
+			const res = await fetch(`${API_URL}/${id}`, { 
 				method: "GET", 
 				headers
 			});
 
 			const data = await res.json();
-			console.log("Creator:", data?.data?.Profile)
 			if (data?.status !== "success") {
 				throw new Error(data.message || data?.error);
 			}
 
-			setProfile(data?.data?.Profile)
+			setProfile(data?.data?.profile)
 		} catch(err) {
 			Alert.alert("Error", (err as any)?.message);
 		} finally {

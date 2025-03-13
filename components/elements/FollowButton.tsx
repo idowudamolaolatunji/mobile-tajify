@@ -10,65 +10,45 @@ interface Props {
     id: string;
     isFollowingCreator: boolean;
     isFollowedByCreator?: boolean;
+
+    handleFollowerAmountChange?: (action: string) => void;
 }
 
 const API_URL = `https://api-tajify.koyeb.app/api/profiles`;
 
-export default function FollowButton({ name, customStyle, id, isFollowingCreator, isFollowedByCreator } : Props) {
+export default function FollowButton({ name, customStyle, id, isFollowingCreator, isFollowedByCreator, handleFollowerAmountChange } : Props) {
     const { headers } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [hasFollowedCreator, setHasFollowedCreator] = useState(false);
+    const [hasFollowedCreator, setHasFollowedCreator] = useState<boolean>(isFollowingCreator);
     
     async function handleFollow() {
-        console.log(id);
-			setLoading(true);
+        setLoading(true);
+        await fetch(`${API_URL}/${isFollowedByCreator ? "follow-creator/back" : "follow-creator"}/${id}`, {
+            headers,
+            method: "PATCH"
+        });
 
-        try {
-			const res = await fetch(`${API_URL}/${isFollowedByCreator ? "follow-creator/back" : "follow-creator"}/${id}`, {
-                headers,
-                method: "PATCH"
-            });
-			const data = await res.json();
-			console.log(res, data)
-			if (data?.status !== "success") {
-				throw new Error(data.message || data?.error);
-			}
-
-			setHasFollowedCreator(true)
-		} catch(err) {
-			Alert.alert("Error", (err as any)?.message);
-		} finally {
-			setLoading(false);
-		}
+        setHasFollowedCreator(true);
+        handleFollowerAmountChange && handleFollowerAmountChange("follow")
+        setLoading(false);
     }
 
 
     async function handleUnFollow() {
-        console.log(id);
         setLoading(true);
+        await fetch(`${API_URL}/unfollow-creator/${id}`, {
+            headers,
+            method: "PATCH"
+        });
 
-        try {
-            const res = await fetch(`${API_URL}/unfollow-creator/${id}`, {
-                headers,
-                method: "PATCH"
-            });
-			const data = await res.json();
-			console.log(res, data)
-			if (data?.status !== "success") {
-				throw new Error(data.message || data?.error);
-			}
-
-			setHasFollowedCreator(false)
-		} catch(err) {
-			Alert.alert("Error", (err as any)?.message);
-		} finally {
-			setLoading(false);
-		}
+        setHasFollowedCreator(false);
+        handleFollowerAmountChange && handleFollowerAmountChange("unfollow")
+        setLoading(false);
     }
 
     return (
         <React.Fragment>
-            {(isFollowingCreator || hasFollowedCreator) ? (
+            {(hasFollowedCreator) ? (
                 <TouchableOpacity style={[styles.followBtn, { backgroundColor: variables.colors.primaryTint2 }]} onPress={handleUnFollow} disabled={loading}>
                     {loading ? (
                         <ActivityIndicator color={variables.colors.text} size="small" />
@@ -81,7 +61,7 @@ export default function FollowButton({ name, customStyle, id, isFollowingCreator
                     {loading ? (
                         <ActivityIndicator color={variables.colors.text} size="small" />
                     ) : (
-                        <Text style={typography.paragraph}>Follow {isFollowedByCreator ? "baack" : ""} {name ?? ""}</Text>
+                        <Text style={typography.paragraph}>Follow{isFollowedByCreator ? " back" : ""}{name ? " " + name : ""}</Text>
                     )}
                 </TouchableOpacity>
             )}

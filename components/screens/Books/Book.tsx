@@ -43,12 +43,9 @@ export default function Book() {
         </View>
 
         {(data.length > 0) ? (
-            <FlatList
-                data={booksData}
-                renderItem={({item: data}) => <BookItem data={data} />}
-                contentContainerStyle={{  }}
-            />
-
+            data.map((data: BookType) => (
+                <BookItem data={data} key={data._id} />
+            ))
         ) : (
             <NoItem title={`podcast for with the title "${searchQuery}" was`} />
         )}

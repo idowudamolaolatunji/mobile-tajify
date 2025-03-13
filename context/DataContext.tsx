@@ -31,7 +31,6 @@ interface DataProviderProps {
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     const [imagesView, setImagesView] = useState<string>("double") // single | double
     const [selectedData, setSelectedData] = useState<unknown>(null);
-    const [selectedProfile, setSelectedProfile] = useState<unknown>(null);
     const [selectedProfileId, setSelectedProfileId] = useState<unknown>(null);
 
     const handleChangeImagesView = function(view: string) {
@@ -46,7 +45,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         selectedData,
         setSelectedData,
         selectedProfileId,
-        setSelectedProfileId
+        setSelectedProfileId,
     }
 
     return <DataContext.Provider value={contextData}>{children}</DataContext.Provider>

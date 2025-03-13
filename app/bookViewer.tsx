@@ -7,11 +7,10 @@ import { useDataContext } from "@/context/DataContext";
 import InfoBox from "@/components/layouts/InfoBox";
 // import ReactNativeBlobUtil from 'react-native-blob-util'
 // import PdfRendererView from "react-native-pdf-renderer";
-// import PdfViewer from 'react-native-pdf';
 // import PDFReader from 'rn-pdf-reader-js'
+// import PdfViewer from 'react-native-pdf';
 
-// import PdfRendererView from 'react-native-pdf-renderer';
-import * as FileSystem from 'expo-file-system';
+// import * as FileSystem from 'expo-file-system';
 
 
 export default function BookViewer() {
@@ -20,8 +19,8 @@ export default function BookViewer() {
     const [source, setSource] = useState<string>();
     // const [pdfPath, setPdfPath] = useState("");
 
-//     const onlineSource = { uri: "http://samples.leanpub.com/thereactnativebook-sample.pdf", cache: true };
-//   const [pdfSource, setPdfSource] = useState(onlineSource);
+  //   const onlineSource = { uri: "http://samples.leanpub.com/thereactnativebook-sample.pdf", cache: true };
+  // const [pdfSource, setPdfSource] = useState(onlineSource);
 //   const pdfRef = useRef();
 
     useEffect(function() {
@@ -56,29 +55,30 @@ export default function BookViewer() {
     }, []);
 
 
-  const downloadWithExpoFileSystem = useCallback(async () => {
-    try {
-      setLoading(true);
+  // const downloadWithExpoFileSystem = useCallback(async () => {
+  //   try {
+  //     setLoading(true);
      
-      const response = await FileSystem.downloadAsync(selectedData.file.url,
-        FileSystem.documentDirectory + 'file.pdf',
-      );
-      setSource(response.uri);
-    } catch (err) {
-      console.warn(err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  //     const response = await FileSystem.downloadAsync(selectedData.file.url,
+  //       FileSystem.documentDirectory + 'file.pdf',
+  //     );
+  //     setSource(response.uri);
+  //   } catch (err) {
+  //     console.warn(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, []);
 
 
-  useEffect(() => {
-    downloadWithExpoFileSystem();
-  }, [downloadWithExpoFileSystem]);
+  // useEffect(() => {
+  //   downloadWithExpoFileSystem();
+  // }, [downloadWithExpoFileSystem]);
 
 	return (
 		<View style={styles.pageContainer}>
 			<BackButton showText />
+
 
             {/* {loading && (
                 <View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50 }}>
@@ -100,7 +100,7 @@ export default function BookViewer() {
             {/* <PdfViewer
         trustAllCerts={false}
         // ref={pdfRef} 
-        source={pdfSource}
+        source={onlineSource}
         onLoadComplete={(numberOfPages, filePath) => {
           console.log(`Number of pages: ${numberOfPages}`);
         }}
@@ -122,7 +122,7 @@ export default function BookViewer() {
         /> */}
 
 
-            {loading && (
+            {/* {loading && (
                 <View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50 }}>
                     <ActivityIndicator size={"large"} color={variables.colors.text} />
                 </View>
@@ -130,7 +130,7 @@ export default function BookViewer() {
 
             {(!source && !loading) && (
                 <InfoBox text="An Error occured while loading the PDF file" />
-            )}
+            )} */}
 
             {/* {(source && !loading) && (
                 <PdfRendererView
@@ -147,6 +147,14 @@ export default function BookViewer() {
                     }}
                 />
             )} */}
+
+{/* <PdfRendererView
+                    style={{backgroundColor: 'red'}}
+                    source={selectedData.file.url}
+                    distanceBetweenPages={16}
+                    maxZoom={20}
+                    maxPageResolution={2048}
+                /> */}
 		</View>
 	);
 }

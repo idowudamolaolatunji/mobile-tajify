@@ -40,7 +40,7 @@ function ShortLayout({ short, activeId } : Props) {
     };
 
     const handleGoToProfile = function() {
-        setSelectedProfileId(short?.creatorProfile);
+        setSelectedProfileId(short?.creatorProfile?._id);
         router.navigate("/creatorProfile")
     }
     

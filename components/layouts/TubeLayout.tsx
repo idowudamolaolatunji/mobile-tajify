@@ -18,7 +18,7 @@ function TubeLayout({ tube }: { tube: TubeType }) {
 	}
 
 	const handleGoToProfile = function() {
-		setSelectedProfileId(tube?.creatorProfile);
+		setSelectedProfileId(tube?.creatorProfile?._id);
 		router.navigate("/creatorProfile")
 	}
 

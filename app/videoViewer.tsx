@@ -29,7 +29,7 @@ export default function VideoItem() {
 	// const videoId = route.params?.id;
 
 	const handleGoToProfile = function() {
-		setSelectedProfileId(video.creatorProfile);
+		setSelectedProfileId(video.creatorProfile?._id);
 		router.navigate("/creatorProfile")
 	}
 
