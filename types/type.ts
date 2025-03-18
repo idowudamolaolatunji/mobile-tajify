@@ -102,10 +102,24 @@ export type BookType = {
 	specification: SpecificationType;
 	coverImage: CoverImageType;
 	file: FileType;
+	createdAt?: string;
+	updatedAt?: string;
 };
 
 
-export type BlogType = {}
+export type BlogType = {
+	_id: string;
+	creatorProfile: CreatorProfileType;
+	title: string;
+	content: string;
+	slug: string;
+	blogUrl: string;
+	previewImg: CoverImageType;
+	views: string;
+	likes: string;
+	createdAt?: string;
+	updatedAt?: string;
+}
 
 
 export type PicsImageType = {
@@ -119,4 +133,6 @@ export type PicsImageType = {
 	width: number;
 	height: number;
 	size: number;
+	createdAt?: string;
+	updatedAt?: string;
 };

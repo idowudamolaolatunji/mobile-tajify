@@ -7,6 +7,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { MusicType } from '@/types/type';
 import { useAudioContext } from '@/context/AudioContext';
+import { useDataContext } from '@/context/DataContext';
+import { useRouter } from 'expo-router';
 
 
 
@@ -19,7 +21,9 @@ interface Props {
 }
 
 export default function AudioItem({ data, playSound, isPlaying, currentSongId, handlePlayPause } : Props) {
-    const { setCurrentAudioType } = useAudioContext()
+    const router = useRouter();
+    const { setCurrentAudioType } = useAudioContext();
+    const { setSelectedProfileId } = useDataContext();
     const [loader, setLoader] = useState(false);
     const isActive = currentSongId === data._id;
 
@@ -35,6 +39,11 @@ export default function AudioItem({ data, playSound, isPlaying, currentSongId, h
                 setLoader(false)
             }, 1000);
         }
+    }
+
+    const handlePress = function() {
+        setSelectedProfileId(data.creatorProfile._id);
+        router.navigate("/creatorProfile");
     }
 
   return (
@@ -57,9 +66,12 @@ export default function AudioItem({ data, playSound, isPlaying, currentSongId, h
             >
                 <View style={{ width: "100%" }}>
                     <Text style={[styles.audioTitle, { color: isActive ? variables.colors.primary : variables.colors.text } ]}>{truncateString(data?.title, 30)}</Text>
-                    <Text numberOfLines={1} style={styles.audioArtistText}>
-                        {data?.creator?.profileName || "Unkwown Creator"}
-                    </Text>
+
+                    <Pressable onPress={handlePress} style={{ alignSelf: "flex-start" }}>
+                        <Text numberOfLines={1} style={styles.audioArtistText}>
+                            {data?.creatorProfile?.profileName || "Unkwown Creator"}
+                        </Text>
+                    </Pressable>
                 </View>
             </View>
 
@@ -104,7 +116,8 @@ const styles = StyleSheet.create({
     },
     audioArtistText: {
         marginTop: 4,
-        color: variables.colors.bgLight
+        color: variables.colors.bgLight,
+        textDecorationLine: "underline",
     },
 
     //////////////////////////////

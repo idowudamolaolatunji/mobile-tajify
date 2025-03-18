@@ -60,7 +60,7 @@ export default function EpisodeItem({ data, playSound, isPlaying, currentAudioId
 
             <View style={styles.itemBottom}>
                 <View>
-                    <Text style={{ color: variables.colors.text }}>{formatDateAgo(data?.addedDate)}{"  "}•{"  "}{durationTimeFormat(data?.duration_in_sec)}</Text>
+                    <Text style={{ color: variables.colors.text }}>{formatDateAgo(data?.addedDate)}{"  "}•{"  "}{durationTimeFormat(data?.audio?.duration_in_sec)}</Text>
                 </View>
 
                 <View>

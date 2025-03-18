@@ -1,24 +1,40 @@
 import variables from "@/constants/variables";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, TextInput, Pressable, FlatList, RefreshControl } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { typography } from "@/constants/typography";
-import { podcasts } from "@/utils/data";
 import NoItem from "@/components/layouts/NoItem";
 import { PodcastType } from "@/types/type";
 import PodcastItem from "@/components/layouts/PodcastItem";
+import Spinner from "@/components/elements/Spinner";
+import { useAuth } from "@/context/AuthContext";
+import { useFetchedContext } from "@/context/FetchedContext";
 
 
 export default function Podcast() {
+    const { handleFetchPodcasts, loader, podcasts } = useFetchedContext();
 	const [searchQuery, setSearchQuery] = useState("");
-	const [podcastData, setPodcastData] = useState<PodcastType[] | any>(podcasts);
     const [refreshing, setRefreshing] = useState(false);
 
-	const searchedResult = podcastData.filter((item: PodcastType) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+	const searchedResult = podcasts?.filter((item: PodcastType) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+	const data = searchQuery ? searchedResult : podcasts;
 
-	const data = searchQuery ? searchedResult : podcastData;
+    const handleRefreshing = function() {
+        setRefreshing(true);
+        handleFetchPodcasts();
+        setRefreshing(false);
+    }
 
-    const handleRefreshing = function() {}
+    useEffect(function() {
+        console.log(podcasts)
+        if(podcasts?.length < 1) {
+            handleFetchPodcasts();
+        }
+
+    }, []);
+    
+
+    if (loader) return <Spinner />;
 
 
 	return (
@@ -40,15 +56,14 @@ export default function Podcast() {
 				)}
 			</View>
 
-            {(data.length > 0) ? (
-                <FlatList 
-                    data={podcasts}
-                    renderItem={({item: data}) => <PodcastItem data={data} />}
-                    contentContainerStyle={{}}
-                />
+            {(data?.length > 0) ? (
+                data.map((data: PodcastType) => (
+                    <PodcastItem data={data} key={data._id} />
+                ))
             ) : (
-                <NoItem title={`podcast for with the title "${searchQuery}" was`} />
+                <NoItem title={searchQuery ? `podcasts for with the title "${searchQuery}" was` : "podcasts"} />
             )}
+
 		</ScrollView>
 	);
 }

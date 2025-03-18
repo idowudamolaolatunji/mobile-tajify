@@ -1,8 +1,7 @@
-import { unknownBookImageUri } from '@/constants/images'
+import React from 'react'
+import { router } from 'expo-router'
 import variables from '@/constants/variables'
 import { useDataContext } from '@/context/DataContext'
-import { router } from 'expo-router'
-import React from 'react'
 import { Pressable, StyleSheet } from 'react-native'
 import { Image } from 'expo-image';
 import { PicsImageType } from '@/types/type'
@@ -29,7 +28,7 @@ export default function ImageItem({ data } : { data: PicsImageType | any }) {
         >
             <Image
                 style={[styles.image]}
-                source={data.preview.url ?? unknownBookImageUri}
+                source={data?.preview?.url}
                 placeholder={{ title: data.title }}
                 contentFit="cover"
                 transition={1000}

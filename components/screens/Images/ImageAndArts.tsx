@@ -1,28 +1,40 @@
 import ImageItem from '@/components/layouts/ImageItem';
 import NoItem from '@/components/layouts/NoItem';
-import { unknownBookImageUri } from '@/constants/images';
 import { typography } from '@/constants/typography'
 import variables from '@/constants/variables';
 import { useDataContext } from '@/context/DataContext';
 import { PicsImageType } from '@/types/type';
-import { picsImage } from '@/utils/data';
 import { Entypo, Foundation, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-import React, { useState } from 'react'
-import { Image } from 'react-native';
+import React, { useEffect, useState } from 'react'
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { MasonryFlashList } from "@shopify/flash-list";
+import { useFetchedContext } from '@/context/FetchedContext';
+import Spinner from '@/components/elements/Spinner';
 
 export default function ImageAndArts() {
     const { imagesView, handleChangeImagesView } = useDataContext();
-    const [picsImagesData, setPicsImagesData] = useState<PicsImageType[] | any>(picsImage);
+    const { picsImages, loader, handleFetchPicsImages } = useFetchedContext()
     const [searchQuery, setSearchQuery] = useState("");
     const [refreshing, setRefreshing] = useState(false);
 
-    const searchedResult = picsImagesData.filter((item: PicsImageType) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-    const data = searchQuery ? searchedResult : picsImagesData;
+    const searchedResult = picsImages?.filter((item: PicsImageType) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    const data = searchQuery ? searchedResult : picsImages;
 
-    const handleRefreshing = function() {}
+    const handleRefreshing = function() {
+        setRefreshing(true);
+        handleFetchPicsImages();
+        setRefreshing(false);
+    }
 
+    useEffect(function() {
+        if(picsImages?.length < 1) {
+            handleFetchPicsImages()
+        }
+    }, []);
+
+    if(loader) return <Spinner />;
+
+    console.log(picsImages)
 
     return (
         <ScrollView contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false} nestedScrollEnabled={true} refreshControl={
@@ -72,7 +84,7 @@ export default function ImageAndArts() {
                     />
                 )
             ) : (
-                <NoItem title={`pictures for with the title "${searchQuery}" was`} />
+                <NoItem title={searchQuery ? `pictures for with the title "${searchQuery}" was` : "pictures"} />
             )}
 
         </ScrollView>

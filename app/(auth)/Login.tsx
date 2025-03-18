@@ -8,6 +8,7 @@ import BackButton from "@/components/elements/BackButton";
 import { useAuth } from "@/context/AuthContext";
 
 const { width } = Dimensions.get("window");
+import * as SecureStore from "expo-secure-store";
 
 
 export default function Login() {
@@ -18,6 +19,11 @@ export default function Login() {
 	const [password, setPassword] = useState("test1234");
 	const [showPassword, setShowPassword] = useState(false);
 
+	useEffect(function() {
+		(async () => {
+			console.log(await SecureStore.getItemAsync("userToken"))
+		})();
+	}, [])
 
 	async function handleLogin() {
 		if(!identifier || !password) return Alert.alert("Error", "Email or phone number and password are required!");

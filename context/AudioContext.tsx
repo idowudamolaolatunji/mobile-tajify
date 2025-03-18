@@ -1,8 +1,7 @@
-import PodcastEpisodes from "@/app/podcastEpisodes";
 import { EpisodeType, MusicType, PodcastType } from "@/types/type";
-import { musics, podcasts } from "@/utils/data";
 import { Audio, AVPlaybackStatus } from "expo-av";
 import React, { createContext, useState, useEffect, useContext } from "react";
+import { useFetchedContext } from "./FetchedContext";
 
 
 //////////////////////////////////////////////
@@ -35,6 +34,7 @@ interface AudioProviderProps {
 
   
 export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
+    const { musics, podcasts } = useFetchedContext()
     const [sound, setSound] = useState<Audio.Sound | null>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [currentAudioId, setCurrentAudioId] = useState<string | any>("");
@@ -42,11 +42,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     const [currentEpsParent, setParent] = useState(null);
 
     //////////////////////////////////////////////////////////////
-    const musicData: MusicType | any = musics
-    const podcastEpsData: EpisodeType | any = podcasts[0].episodes;
-    //////////////////////////////////////////////////////////////
 
-    const audioList = currentAudioType == "music" ? musicData : podcastEpsData
+    const audioList = currentAudioType == "music" ? musics : podcasts
     const currentAudio: MusicType | EpisodeType = audioList.find((data: MusicType | EpisodeType) => data._id == currentAudioId);
 
 

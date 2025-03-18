@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Image, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, Pressable, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import BackButton from '@/components/elements/BackButton'
 import { unknownUserImageUri } from '@/constants/images'
 import { EpisodeType, PodcastType } from '@/types/type'
@@ -14,10 +14,12 @@ import { formatDateAgo } from '@/utils/helper'
 import { useAudioContext } from '@/context/AudioContext'
 import { AVPlaybackStatus } from 'expo-av'
 import { useDataContext } from '@/context/DataContext'
+import { useRouter } from 'expo-router'
 
 
 export default function PodcastEpisodes() {
-    const { selectedData: data } : { selectedData: PodcastType } = useDataContext()
+    const router = useRouter();
+    const { selectedData: data, setSelectedProfileId } : { selectedData: PodcastType, setSelectedProfileId: (id: string) => void; } = useDataContext()
     const { sound, isPlaying, currentAudioId, playSound, handlePlayPause } = useAudioContext();
     
     const [loader, setLoader] = useState(false);
@@ -55,6 +57,11 @@ export default function PodcastEpisodes() {
 
 
     const handleRefreshing = function() {}
+    
+    const handlePress = function() {
+        setSelectedProfileId(data.creatorProfile._id);
+        router.navigate("/creatorProfile");
+    }
 
 
     return (
@@ -71,7 +78,9 @@ export default function PodcastEpisodes() {
                     />
 
                     <Text style={[typography.h3, { color: variables.colors.text }]}>{data.name}</Text>
-                    <Text style={[typography.h4, { color: variables.colors.bgLight }]}>{data.creatorProfile?.profileName ?? "Unknown Creator"}</Text>
+                    <Pressable onPress={handlePress}>
+                        <Text style={[typography.h4, { color: variables.colors.bgLight, textDecorationLine: "underline" }]}>{data.creatorProfile?.profileName ?? "Unknown Creator"}</Text>
+                    </Pressable>
 
                     <FollowButton name={data.creatorProfile?.profileName} customStyle={{ marginVertical: 5, marginHorizontal: "auto" }} id={data.creatorProfile._id} />
 

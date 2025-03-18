@@ -18,8 +18,6 @@ const styles = StyleSheet.create({
     overlay: {
         backgroundColor: variables.colors.background,
         flex: 1,
-        // borderWidth: 1,
-        // borderColor: "red",
         height: 100
     },
     spinner: {

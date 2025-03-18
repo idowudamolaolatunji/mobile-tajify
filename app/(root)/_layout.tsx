@@ -9,11 +9,13 @@ export default function AppLayout() {
 
 	if (!authState?.isAuthenticated) return <Redirect href={"/welcome"} />;
 
-	return (
-		<View style={{ position: "relative", flex: 1 }}>
-			<Stack.Screen options={{ headerShown: false }} />
-
-			<Slot />
-		</View>
-	);
+	if(authState.isAuthenticated) {
+		return (
+			<View style={{ position: "relative", flex: 1 }}>
+				<Stack.Screen options={{ headerShown: false }} />
+	
+				<Slot />
+			</View>
+		);
+	}
 }

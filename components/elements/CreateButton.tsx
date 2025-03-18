@@ -1,33 +1,30 @@
-import variables from '@/constants/variables'
-import { AntDesign } from '@expo/vector-icons'
-import { router } from 'expo-router'
-import React from 'react'
-import { Pressable, StyleSheet } from 'react-native'
+import variables from "@/constants/variables";
+import { AntDesign } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React from "react";
+import { Pressable, StyleSheet } from "react-native";
 
+export default function CreateButton({ tab }: { tab?: string }) {
+	const handlePress = function () {
+		const route = tab == "shorts" || "tube_max" ? "/tubeForm" : tab == "audio" ? "/musicForm" : tab == "images" ? "/imageForm" : tab == "blogs" ? "/blogForm" : tab == "books" ? "/bookForm" : "/podcastForm";
 
-export default function CreateButton({ tab } : { tab?: string }) {
+		router.navigate(route);
+	};
 
-    const handlePress = function() {
-      const route = tab == "shorts" || "tube_max" ? "/tubeForm" : tab == "audio" ? "/musicForm" : tab == "images" ? "/imageForm" : tab == "blogs" ? "/blogForm" : tab == "books" ? "/bookForm" : "/podcastForm";
-
-      router.navigate(route);
-    }
-
-  return (
-    <Pressable style={styles.addBtn} onPress={handlePress}>
-        <AntDesign name="pluscircleo" size={40} color={variables.colors.text} />
-    </Pressable>
-  )
+	return (
+		<Pressable style={styles.addBtn} onPress={handlePress}>
+			<AntDesign name="pluscircleo" size={40} color={variables.colors.text} />
+		</Pressable>
+	);
 }
 
-
 const styles = StyleSheet.create({
-    addBtn: {
+	addBtn: {
 		position: "absolute",
 		right: 20,
 		bottom: 80,
 		backgroundColor: variables.colors.primary,
 		padding: 6,
-		borderRadius: 100
-	}
-})
+		borderRadius: 100,
+	},
+});

@@ -120,6 +120,11 @@ export default function RootLayout() {
 								gestureDirection: 'vertical',
 								headerShown: false,
 							}} />
+							<Stack.Screen name="profileEdit" options={{
+								presentation: 'card',
+								gestureDirection: 'vertical',
+								headerShown: false,
+							}} />
 
 						</Stack>
 						<StatusBar style="dark" />

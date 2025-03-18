@@ -52,11 +52,9 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 
 	useEffect(function () {
         async function storeAuth() {
-            if (authState.token && authState.isAuthenticated) {
-                await SecureStore.setItemAsync(TOKEN_KEY, authState?.token);
-                await SecureStore.setItemAsync(AVATAR_KEY, authState.avatar || "");
-                await SecureStore.setItemAsync(AUTH_KEY, JSON.stringify(authState?.isAuthenticated));
-            }
+			await SecureStore.setItemAsync(TOKEN_KEY, authState?.token || "");
+			await SecureStore.setItemAsync(AVATAR_KEY, authState.avatar || "");
+			await SecureStore.setItemAsync(AUTH_KEY, JSON.stringify(authState?.isAuthenticated));
         }
 
         storeAuth();
@@ -118,7 +116,6 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 	async function handleLogout() {
 		setAuthLoading(true);
 		await fetch(`${API_URL}/logout`, { method: "POST", headers });
-		await SecureStore.deleteItemAsync(TOKEN_KEY);
 		setAuthState({ token: null, isAuthenticated: false, avatar: null });
 		setAuthLoading(false);
 	}

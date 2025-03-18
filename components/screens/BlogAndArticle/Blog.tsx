@@ -5,23 +5,24 @@ import { BlogType } from '@/types/type';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react'
 import { Pressable, ScrollView, Text, TextInput, View, StyleSheet, RefreshControl, FlatList } from 'react-native';
-// temps
-import { podcasts } from '@/utils/data';
+import { useFetchedContext } from '@/context/FetchedContext';
 import NoItem from '@/components/layouts/NoItem';
+import Spinner from '@/components/elements/Spinner';
+
 
 export default function Blog() {
+    const { blogs, loader } = useFetchedContext();
     const [searchQuery, setSearchQuery] = useState("");
     const [refreshing, setRefreshing] = useState(false);
-    const [blogData, setBlogData] = useState<BlogType[] | any>(podcasts);
 
-	const searchedResult = blogData.filter((item: BlogType | any) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
-	const data = searchQuery ? searchedResult : blogData;
-
+	const searchedResult = blogs.filter((item: BlogType | any) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+	const data = searchQuery ? searchedResult : blogs;
 
     const handleRefreshing = function() {}
 
+    if(loader) return <Spinner />;
 
-  return (
+    return (
         <ScrollView contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false} nestedScrollEnabled={true} refreshControl={
             <RefreshControl onRefresh={handleRefreshing} refreshing={refreshing} />
         }>
@@ -35,23 +36,18 @@ export default function Blog() {
 
                 {searchQuery.length > 0 && (
                     <Pressable onPress={() => setSearchQuery("")}>
-                    <Text style={{ fontSize: 18, color: "#b70f0f", fontWeight: 600 }}>Cancel</Text>
-                </Pressable>
+                        <Text style={{ fontSize: 18, color: "#b70f0f", fontWeight: 600 }}>Cancel</Text>
+                    </Pressable>
                 )}
             </View>
 
-
             {(data.length > 0) ? (
-                <FlatList
-                    data={podcasts}
-                    renderItem={({item: data}) => <BlogItem data={data} />}
-                    contentContainerStyle={{  }}
-                />
-
+                data.map((data: BlogType) => (
+                    <BlogItem data={data} key={data._id} />
+                ))
             ) : (
-                <NoItem title={`blogs for with the title "${searchQuery}" was`} />
+                <NoItem title={searchQuery ? `blogs for with the title "${searchQuery}" was` : "blogs"} />
             )}
-
         </ScrollView>
     )
 }

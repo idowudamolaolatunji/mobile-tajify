@@ -9,14 +9,13 @@ import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, Vie
 import { tubeMax } from '@/utils/data';
 import { TubeType } from '@/types/type';
 import { useAudioContext } from '@/context/AudioContext';
+import NoItem from '@/components/layouts/NoItem';
 
 
 function TubeMax() {
     const { tubeMax, handleFetchTubes, loader } = useFetchedContext();
     const [refreshing, setRefreshing] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    // const [loader, setLoader] = useState(false);
-    // const [tubeMaxData, setTubeMaxData] = useState<TubeType[] | any>(null);
     
     const handleRefreshing = function() {
         setRefreshing(true);
@@ -54,15 +53,15 @@ function TubeMax() {
             </View>
 
 
-            {loader ? (
-                <Spinner />
-            ) : (
-                <View style={{ flex: 1 }}>
-                    {tubeMax.length > 0 && tubeMax.map((tube: TubeType) => (
+            <View style={{ flex: 1 }}>
+                {tubeMax.length > 0 ? 
+                    (tubeMax.map((tube: TubeType) => (
                         <TubeLayout tube={tube} />
-                    ))}
-                </View>
-            )}
+                    ))
+                ) : (
+                    <NoItem title={searchQuery ? `tubes for with the title "${searchQuery}" was` : "tubes"} />
+                )}
+            </View>
         </ScrollView>
     )
 }

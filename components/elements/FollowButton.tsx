@@ -49,7 +49,7 @@ export default function FollowButton({ name, customStyle, id, isFollowingCreator
     return (
         <React.Fragment>
             {(hasFollowedCreator) ? (
-                <TouchableOpacity style={[styles.followBtn, { backgroundColor: variables.colors.primaryTint2 }]} onPress={handleUnFollow} disabled={loading}>
+                <TouchableOpacity style={[styles.followBtn, customStyle ?? customStyle, { backgroundColor: variables.colors.primaryTint2 }]} onPress={handleUnFollow} disabled={loading}>
                     {loading ? (
                         <ActivityIndicator color={variables.colors.text} size="small" />
                     ) : (

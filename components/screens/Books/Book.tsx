@@ -47,7 +47,7 @@ export default function Book() {
                 <BookItem data={data} key={data._id} />
             ))
         ) : (
-            <NoItem title={`podcast for with the title "${searchQuery}" was`} />
+            <NoItem title={searchQuery ? `books for with the title "${searchQuery}" was` : "books"} />
         )}
         
     </ScrollView>

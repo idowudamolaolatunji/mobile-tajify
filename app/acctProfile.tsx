@@ -163,7 +163,7 @@ export default function AcctProfile() {
 						</View>
 
 						<View style={styles.detailsSub}>
-							<Pressable onPress={() => {}}>
+							<Pressable onPress={() => router.navigate("/profileEdit")}>
 								<AntDesign name="edit" color={variables.colors.text} size={24} />
 							</Pressable>
 						</View>

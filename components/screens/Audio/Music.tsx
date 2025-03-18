@@ -6,27 +6,43 @@ import { Ionicons } from '@expo/vector-icons';
 import AudioItem from '@/components/layouts/AudioItem';
 import { AVPlaybackStatus } from 'expo-av';
 import NoItem from '@/components/layouts/NoItem';
-import { musics } from "@/utils/data"
+// import { musics } from "@/utils/data"
 import { MusicType } from '@/types/type';
 import { useAudioContext } from '@/context/AudioContext';
+import Spinner from '@/components/elements/Spinner';
+import { useAuth } from '@/context/AuthContext';
+import { useFetchedContext } from '@/context/FetchedContext';
 
+
+const API_URL = `https://api-tajify.koyeb.app/api`;
 
 export default function Music() {
+    const { handleFetchMusics, loader, musics } = useFetchedContext();
     const { sound, isPlaying, currentAudioId, playSound, handlePlayPause } = useAudioContext()
     const [position, setPosition] = useState<number>(0);
     const [duration, setDuration] = useState<number>(1);
 
+    // const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const [musicData, setMusicData] = useState<MusicType[] | any>(musics)
     const [refreshing, setRefreshing] = useState(false);
 
-    const handleRefreshing = function() {}
+    const handleRefreshing = function() {
+        setRefreshing(true);
+        handleFetchMusics();
+        setRefreshing(false);
+    }
     
-    const searchedResult = musicData.filter((item: MusicType) => {
+    const searchedResult = musics?.filter((item: MusicType) => {
         return item.title.toLowerCase().includes(searchQuery.toLowerCase())
     });
 
-    const data = searchQuery ? searchedResult : musicData;
+    const data = searchQuery ? searchedResult : musics;
+    
+    useEffect(function() {
+        if(musics.length < 1) {
+            handleFetchMusics();
+        }
+    }, [])
     
     useEffect(function() {
         return sound
@@ -64,6 +80,8 @@ export default function Music() {
         }
     };
 
+    if (loader) return <Spinner />;
+
 
   return (
     <ScrollView style={{ marginBottom: 50 }} showsVerticalScrollIndicator={false} contentInsetAdjustmentBehavior="automatic" nestedScrollEnabled={true} refreshControl={
@@ -95,7 +113,7 @@ export default function Music() {
                     handlePlayPause={handlePlayPause}
                 />
             )) : (
-                <NoItem title={`music for with the title "${searchQuery}" was`} />
+                <NoItem title={searchQuery ? `music for with the title "${searchQuery}" was` : "music"} />
             )
         }
     </ScrollView>
