@@ -14,6 +14,7 @@ import BackButton from "@/components/elements/BackButton";
 import { useAuth } from "@/context/AuthContext";
 import { countNum } from "@/utils/helper";
 import { CreatorProfileType } from "@/types/type";
+import CreateButton from "@/components/elements/CreateButton";
 
 const API_URL = `https://api-tajify.koyeb.app/api`;
 
@@ -33,8 +34,8 @@ export default function AcctProfile() {
 		audio: true,
 		podcasts: true,
 		images: true,
-		blog_and_article: true,
-		book: true,
+		blogs: true,
+		books: true,
 	});
 
 	const [posts, setPosts] = useState<PostState>({
@@ -43,8 +44,8 @@ export default function AcctProfile() {
 		audio: [],
 		podcasts: [],
 		images: [],
-		blog_and_article: [],
-		book: [],
+		blogs: [],
+		books: [],
 	});
 
 
@@ -78,17 +79,21 @@ export default function AcctProfile() {
 	async function handleFetchPosts() {
 		try {
 			setPostLoader({ ...postLoader, [tab]: true });
-			console.log(tab);
 
-			const res = await fetch(`${API_URL}/channels/my-${tab}`, { method: "GET", headers, });
-			// if (!res.ok) throw new Error("Cannot request, Server Connection Issues");
+			const route = tab == "shorts" || "tube_max" ? "tubes" : tab == "audio" ? "music" : tab == "images" ? "pics" : tab;
+
+			const res = await fetch(`${API_URL}/channels/${route}/my-${tab == "images" ? tab : route}`, {
+				method: "GET",
+				headers
+			});
+
 			const data = await res.json();
-			console.log(res, data)
-			if (data?.status !== "success") {
+			console.log(data)
+			if (data?.status !== 200 || data?.status !== "success") {
 				throw new Error(data.message || data?.error);
 			}
 
-			// setPosts({ ...posts, ["my"+tab]: data?.data?. })
+			// setPosts({ ...posts, [tab]: [] })
 		} catch(err) {
 			return err;
 		} finally {
@@ -105,8 +110,9 @@ export default function AcctProfile() {
 
 
 	useEffect(function() {
+		console.log(tab)
 		if(profile?._id) {
-			// handleFetchPosts()
+			handleFetchPosts();
 		}
 	}, [tab, profile])
 
@@ -205,6 +211,8 @@ export default function AcctProfile() {
 					</View>
 				</View>
 			</ScrollView>
+
+			<CreateButton tab={tab} />
 		</React.Fragment>
 	);
 }

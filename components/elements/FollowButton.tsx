@@ -8,7 +8,7 @@ interface Props {
     name?: string;
     customStyle?: TextStyle | any;
     id: string;
-    isFollowingCreator: boolean;
+    isFollowingCreator?: boolean;
     isFollowedByCreator?: boolean;
 
     handleFollowerAmountChange?: (action: string) => void;
@@ -19,7 +19,7 @@ const API_URL = `https://api-tajify.koyeb.app/api/profiles`;
 export default function FollowButton({ name, customStyle, id, isFollowingCreator, isFollowedByCreator, handleFollowerAmountChange } : Props) {
     const { headers } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [hasFollowedCreator, setHasFollowedCreator] = useState<boolean>(isFollowingCreator);
+    const [hasFollowedCreator, setHasFollowedCreator] = useState<boolean>(isFollowingCreator || false);
     
     async function handleFollow() {
         setLoading(true);

@@ -38,71 +38,86 @@ export default function RootLayout() {
 				<DataProvider>
 					<AudioProvider>
 						<Stack screenOptions={{ statusBarBackgroundColor: variables.colors.background }}>
-							<Stack.Screen name="(auth)" options={{ headerTransparent: true }} />
-							<Stack.Screen name="(tabs)" options={{ headerTransparent: true, headerTitle: "" }}/>
-							<Stack.Screen name="(modal)" options={{ headerShown: false, presentation: "modal" }}/>
+							<Stack.Screen name="(auth)" options={{ headerTransparent: true, headerShown: false }} />
+							<Stack.Screen name="(tabs)" options={{ headerTransparent: true, headerShown: false }}/>
+							<Stack.Screen name="(create)" options={{ headerTransparent: true, headerShown: false }}/>
 							
 							<Stack.Screen name="videoViewer" options={{
 								presentation: 'card',
-								gestureEnabled: true,
 								gestureDirection: 'vertical',
-								animationDuration: 400,
 								headerShown: false,
 							}} />
 
 							<Stack.Screen name="podcastEpisodes" options={{
 								presentation: 'card',
-								gestureEnabled: true,
 								gestureDirection: 'vertical',
-								animationDuration: 400,
 								headerShown: false,
 							}} />
 							
 							<Stack.Screen name="imageViewer" options={{
 								presentation: 'card',
-								gestureEnabled: true,
 								gestureDirection: 'vertical',
-								animationDuration: 400,
 								headerShown: false,
 							}} />
 
 							<Stack.Screen name="notification" options={{
 								presentation: 'card',
-								gestureEnabled: true,
 								gestureDirection: 'vertical',
-								animationDuration: 400,
 								headerShown: false,
 							}} />
 
 							<Stack.Screen name="articleViewer" options={{
 								presentation: 'card',
-								gestureEnabled: true,
 								gestureDirection: 'vertical',
-								animationDuration: 400,
 								headerShown: false,
 							}} />
 
 							<Stack.Screen name="bookViewer" options={{
 								presentation: 'card',
-								gestureEnabled: true,
 								gestureDirection: 'vertical',
-								animationDuration: 400,
 								headerShown: false,
 							}} />
 
 							<Stack.Screen name="acctProfile" options={{
 								presentation: 'card',
-								gestureEnabled: true,
 								gestureDirection: 'vertical',
-								animationDuration: 400,
 								headerShown: false,
 							}} />
 
 							<Stack.Screen name="creatorProfile" options={{
 								presentation: 'card',
-								gestureEnabled: true,
 								gestureDirection: 'vertical',
-								animationDuration: 400,
+								headerShown: false,
+							}} />
+
+							<Stack.Screen name="imageForm" options={{
+								presentation: 'card',
+								gestureDirection: 'vertical',
+								headerShown: false,
+							}} />
+							<Stack.Screen name="tubeForm" options={{
+								presentation: 'card',
+								gestureDirection: 'vertical',
+								headerShown: false,
+							}} />
+							<Stack.Screen name="musicForm" options={{
+								presentation: 'card',
+								gestureDirection: 'vertical',
+								headerShown: false,
+							}} />
+							<Stack.Screen name="podcastForm" options={{
+								presentation: 'card',
+								gestureDirection: 'vertical',
+								headerShown: false,
+							}} />
+							<Stack.Screen name="bookForm" options={{
+								presentation: 'card',
+								gestureDirection: 'vertical',
+								headerShown: false,
+							}} />
+							<Stack.Screen name="blogForm" options={{
+								presentation: 'card',
+								gestureDirection: 'vertical',
 								headerShown: false,
 							}} />
 

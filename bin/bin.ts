@@ -20,3 +20,40 @@
                         </TouchableOpacity> */}
 
                         // "https://randomuser.me/api/portraits/men/1.jpg"
+
+
+                        // <Stack.Screen name="(add)" options={{
+                        //                                 headerTransparent: true,
+                        //                                 headerShown: false,
+                        //                                 presentation: 'card',
+                        //                                 gestureDirection: 'vertical',
+                        //                                 animationDuration: 400,
+                        //                                 gestureEnabled: true,
+                        //                             }} />
+                        
+                        //                             <Stack.Screen name="(preview)" options={{
+                        //                                 headerTransparent: true,
+                        //                                 headerShown: false,
+                        //                                 presentation: 'card',
+                        //                                 gestureDirection: 'horizontal',
+                        //                                 animationDuration: 400,
+                        //                                 gestureEnabled: true,
+                        //                             }} />
+                        
+                        //                             <Stack.Screen name="(profile)" options={{
+                        //                                 headerTransparent: true,
+                        //                                 headerShown: false,
+                        //                                 presentation: 'card',
+                        //                                 gestureDirection: 'vertical',
+                        //                                 animationDuration: 400,
+                        //                                 gestureEnabled: true,	
+                        //                             }} />
+                        
+                        //                             <Stack.Screen name="notification" options={{
+                        //                                 headerTransparent: true,
+                        //                                 headerShown: false,
+                        //                                 presentation: 'card',
+                        //                                 gestureDirection: 'vertical',
+                        //                                 animationDuration: 400,
+                        //                                 gestureEnabled: true,
+                        //                             }} />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useDataContext } from "@/context/DataContext";
 import variables from "@/constants/variables";
-import { View, ScrollView, RefreshControl, StyleSheet, Platform, ActivityIndicator, Alert } from "react-native";
+import { View, ScrollView, RefreshControl, StyleSheet, Platform, ActivityIndicator, Alert, Pressable } from "react-native";
 import Profile from "@/components/layouts/Profile";
 import { useRouter } from "expo-router";
 import { CreatorProfileType } from "@/types/type";
@@ -27,8 +27,8 @@ export default function CreatorProfile() {
 		audio: false,
 		podcasts: false,
 		images: false,
-		blog: false,
-		book: false,
+		blogs: false,
+		books: false,
 	});
 
 	const [posts, setPosts] = useState<PostState>({
@@ -37,8 +37,8 @@ export default function CreatorProfile() {
 		audio: [],
 		podcasts: [],
 		images: [],
-		blog: [],
-		book: [],
+		blogs: [],
+		books: [],
 	});
 
 	useEffect(function() {
@@ -48,8 +48,9 @@ export default function CreatorProfile() {
 	}, [selectedProfileId])
 
 	useEffect(function() {
-		if(profile?._id) {
-			// handleFetchPosts()
+		const id = profile?._id
+		if(id) {
+			handleFetchPosts(id)
 		}
 	}, [tab, profile]);
 
@@ -81,20 +82,26 @@ export default function CreatorProfile() {
 		}
 	}
 
-	async function handleFetchPosts() {
+	async function handleFetchPosts(id?: string) {
+		console.log(id)
 		try {
 			setPostLoader({ ...postLoader, [tab]: true });
 			console.log(tab);
 
-			const res = await fetch(`${API_URL}/channels/my-${tab}`, { method: "GET", headers, });
-			// if (!res.ok) throw new Error("Cannot request, Server Connection Issues");
+			const route = tab == "shorts" || "tube_max" ? "tubes" : tab == "audio" ? "music" : tab == "images" ? "pics" : tab;
+			const params = tab == "shorts" ? "tube-short" : "tube-max"
+
+			const res = await fetch(`${API_URL}/channels/${route}/${id}/${params}`);
 			const data = await res.json();
+
 			console.log(res, data)
-			if (data?.status !== "success") {
-				throw new Error(data.message || data?.error);
+			if (data?.status !== 200 || data?.status !== "success") {
+				throw new Error(data?.message || data?.error);
 			}
 
-			// setPosts({ ...posts, ["my"+tab]: data?.data?. })
+			// console.log(data);
+			// setPosts({ ...posts, [tab]: data?.data[route] });
+
 		} catch(err) {
 			return err;
 		} finally {
@@ -103,6 +110,8 @@ export default function CreatorProfile() {
 			}, 1000);
 		}
 	}
+
+	console.log(posts)
 
 	if(loading) {
 		return (

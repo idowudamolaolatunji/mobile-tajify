@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import VideoPlayer from "../components/layouts/VideoPlayer";
+import VideoPlayer from "@/components/layouts/VideoPlayer";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import { CreatorProfileType, TubeType } from "@/types/type";
@@ -8,7 +8,7 @@ import { formatDateAgo } from "@/utils/helper";
 import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import { unknownUserImageUri } from "@/constants/images";
-import BackButton from "../components/elements/BackButton";
+import BackButton from "@/components/elements/BackButton";
 import FollowButton from "@/components/elements/FollowButton";
 import { useDataContext } from "@/context/DataContext";
 import { useAudioContext } from "@/context/AudioContext";
@@ -28,7 +28,7 @@ export default function VideoItem() {
 
 
 	// const [comments, setComments] = useState<Comment[]>([]);
-	const route = useRoute();
+	// const route = useRoute();
 	// const videoId = route.params?.id;
 
 	const handleGoToProfile = function() {
