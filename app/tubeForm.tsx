@@ -7,6 +7,10 @@ export default function TubeForm() {
 	return (
 		<ScrollView style={styles.pageContainer}>
 			<BackButton showText />
+
+            <View>
+                
+            </View>
 		</ScrollView>
 	);
 }

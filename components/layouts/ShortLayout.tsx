@@ -136,7 +136,9 @@ function ShortLayout({ short, activeId } : Props) {
                                 <Text style={[typography.paragraphBg, styles.profileName]}>{profileName || "Channel Unknown"}</Text>
                             </Pressable>
 
-                            <FollowButton id={short.creatorProfile?._id} isFollowingCreator={short.isFollowingCreator} />
+                            {!short.isFollowingCreator && (
+                                <FollowButton id={short.creatorProfile?._id} isFollowingCreator={short.isFollowingCreator} />
+                            )}
                         </View>
 
 

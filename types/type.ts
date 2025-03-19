@@ -126,6 +126,7 @@ export type PicsImageType = {
 	_id: string;
 	creatorProfile: CreatorProfileType;
 	title: string;
+	description?: string;
 	preview: CoverImageType;
 	likes: number;
 	downloads: number;
