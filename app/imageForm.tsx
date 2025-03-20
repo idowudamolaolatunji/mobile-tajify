@@ -11,6 +11,12 @@ export default function ImageForm() {
 	const [description, setDescription] = useState("");
 	const [image, setImage] = useState({ file: null, preview: "" });
 
+	const handleClear = function() {
+        setTitle("")
+        setDescription("")
+        setImage({ file: null, preview: "" });
+    }
+
 	return (
 		<ScrollView style={styles.pageContainer}>
 			<BackButton showText />
@@ -28,7 +34,7 @@ export default function ImageForm() {
 						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]}>
 							<Text style={[{ color: variables.colors.text }, typography.paragraphBg]}>Upload</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.tintedWhite }]}>
+						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.tintedWhite }]} onPress={handleClear}>
 							<Text style={[{ color: variables.colors.text }, typography.paragraphBg]}>Clear Fields</Text>
 						</TouchableOpacity>
             		</View>
