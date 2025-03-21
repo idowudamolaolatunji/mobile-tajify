@@ -5,6 +5,7 @@ import ImageUploader from "@/components/forms/ImageUploader";
 import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
+import { SafeAreaView } from "react-native";
 
 export default function ImageForm() {
 	const [title, setTitle] = useState("");
@@ -18,10 +19,12 @@ export default function ImageForm() {
     }
 
 	return (
-		<ScrollView style={styles.pageContainer}>
+		<SafeAreaView style={styles.pageContainer}>
+					
+		<ScrollView showsVerticalScrollIndicator={false} contentInsetAdjustmentBehavior="automatic" nestedScrollEnabled={true}>
 			<BackButton showText />
 
-            <View style={{}}>
+            <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Image or Art</Text>
 
                 <ImageUploader label="Image or Art (Required)" image={image} setImage={setImage} customHeight={280} />
@@ -41,6 +44,7 @@ export default function ImageForm() {
 				</View>
             </View>
 		</ScrollView>
+		</SafeAreaView>
 	);
 }
 

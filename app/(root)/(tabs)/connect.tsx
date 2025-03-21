@@ -2,7 +2,7 @@ import ConnectMainTabs from "@/components/layouts/ConnectMainTabs";
 import Header from "@/components/layouts/Header";
 import Chat from "@/components/screens/connect/Chat";
 import Community from "@/components/screens/connect/Community";
-import Profile from "@/components/screens/connect/Profile";
+import Profile from "@/components/screens/connect/Profiles";
 import variables from "@/constants/variables";
 import { Stack } from "expo-router";
 import React, { useState } from "react";

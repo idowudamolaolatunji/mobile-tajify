@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { useAuth } from "./AuthContext";
-import { BlogType, BookType, MusicType, PicsImageType, PodcastType, TubeType } from "@/types/type";
+import { BlogType, BookType, CreatorProfileType, MusicType, PicsImageType, PodcastType, TubeType } from "@/types/type";
+import { Alert } from "react-native";
 
 
 //////////////////////////////////////////////
@@ -15,10 +16,12 @@ interface FetchedContextType {
     picsImages: Array<unknown> | PicsImageType | any;
     blogs: Array<unknown> | BlogType | any;
     books: Array<unknown> | BookType | any;
+    creators: Array<unknown> | CreatorProfileType | any;
     handleFetchTubes: (type: string, limit: number, page: number) => void;
     handleFetchMusics: () => void;
     handleFetchPodcasts: () => void;
     handleFetchPicsImages: () => void;
+    handleFetchCreators: (limit: number, page: number) => void;
 }
 
 const FetchedContext = createContext<FetchedContextType | any>(null);
@@ -45,6 +48,7 @@ export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) =>
     const [picsImages, setPicsImages] = useState<PicsImageType[] | any>([]);
     const [blogs, setBlogs] = useState<BlogType[] | any>([]);
     const [books, setBooks] = useState<BookType[] | any>([]);
+    const [creators, setCreators] = useState<CreatorProfileType[] | any>([]);
 
 
     async function handleFetchTubes(type:string="tube-short", limit:number=10, page:number=1) {
@@ -126,6 +130,30 @@ export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) =>
         }
     }
 
+
+
+    async function handleFetchCreators(limit: number, page: number) {
+        try {
+            setLoader(true);
+
+            const res = await fetch(`${API_URL}/profiles/creators/profiles?limit=${limit}&page=${page}`, { 
+                method: "GET", headers
+            });
+
+            const data = await res.json();
+            console.log(data)
+            if (data?.status !== "success") {
+                throw new Error(data.message || data?.error);
+            }
+
+            setCreators(data?.data?.creators)
+        } catch(err) {
+            Alert.alert("Error", (err as any)?.message);
+        } finally {
+            setLoader(false);
+        }
+    }
+
     // CREATE CONTEXT DATA
     let contextData: FetchedContextType = {
         loader,
@@ -143,6 +171,8 @@ export const FetchedProvider: React.FC<FetchedProviderProps> = ({ children }) =>
 
         blogs,
         books,
+        creators,
+        handleFetchCreators
     }
 
     return <FetchedContext.Provider value={contextData}>{children}</FetchedContext.Provider>

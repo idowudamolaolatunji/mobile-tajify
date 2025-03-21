@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BackButton from "@/components/elements/BackButton";
 import ImageUploader from "@/components/forms/ImageUploader";
 import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
+import { truncateString } from "@/utils/helper";
 
 export default function BookForm() {
 	const [title, setTitle] = useState("");
@@ -18,17 +19,19 @@ export default function BookForm() {
     }
 
 	return (
-		<ScrollView style={styles.pageContainer} >
+		<SafeAreaView style={styles.pageContainer}>
+					
+		<ScrollView showsVerticalScrollIndicator={false} contentInsetAdjustmentBehavior="automatic" nestedScrollEnabled={true}>
 			<BackButton showText />
 
-            <View style={{}}>
+            <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Book</Text>
 
                 <ImageUploader label="Book Cover Image (Required)" image={coverImage} setImage={setCoverImage} customHeight={250} />
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
-					<TextInputEl label="Description (optional)" placeholder="Description, E.g: 'A comprehensive guide to master programming'" value={description} setValue={setDescription} />
+					<TextInputEl label="Description (optional)" placeholder={truncateString("E.g: 'A comprehensive guide to master programming'", 45)} value={description} setValue={setDescription} />
                     <TextInputEl label="Book author (Required)" placeholder="Book Author" value={title} setValue={setTitle} />
                     <TextInputEl label="Book Published Year (Required)" placeholder="Book Published Year" value={title} setValue={setTitle} />
                     
@@ -44,6 +47,7 @@ export default function BookForm() {
 				</View>
             </View>
 		</ScrollView>
+		</SafeAreaView>
 	);
 }
 
@@ -51,8 +55,8 @@ export default function BookForm() {
 const styles = StyleSheet.create({
 	pageContainer: {
 		flex: 1,
-		paddingTop: 40,
 		backgroundColor: variables.colors.background,
+		paddingTop: 40,
 		paddingHorizontal: 16,
 	},
 	heading: {

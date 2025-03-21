@@ -25,15 +25,17 @@ export default function ImageUploader({ label, image, setImage, customHeight } :
                 aspect: [1, 1],
                 quality: 1,
             });
-
+            console.log(result.assets, result.assets?.at(0)?.uri);
+            
             if(!result.canceled) {
-                console.log(result.assets[0].uri)
-                setImage({ file: null, preview: result.assets[0].uri })
+                setImage({ file: null, preview: result.assets[0].uri });
             }
         } catch(err) {
             Alert.alert("Error", "Error Uploading image")
         }
     }
+
+    
     const onRemoveImage = function() {
         setImage({
             file: null,
@@ -43,11 +45,11 @@ export default function ImageUploader({ label, image, setImage, customHeight } :
 
 
   return (
-    <>
+    <React.Fragment>
         <Text style={styles.label}>{label}</Text>
         <TouchableOpacity style={[styles.container, { height: customHeight }]}>
             {image.preview ? (
-                <>
+                <React.Fragment>
                     <Image
                         source={{ uri: image.preview }}
                         style={styles.images}
@@ -56,7 +58,7 @@ export default function ImageUploader({ label, image, setImage, customHeight } :
                     <TouchableOpacity onPress={onRemoveImage} style={styles.remove}>
                         <AntDesign name="delete" size={24} color={variables.colors.text} />
                     </TouchableOpacity>
-                </>
+                </React.Fragment>
             ) : (
                 <TouchableOpacity style={styles.addContainer} onPress={handleImage}>
                     <MaterialCommunityIcons name="cloud-upload" size={40} color={variables.colors.primary} />
@@ -65,7 +67,7 @@ export default function ImageUploader({ label, image, setImage, customHeight } :
             )}
 
         </TouchableOpacity>
-    </>
+    </React.Fragment>
   )
 }
 

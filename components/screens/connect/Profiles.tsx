@@ -3,6 +3,7 @@ import FollowCard from '@/components/layouts/FollowCard';
 import InfoBox from '@/components/layouts/InfoBox';
 import variables from '@/constants/variables';
 import { useAuth } from '@/context/AuthContext';
+import { useFetchedContext } from '@/context/FetchedContext';
 import { CreatorProfileType } from '@/types/type';
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Alert, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
@@ -10,48 +11,27 @@ import { ActivityIndicator, Alert, RefreshControl, ScrollView, StyleSheet, View 
 const API_URL = `https://api-tajify.koyeb.app/api/profiles/creators/profiles`;
 
 
-export default function Profile() {
-    const { headers } = useAuth()
-    const [loading, setLoading] = useState(true);
+export default function Profiles() {
+    const { handleFetchCreators, creators, loader } = useFetchedContext()
+    // const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-    const [profiles, setProfiles] = useState([]);
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
 
     
     const handleRefreshing = function() {
-        setLoading(true)
         setRefreshing(true);
-        handleFetchCreators();
+        handleFetchCreators(limit, page);
         setRefreshing(false);
     }
 
-    async function handleFetchCreators() {
-        try {
-            const res = await fetch(`${API_URL}?limit=${limit}&page=${page}`, { 
-                method: "GET", headers
-            });
-
-            const data = await res.json();
-            console.log(data.data)
-            if (data?.status !== "success") {
-                throw new Error(data.message || data?.error);
-            }
-
-            setProfiles(data?.data?.creators)
-        } catch(err) {
-            Alert.alert("Error", (err as any)?.message);
-        } finally {
-            setLoading(false);
-        }
-    }
-
     useEffect(function() {
-        handleFetchCreators()
-    }, []);
+        if(creators.length < 1) {
+            handleFetchCreators(limit, page)
+        }
+    }, [])
 
-
-	if(loading) {
+	if(loader) {
 		return (
 			<View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50, backgroundColor: variables.colors.background }}>
 				<ActivityIndicator size={"large"} color={variables.colors.text} />
@@ -64,13 +44,13 @@ export default function Profile() {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false} refreshControl={
         <RefreshControl onRefresh={handleRefreshing} refreshing={refreshing} />
     }>
-        {profiles?.length > 0 ? (
-            profiles.map((profile: CreatorProfileType) => (
+        {creators?.length > 0 ? (
+            creators.map((profile: CreatorProfileType) => (
                 <FollowCard profile={profile} key={profile?._id} />
             ))            
         ) : (
             <View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: 225 }}>
-                <InfoBox text='No creators yet!' />
+                <InfoBox text='No more creators to follow!' />
             </View>
         )}
     </ScrollView>
