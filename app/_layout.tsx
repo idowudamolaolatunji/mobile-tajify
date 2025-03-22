@@ -100,6 +100,11 @@ export default function RootLayout() {
 								gestureDirection: 'vertical',
 								headerShown: false,
 							}} />
+							<Stack.Screen name="shortForm" options={{
+								presentation: 'card',
+								gestureDirection: 'vertical',
+								headerShown: false,
+							}} />
 							<Stack.Screen name="musicForm" options={{
 								presentation: 'card',
 								gestureDirection: 'vertical',

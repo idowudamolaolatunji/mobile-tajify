@@ -6,6 +6,8 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import variables from '@/constants/variables';
 import { typography } from '@/constants/typography';
+import { launchImageLibrary } from 'react-native-image-picker';
+
 
 interface Props {
     label?: string;
@@ -17,22 +19,30 @@ interface Props {
 export default function ImageUploader({ label, image, setImage, customHeight } : Props) {
 
     const handleImage = async function() {
-        try {
-            await ImagePicker.requestMediaLibraryPermissionsAsync();
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [1, 1],
-                quality: 1,
-            });
-            console.log(result.assets, result.assets?.at(0)?.uri);
+        // try {
+        //     await ImagePicker.requestMediaLibraryPermissionsAsync();
+        //     let result = await ImagePicker.launchImageLibraryAsync({
+        //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        //         allowsEditing: true,
+        //         aspect: [1, 1],
+        //         quality: 1,
+        //     });
+        //     console.log(result.assets, result.assets?.at(0)?.uri);
             
-            if(!result.canceled) {
-                setImage({ file: null, preview: result.assets[0].uri });
-            }
-        } catch(err) {
-            Alert.alert("Error", "Error Uploading image")
-        }
+        //     if(!result.canceled) {
+        //         setImage({ file: null, preview: result.assets[0].uri });
+        //     }
+        // } catch(err) {
+        //     Alert.alert("Error", "Error Uploading image")
+        // }
+
+    }
+
+
+    const handleOpenLib = async function() {
+        console.log("Open Gallery")
+        const result = await launchImageLibrary({ mediaType: "photo" })
+        console.log("hi", result)
     }
 
     
@@ -60,7 +70,7 @@ export default function ImageUploader({ label, image, setImage, customHeight } :
                     </TouchableOpacity>
                 </React.Fragment>
             ) : (
-                <TouchableOpacity style={styles.addContainer} onPress={handleImage}>
+                <TouchableOpacity style={styles.addContainer} onPress={handleOpenLib}>
                     <MaterialCommunityIcons name="cloud-upload" size={40} color={variables.colors.primary} />
                     <Text style={{ color: variables.colors.background, fontSize: 17 }}>Click to upload or take a photo</Text>
                 </TouchableOpacity>

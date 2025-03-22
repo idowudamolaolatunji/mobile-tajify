@@ -6,7 +6,7 @@ import { Pressable, StyleSheet } from "react-native";
 
 export default function CreateButton({ tab }: { tab?: string }) {
 	const handlePress = function () {
-		const route = tab == "shorts" ? "/tubeForm" : tab == "tube_max" ? "/tubeForm" : tab == "audio" ? "/musicForm" : tab == "images" ? "/imageForm" : tab == "blogs" ? "/blogForm" : tab == "books" ? "/bookForm" : "/podcastForm";
+		const route = tab == "shorts" ? "/shortForm" : tab == "tube_max" ? "/tubeForm" : tab == "audio" ? "/musicForm" : tab == "images" ? "/imageForm" : tab == "blogs" ? "/blogForm" : tab == "books" ? "/bookForm" : "/podcastForm";
 
         console.log(route)
 		router.navigate(route);

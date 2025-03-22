@@ -7,7 +7,7 @@ import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
 import { truncateString } from "@/utils/helper";
 
-export default function TubeForm() {
+export default function ShortForm() {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [coverImage, setCoverImage] = useState({ file: null, preview: "" });
@@ -25,7 +25,7 @@ export default function TubeForm() {
 			<BackButton showText />
 
             <View style={{ paddingBottom: 30 }}>
-				<Text style={[typography.h3, styles.heading]}>Upload Tube max</Text>
+				<Text style={[typography.h3, styles.heading]}>Upload Tube Short</Text>
 
                 <ImageUploader label="Book Cover Image (Required)" image={coverImage} setImage={setCoverImage} customHeight={250} />
 
