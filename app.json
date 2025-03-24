@@ -57,10 +57,15 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "custom photos permission",
-          "cameraPermission": "Allow $(PRODUCT_NAME) to open the camera",
-
-          "microphonePermission": false
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
         }
       ]
     ],

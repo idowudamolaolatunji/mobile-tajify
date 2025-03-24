@@ -10,12 +10,12 @@ import { truncateString } from "@/utils/helper";
 export default function BookForm() {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
-	const [coverImage, setCoverImage] = useState({ file: null, preview: "" });
+	const [coverImage, setCoverImage] = useState("");
 
     const handleClear = function() {
         setTitle("");
         setDescription("");
-        setCoverImage({ file: null, preview: "" });
+        setCoverImage("");
     }
 
 	return (
@@ -27,7 +27,7 @@ export default function BookForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Book</Text>
 
-                <ImageUploader label="Book Cover Image (Required)" image={coverImage} setImage={setCoverImage} customHeight={250} />
+                <ImageUploader label="Book Cover Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />

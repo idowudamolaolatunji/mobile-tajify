@@ -70,7 +70,7 @@ export default function AcctProfile() {
 
 			setProfile(data?.data?.profile)
 		} catch(err) {
-			Alert.alert("Error", (err as any)?.message);
+			return Alert.alert((err as any)?.message);
 		} finally {
 			setLoading(false);
 		}

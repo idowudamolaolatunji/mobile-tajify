@@ -6,16 +6,19 @@ import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
 import { truncateString } from "@/utils/helper";
+import VideoUploader from "@/components/forms/VideoUploader";
+import { useDataContext } from "@/context/DataContext";
 
 export default function TubeForm() {
+	const { setPickedShortUrl, pickedShortUrl } = useDataContext()
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
-	const [coverImage, setCoverImage] = useState({ file: null, preview: "" });
+	const [coverImage, setCoverImage] = useState("");
 
     const handleClear = function() {
         setTitle("");
         setDescription("");
-        setCoverImage({ file: null, preview: "" });
+        setCoverImage("");
     }
 
 	return (
@@ -27,7 +30,15 @@ export default function TubeForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Tube max</Text>
 
-                <ImageUploader label="Book Cover Image (Required)" image={coverImage} setImage={setCoverImage} customHeight={250} />
+				<VideoUploader
+					type="max"
+					label="Video (Required)"
+					video={pickedShortUrl}
+					setVideo={setPickedShortUrl}
+				/>
+				<View style={{ marginBottom: 20 }} />
+                <ImageUploader label="Thumbnail" image={coverImage} setImage={setCoverImage} customHeight={250} />
+				
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />

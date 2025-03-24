@@ -130,6 +130,12 @@ export default function RootLayout() {
 								gestureDirection: 'vertical',
 								headerShown: false,
 							}} />
+							<Stack.Screen name="/cameraView" options={{
+								// presentation: 'modal',
+								presentation: 'card',
+								gestureDirection: 'vertical',
+								headerShown: false,
+							}} />
 
 						</Stack>
 						<StatusBar style="dark" />

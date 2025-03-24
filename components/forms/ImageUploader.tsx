@@ -1,76 +1,49 @@
 import React from "react"
-import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import variables from '@/constants/variables';
 import { typography } from '@/constants/typography';
-
-// import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
-import ImagePicker from 'react-native-image-crop-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 
 interface Props {
     label?: string;
-    image: { file: any, preview: string }
-    setImage: ({ file, preview } : { file: any, preview: string }) => void;
+    image: string;
+    setImage: (file: string) => void;
     customHeight: number;
 }
 
 export default function ImageUploader({ label, image, setImage, customHeight } : Props) {
-
-    const handleImage = async function() {
-        // try {
-        //     await ImagePicker.requestMediaLibraryPermissionsAsync();
-        //     let result = await ImagePicker.launchImageLibraryAsync({
-        //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        //         allowsEditing: true,
-        //         aspect: [1, 1],
-        //         quality: 1,
-        //     });
-        //     console.log(result.assets, result.assets?.at(0)?.uri);
-            
-        //     if(!result.canceled) {
-        //         setImage({ file: null, preview: result.assets[0].uri });
-        //     }
-        // } catch(err) {
-        //     Alert.alert("Error", "Error Uploading image")
-        // }
-
-    }
-
-
     const handleOpenLib = async function() {
-        console.log("Open Gallery")
-        try {
-            // await ImagePicker.openPicker({
-            //     width: 300,
-            //     height: 400,
-            //     cropping: true
-            // }).then(image => {
-            //     console.log(image);
-            // });
-        } catch(err) {
-            Alert.alert("Error")
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ['images'],
+          allowsEditing: true,
+          aspect: [4, 4],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
         }
     }
 
     
     const onRemoveImage = function() {
-        setImage({
-            file: null,
-            preview: ""
-        });
+        setImage("");
     }
 
 
   return (
     <React.Fragment>
-        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.label}>{label} (Required)</Text>
         <TouchableOpacity style={[styles.container, { height: customHeight }]}>
-            {image.preview ? (
+            {image ? (
                 <React.Fragment>
                     <Image
-                        source={{ uri: image.preview }}
+                        source={{ uri: image }}
                         style={styles.images}
                     />
 
@@ -81,7 +54,7 @@ export default function ImageUploader({ label, image, setImage, customHeight } :
             ) : (
                 <TouchableOpacity style={styles.addContainer} onPress={handleOpenLib}>
                     <MaterialCommunityIcons name="cloud-upload" size={40} color={variables.colors.primary} />
-                    <Text style={{ color: variables.colors.background, fontSize: 17 }}>Click to upload or take a photo</Text>
+                    <Text style={{ color: variables.colors.background, fontSize: 17 }}>Select image for {label?.replace("Image", "")}</Text>
                 </TouchableOpacity>
             )}
 

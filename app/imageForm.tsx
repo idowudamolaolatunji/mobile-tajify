@@ -10,12 +10,12 @@ import { SafeAreaView } from "react-native";
 export default function ImageForm() {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
-	const [image, setImage] = useState({ file: null, preview: "" });
+	const [image, setImage] = useState("");
 
 	const handleClear = function() {
         setTitle("")
         setDescription("")
-        setImage({ file: null, preview: "" });
+        setImage("");
     }
 
 	return (
@@ -27,7 +27,7 @@ export default function ImageForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Image or Art</Text>
 
-                <ImageUploader label="Image or Art (Required)" image={image} setImage={setImage} customHeight={280} />
+                <ImageUploader label="Image & Art" image={image} setImage={setImage} customHeight={280} />
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Title (Required)" placeholder="Image Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />

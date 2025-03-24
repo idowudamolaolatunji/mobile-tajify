@@ -6,16 +6,18 @@ import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
 import { truncateString } from "@/utils/helper";
+import VideoUploader from "@/components/forms/VideoUploader";
+import { useDataContext } from "@/context/DataContext";
 
 export default function ShortForm() {
+	const { pickedShortUrl, setPickedShortUrl } = useDataContext()
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
-	const [coverImage, setCoverImage] = useState({ file: null, preview: "" });
 
     const handleClear = function() {
         setTitle("");
         setDescription("");
-        setCoverImage({ file: null, preview: "" });
+        setPickedShortUrl("");
     }
 
 	return (
@@ -27,7 +29,13 @@ export default function ShortForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Tube Short</Text>
 
-                <ImageUploader label="Book Cover Image (Required)" image={coverImage} setImage={setCoverImage} customHeight={250} />
+                {/* <ImageUploader label="Book Cover Image (Required)" image={coverImage} setImage={setCoverImage} customHeight={250} /> */}
+                <VideoUploader
+					type="short"
+					label="Short Video - 30 secs (Required)"
+					video={pickedShortUrl}
+					setVideo={setPickedShortUrl}
+				/>
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />

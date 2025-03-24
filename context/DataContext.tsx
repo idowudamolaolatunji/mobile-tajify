@@ -1,5 +1,4 @@
-import { CreatorProfileType } from "@/types/type";
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useContext } from "react";
 
 
 //////////////////////////////////////////////
@@ -8,6 +7,8 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 interface DataContextType {
     imagesView: string;
     handleChangeImagesView: (view: string) => void;
+    pickedShortUrl: string | any;
+    setPickedShortUrl: (url: string | null) => void;
 
     selectedData: unknown;
     setSelectedData: (data: unknown) => void;
@@ -30,6 +31,7 @@ interface DataProviderProps {
   
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     const [imagesView, setImagesView] = useState<string>("double") // single | double
+    const [pickedShortUrl, setPickedShortUrl] = useState<unknown>(null) // single | double
     const [selectedData, setSelectedData] = useState<unknown>(null);
     const [selectedProfileId, setSelectedProfileId] = useState<unknown>(null);
 
@@ -46,6 +48,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         setSelectedData,
         selectedProfileId,
         setSelectedProfileId,
+
+        pickedShortUrl,
+        setPickedShortUrl
     }
 
     return <DataContext.Provider value={contextData}>{children}</DataContext.Provider>
