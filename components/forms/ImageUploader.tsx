@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from "react"
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-
-import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
 import variables from '@/constants/variables';
 import { typography } from '@/constants/typography';
-import { launchImageLibrary } from 'react-native-image-picker';
+
+// import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+import ImagePicker from 'react-native-image-crop-picker';
 
 
 interface Props {
@@ -41,8 +41,17 @@ export default function ImageUploader({ label, image, setImage, customHeight } :
 
     const handleOpenLib = async function() {
         console.log("Open Gallery")
-        const result = await launchImageLibrary({ mediaType: "photo" })
-        console.log("hi", result)
+        try {
+            // await ImagePicker.openPicker({
+            //     width: 300,
+            //     height: 400,
+            //     cropping: true
+            // }).then(image => {
+            //     console.log(image);
+            // });
+        } catch(err) {
+            Alert.alert("Error")
+        }
     }
 
     
