@@ -27,7 +27,7 @@ export default function PodcastForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Podcast</Text>
 
-                <ImageUploader label="Podcast Cover Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
+                <ImageUploader label="Cover Image" imageTitle="Select Cover Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />

@@ -5,9 +5,13 @@ import ImageUploader from "@/components/forms/ImageUploader";
 import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
-import { truncateString } from "@/utils/helper";
+import Editor from "@/components/dom-components/hello-dom";
+
 
 export default function BlogForm() {
+	const [plainText, setPlainText] = useState("");
+	const [editorState, setEditorState] = useState<string | null>(null);
+	///////////////////////////////////////////////////////////////////
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [coverImage, setCoverImage] = useState("");
@@ -27,14 +31,12 @@ export default function BlogForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Write Blog</Text>
 
-                <ImageUploader label="Book Cover" image={coverImage} setImage={setCoverImage} customHeight={250} />
+                <ImageUploader label="Blog (Required)" imageTitle="Select Blog Main Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
 
 				<View style={styles.formItems}>
-					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
-					<TextInputEl label="Description (optional)" placeholder={truncateString("E.g: 'A comprehensive guide to master programming'", 45)} value={description} setValue={setDescription} />
-                    <TextInputEl label="Book author (Required)" placeholder="Book Author" value={title} setValue={setTitle} />
-                    <TextInputEl label="Book Published Year (Required)" placeholder="Book Published Year" value={title} setValue={setTitle} />
+					<TextInputEl label="Blog Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
                     
+					<Editor setPlainText={setPlainText} setEditorState={setEditorState} />
 
 					<View style={styles.buttons}>
 						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]}>

@@ -37,7 +37,7 @@ export default function TubeForm() {
 					setVideo={setPickedShortUrl}
 				/>
 				<View style={{ marginBottom: 20 }} />
-                <ImageUploader label="Thumbnail" image={coverImage} setImage={setCoverImage} customHeight={250} />
+                <ImageUploader label="Thumbnail" imageTitle="Select Thumbnail Image" image={coverImage} setImage={setCoverImage} customHeight={225} aspect={[4, 3]} />
 				
 
 				<View style={styles.formItems}>

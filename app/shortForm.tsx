@@ -29,7 +29,6 @@ export default function ShortForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Tube Short</Text>
 
-                {/* <ImageUploader label="Book Cover Image (Required)" image={coverImage} setImage={setCoverImage} customHeight={250} /> */}
                 <VideoUploader
 					type="short"
 					label="Short Video - 30 secs (Required)"

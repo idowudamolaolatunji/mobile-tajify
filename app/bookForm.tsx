@@ -27,7 +27,7 @@ export default function BookForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Book</Text>
 
-                <ImageUploader label="Book Cover Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
+                <ImageUploader label="Cover Image (Required)" imageTitle="Select Book Image" image={coverImage} setImage={setCoverImage} customHeight={350} />
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />

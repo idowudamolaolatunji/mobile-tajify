@@ -27,7 +27,7 @@ export default function MusicForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Song</Text>
 
-                <ImageUploader label="Music Cover Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
+                <ImageUploader label="Music Artwork" imageTitle="Select Music Artwork" image={coverImage} setImage={setCoverImage} customHeight={250} />
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />

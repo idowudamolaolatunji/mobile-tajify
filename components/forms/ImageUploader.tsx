@@ -7,19 +7,22 @@ import * as ImagePicker from 'expo-image-picker';
 
 
 interface Props {
+    imageTitle?: string;
     label?: string;
     image: string;
     setImage: (file: string) => void;
     customHeight: number;
+    aspect?: [number, number];
 }
 
-export default function ImageUploader({ label, image, setImage, customHeight } : Props) {
+export default function ImageUploader({ imageTitle, label, image, setImage, customHeight, aspect } : Props) {
+
     const handleOpenLib = async function() {
         await ImagePicker.requestMediaLibraryPermissionsAsync();
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ['images'],
           allowsEditing: true,
-          aspect: [4, 4],
+          aspect: aspect || [4, 4],
           quality: 1,
         });
     
@@ -38,7 +41,7 @@ export default function ImageUploader({ label, image, setImage, customHeight } :
 
   return (
     <React.Fragment>
-        <Text style={styles.label}>{label} (Required)</Text>
+        <Text style={styles.label}>{label}</Text>
         <TouchableOpacity style={[styles.container, { height: customHeight }]}>
             {image ? (
                 <React.Fragment>
@@ -54,7 +57,7 @@ export default function ImageUploader({ label, image, setImage, customHeight } :
             ) : (
                 <TouchableOpacity style={styles.addContainer} onPress={handleOpenLib}>
                     <MaterialCommunityIcons name="cloud-upload" size={40} color={variables.colors.primary} />
-                    <Text style={{ color: variables.colors.background, fontSize: 17 }}>Select image for {label?.replace("Image", "")}</Text>
+                    <Text style={{ color: variables.colors.background, fontSize: 17 }}>{imageTitle}</Text>
                 </TouchableOpacity>
             )}
 
