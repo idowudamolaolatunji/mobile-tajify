@@ -40,7 +40,6 @@ export default function RootLayout() {
 						<Stack screenOptions={{ statusBarBackgroundColor: variables.colors.background }}>
 							<Stack.Screen name="(auth)" options={{ headerTransparent: true, headerShown: false }} />
 							<Stack.Screen name="(tabs)" options={{ headerTransparent: true, headerShown: false }}/>
-							<Stack.Screen name="(create)" options={{ headerTransparent: true, headerShown: false }}/>
 							
 							<Stack.Screen name="videoViewer" options={{
 								presentation: 'card',
@@ -130,11 +129,10 @@ export default function RootLayout() {
 								gestureDirection: 'vertical',
 								headerShown: false,
 							}} />
-							<Stack.Screen name="/cameraView" options={{
-								// presentation: 'modal',
-								presentation: 'card',
+							<Stack.Screen name="cameraView" options={{
+								presentation: 'modal',
 								gestureDirection: 'vertical',
-								headerShown: false,
+								headerShown: false
 							}} />
 
 						</Stack>

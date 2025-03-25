@@ -7,6 +7,7 @@ import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
 import { SafeAreaView } from "react-native";
 
+
 export default function ImageForm() {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
@@ -27,11 +28,11 @@ export default function ImageForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Upload Image or Art</Text>
 
-                <ImageUploader label="Image & Art (Required)" imageTitle="Select Image" image={image} setImage={setImage} customHeight={280} />
+                <ImageUploader label="Image & Art (Required)" imageTitle="Select Image" image={image} setImage={setImage} customHeight={420} allowCrop={false} />
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Title (Required)" placeholder="Image Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
-					<TextInputEl label="Description (optional)" placeholder="Description of the Image" value={description} setValue={setDescription} />
+					<TextInputEl label="Description (Optional)" placeholder="Description of the Image" value={description} setValue={setDescription} multiline={true} />
 
 					<View style={styles.buttons}>
 						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]}>

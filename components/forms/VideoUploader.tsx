@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import React from "react"
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { AntDesign, Feather } from '@expo/vector-icons'
 import variables from '@/constants/variables';
 import { typography } from '@/constants/typography';
 import { useRouter } from "expo-router";
@@ -56,7 +56,7 @@ export default function VideoUploader({ label, type, video, setVideo } : Props) 
                 </React.Fragment>
             ) : (
                 <TouchableOpacity style={styles.addContainer} onPress={handleActions}>
-                    <MaterialCommunityIcons name="cloud-upload" size={40} color={variables.colors.primary} />
+                    <Feather name="video" size={40} color={variables.colors.primary} />
                     <Text style={{ color: variables.colors.background, fontSize: 17 }}>Choose Video</Text>
                 </TouchableOpacity>
             )}

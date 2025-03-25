@@ -31,7 +31,7 @@ export default function BlogForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Write Blog</Text>
 
-                <ImageUploader label="Blog (Required)" imageTitle="Select Blog Main Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
+                <ImageUploader label="Main Image (Required)" imageTitle="Select Blog Main Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Blog Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />

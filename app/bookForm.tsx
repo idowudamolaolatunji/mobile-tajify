@@ -6,11 +6,13 @@ import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
 import { truncateString } from "@/utils/helper";
+import TagInputEl from "@/components/forms/TagInputEl";
 
 export default function BookForm() {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [coverImage, setCoverImage] = useState("");
+	const [authors, setAuthors] = useState<string[]>([]);
 
     const handleClear = function() {
         setTitle("");
@@ -31,8 +33,8 @@ export default function BookForm() {
 
 				<View style={styles.formItems}>
 					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
-					<TextInputEl label="Description (optional)" placeholder={truncateString("E.g: 'A comprehensive guide to master programming'", 45)} value={description} setValue={setDescription} />
-                    <TextInputEl label="Book author (Required)" placeholder="Book Author" value={title} setValue={setTitle} />
+					<TextInputEl label="Description (Optional)" placeholder={"E.g: 'A comprehensive guide to master programming'"} value={description} setValue={setDescription} multiline={true} />
+					<TagInputEl placeholder="Add Author(s)" label="Book author (Required)" tags={authors} setTags={setAuthors} />
                     <TextInputEl label="Book Published Year (Required)" placeholder="Book Published Year" value={title} setValue={setTitle} />
                     
 

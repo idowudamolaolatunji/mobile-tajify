@@ -30,11 +30,8 @@ export default function PodcastForm() {
                 <ImageUploader label="Cover Image" imageTitle="Select Cover Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
 
 				<View style={styles.formItems}>
-					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
-					<TextInputEl label="Description (optional)" placeholder={truncateString("E.g: 'A comprehensive guide to master programming'", 45)} value={description} setValue={setDescription} />
-                    <TextInputEl label="Book author (Required)" placeholder="Book Author" value={title} setValue={setTitle} />
-                    <TextInputEl label="Book Published Year (Required)" placeholder="Book Published Year" value={title} setValue={setTitle} />
-                    
+					<TextInputEl label="Name (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
+					<TextInputEl label="Description (Optional)" placeholder={"E.g: 'A comprehensive guide to master programming'"} value={description} setValue={setDescription} multiline={true} />
 
 					<View style={styles.buttons}>
 						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]}>

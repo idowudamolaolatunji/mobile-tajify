@@ -76,7 +76,7 @@ console.log(authState)
 						<Ionicons name="keypad-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 					<View style={styles.inputContainer}>
-						<TextInput style={styles.input} placeholder="Referal Code (optional)" value={referralCode} onChangeText={setReferralCode} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
+						<TextInput style={styles.input} placeholder="Referal Code (Optional)" value={referralCode} onChangeText={setReferralCode} keyboardType="default" autoCapitalize="none" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
 						<Ionicons name="gift-outline" size={20} color={variables.colors.tintedWhite} />
 					</View>
 

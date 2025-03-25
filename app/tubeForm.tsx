@@ -8,17 +8,22 @@ import TextInputEl from "@/components/forms/TextInputEl";
 import { truncateString } from "@/utils/helper";
 import VideoUploader from "@/components/forms/VideoUploader";
 import { useDataContext } from "@/context/DataContext";
+import TagInputEl from "@/components/forms/TagInputEl";
 
 export default function TubeForm() {
 	const { setPickedShortUrl, pickedShortUrl } = useDataContext()
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [coverImage, setCoverImage] = useState("");
-
+	const [videoUrl, setVideoUrl] = useState("");
+	const [hashtags, setHashtags] = useState<string[]>([]);
+	
     const handleClear = function() {
-        setTitle("");
+		setTitle("");
         setDescription("");
         setCoverImage("");
+        setVideoUrl("");
+		setHashtags([])
     }
 
 	return (
@@ -33,20 +38,18 @@ export default function TubeForm() {
 				<VideoUploader
 					type="max"
 					label="Video (Required)"
-					video={pickedShortUrl}
-					setVideo={setPickedShortUrl}
+					video={videoUrl}
+					setVideo={setVideoUrl}
 				/>
 				<View style={{ marginBottom: 20 }} />
                 <ImageUploader label="Thumbnail" imageTitle="Select Thumbnail Image" image={coverImage} setImage={setCoverImage} customHeight={225} aspect={[4, 3]} />
 				
 
 				<View style={styles.formItems}>
-					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
-					<TextInputEl label="Description (optional)" placeholder={truncateString("E.g: 'A comprehensive guide to master programming'", 45)} value={description} setValue={setDescription} />
-                    <TextInputEl label="Book author (Required)" placeholder="Book Author" value={title} setValue={setTitle} />
-                    <TextInputEl label="Book Published Year (Required)" placeholder="Book Published Year" value={title} setValue={setTitle} />
+					<TextInputEl label="Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
+					<TextInputEl label="Description (Required)" placeholder={"E.g: 'A comprehensive guide to master programming'"} value={description} setValue={setDescription} multiline={true} />
+					<TagInputEl label="Video HashTags (Optional)" placeholder="Add HashTag" forHastTag tags={hashtags} setTags={setHashtags} />
                     
-
 					<View style={styles.buttons}>
 						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]}>
 							<Text style={[{ color: variables.colors.text }, typography.paragraphBg]}>Upload</Text>

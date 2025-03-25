@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BackButton from "@/components/elements/BackButton";
 import ImageUploader from "@/components/forms/ImageUploader";
@@ -8,17 +8,24 @@ import TextInputEl from "@/components/forms/TextInputEl";
 import { truncateString } from "@/utils/helper";
 import VideoUploader from "@/components/forms/VideoUploader";
 import { useDataContext } from "@/context/DataContext";
+import TagInputEl from "@/components/forms/TagInputEl";
 
 export default function ShortForm() {
 	const { pickedShortUrl, setPickedShortUrl } = useDataContext()
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
+	const [hashtags, setHashtags] = useState<string[]>([]);
 
     const handleClear = function() {
         setTitle("");
         setDescription("");
         setPickedShortUrl("");
+		setHashtags([])
     }
+	
+	useEffect(function() {
+		setPickedShortUrl("");
+	}, [])
 
 	return (
 		<SafeAreaView style={styles.pageContainer}>
@@ -37,10 +44,8 @@ export default function ShortForm() {
 				/>
 
 				<View style={styles.formItems}>
-					<TextInputEl label="Book Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
-					<TextInputEl label="Description (optional)" placeholder={truncateString("E.g: 'A comprehensive guide to master programming'", 45)} value={description} setValue={setDescription} />
-                    <TextInputEl label="Book author (Required)" placeholder="Book Author" value={title} setValue={setTitle} />
-                    <TextInputEl label="Book Published Year (Required)" placeholder="Book Published Year" value={title} setValue={setTitle} />
+					<TextInputEl label="Description (Required)" placeholder={"E.g: 'A comprehensive guide to master programming'"} value={description} setValue={setDescription} multiline={true} />
+					<TagInputEl label="Video HashTags (Optional)" placeholder="Add HashTag" forHastTag tags={hashtags} setTags={setHashtags} />
                     
 
 					<View style={styles.buttons}>

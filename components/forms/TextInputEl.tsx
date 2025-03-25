@@ -9,13 +9,14 @@ interface InputProps {
     placeholder?: string;
     value: string;
     setValue: (value: string) => void;
+    multiline?: boolean;
 }
 
-export default function TextInputEl({ label, placeholder, value, setValue } : InputProps) {
+export default function TextInputEl({ label, placeholder, value, setValue, multiline=false } : InputProps) {
   return (
     <View style={styles.inputElement}>
         <Text style={styles.label}>{label}</Text>
-        <TextInput style={styles.input} placeholder={placeholder} value={value} onChangeText={setValue} keyboardType="default" autoCapitalize="words" placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
+        <TextInput style={styles.input} placeholder={placeholder} value={value} onChangeText={setValue} keyboardType="default" autoCapitalize="sentences" multiline={multiline} placeholderTextColor={variables.colors.tintedWhite} cursorColor="#fff" />
     </View>
   )
 }

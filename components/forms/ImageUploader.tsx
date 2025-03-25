@@ -1,6 +1,6 @@
 import React from "react"
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
+import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import variables from '@/constants/variables';
 import { typography } from '@/constants/typography';
 import * as ImagePicker from 'expo-image-picker';
@@ -13,15 +13,16 @@ interface Props {
     setImage: (file: string) => void;
     customHeight: number;
     aspect?: [number, number];
+    allowCrop?: boolean;
 }
 
-export default function ImageUploader({ imageTitle, label, image, setImage, customHeight, aspect } : Props) {
+export default function ImageUploader({ imageTitle, label, image, setImage, customHeight, aspect, allowCrop=true } : Props) {
 
     const handleOpenLib = async function() {
         await ImagePicker.requestMediaLibraryPermissionsAsync();
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ['images'],
-          allowsEditing: true,
+          allowsEditing: allowCrop,
           aspect: aspect || [4, 4],
           quality: 1,
         });
@@ -56,7 +57,8 @@ export default function ImageUploader({ imageTitle, label, image, setImage, cust
                 </React.Fragment>
             ) : (
                 <TouchableOpacity style={styles.addContainer} onPress={handleOpenLib}>
-                    <MaterialCommunityIcons name="cloud-upload" size={40} color={variables.colors.primary} />
+                    {/* <MaterialCommunityIcons name="cloud-upload" size={40} color={variables.colors.primary} /> */}
+                    <FontAwesome name="picture-o" size={40} color={variables.colors.primary} />
                     <Text style={{ color: variables.colors.background, fontSize: 17 }}>{imageTitle}</Text>
                 </TouchableOpacity>
             )}

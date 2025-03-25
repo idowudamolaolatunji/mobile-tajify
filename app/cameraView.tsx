@@ -23,8 +23,8 @@ export default function VideoCameraView({}) {
 		console.log(result);
 
 		if (!result.canceled) {
-		  setPickedShortUrl(result.assets[0].uri);
-		  router.navigate("/shortForm");
+		  	setPickedShortUrl(result.assets[0].uri);
+			// router.navigate("/shortForm");
 		}
 	};
 
@@ -33,7 +33,9 @@ export default function VideoCameraView({}) {
 	};
 
 	const recordVideo = function () {};
-	const saveVideo = function () {};
+	const saveVideo = function () {
+		router.back();
+	};
 
 	const onRemoveImage = function() {
 		setPickedShortUrl("");
@@ -73,7 +75,7 @@ export default function VideoCameraView({}) {
 					</TouchableOpacity>
 				) : (
 					<TouchableOpacity style={styles.button} onPress={recordVideo}>
-						{isRecording ? <Ionicons name="radio-button-on" color="white" size={100} /> : <Ionicons name="pause-circle" color="white" size={100} />}
+						{!isRecording ? <Ionicons name="radio-button-on" color="white" size={100} /> : <Ionicons name="pause-circle" color="white" size={100} />}
 					</TouchableOpacity>
 				)}
 				<TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
