@@ -42,9 +42,11 @@ export default function Blog() {
             </View>
 
             {(data.length > 0) ? (
-                data.map((data: BlogType) => (
-                    <BlogItem data={data} key={data._id} />
-                ))
+                <View style={{ flex: 1, gap: 15 }}>
+                    {data.map((data: BlogType) => (
+                        <BlogItem data={data} key={data._id} />
+                    ))}
+                </View>
             ) : (
                 <NoItem title={searchQuery ? `blogs for with the title "${searchQuery}" was` : "blogs"} />
             )}

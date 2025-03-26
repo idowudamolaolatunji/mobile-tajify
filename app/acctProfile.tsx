@@ -1,10 +1,9 @@
 import variables from "@/constants/variables";
-import { router, Stack } from "expo-router";
+import { router } from "expo-router";
 import { View, Text, ScrollView, RefreshControl, StyleSheet, Pressable, TouchableOpacity, Platform, ActivityIndicator, SafeAreaView, Alert } from "react-native";
 import NoItem from "@/components/layouts/NoItem";
-import SubHeader from "@/components/layouts/SubHeader";
 import { typography } from "@/constants/typography";
-import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
@@ -61,7 +60,6 @@ export default function AcctProfile() {
 	async function handleFetchProfile() {
 		try {
 			const res = await fetch(`${API_URL}/profiles/my/profile`, { method: "GET", headers, });
-			// if (!res.ok) throw new Error("Cannot request, Server Connection Issues");
 			const data = await res.json();
 			console.log(res, data)
 			if (data?.status !== "success") {
@@ -93,7 +91,7 @@ export default function AcctProfile() {
 				throw new Error(data.message || data?.error);
 			}
 
-			// setPosts({ ...posts, [tab]: [] })
+			// setPosts({ ...posts, [tab]: [] });
 		} catch(err) {
 			return err;
 		} finally {
@@ -105,25 +103,25 @@ export default function AcctProfile() {
 
 	
 	useEffect(function() {
-		handleFetchProfile()
+		// handleFetchProfile()
 	}, []);
 
 
 	useEffect(function() {
 		console.log(tab)
 		if(profile?._id) {
-			handleFetchPosts();
+			// handleFetchPosts();
 		}
 	}, [tab, profile])
 
 
-	if(loading) {
-		return (
-			<View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50, backgroundColor: variables.colors.background }}>
-				<ActivityIndicator size={"large"} color={variables.colors.text} />
-			</View>
-		)
-	}
+	// if(loading) {
+	// 	return (
+	// 		<View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50, backgroundColor: variables.colors.background }}>
+	// 			<ActivityIndicator size={"large"} color={variables.colors.text} />
+	// 		</View>
+	// 	)
+	// }
 
 	return (
 		<React.Fragment>
@@ -197,17 +195,22 @@ export default function AcctProfile() {
 
 					<View>
 						{/* NO DATA, BUT LOADER */}
-						{(postLoader[tab] && posts[tab].length < 1) && <BoxSpinner />}
+						{/* {(postLoader[tab] && posts[tab].length < 1) && <BoxSpinner />} */}
 
 						{/* NO DATA, AND NO LOADER */}
-						{(!postLoader[tab] && posts[tab].length < 1) && <NoItem title={tab} />}
+						{/* {(!postLoader[tab] && posts[tab].length < 1) && <NoItem title={tab} />} */}
 
 						{/* DATA, BUT NO LOADER */}
-						{(!postLoader[tab] && posts[tab].length > 1) && (
+						{/* {(!postLoader[tab] && posts[tab].length > 1) && (
 							posts[tab].map((post: any) => (
-								<ProfilePost post={post} />
+								<ProfilePost post={post} tab={tab} />
 							))
-						)}
+						)} */}
+						{/* {(!postLoader[tab] && posts[tab].length > 1) && (
+							<ProfilePost post={post} tab={tab} />
+						)} */}
+
+						<ProfilePost posts={posts} tab={tab} defaultProfile={true} />
 					</View>
 				</View>
 			</ScrollView>

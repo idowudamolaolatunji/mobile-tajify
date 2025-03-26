@@ -134,6 +134,11 @@ export default function RootLayout() {
 								gestureDirection: 'vertical',
 								headerShown: false
 							}} />
+							<Stack.Screen name="viewShort" options={{
+								presentation: 'modal',
+								gestureDirection: 'vertical',
+								headerShown: false
+							}} />
 
 						</Stack>
 						<StatusBar style="dark" />

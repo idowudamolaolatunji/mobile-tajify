@@ -8,12 +8,12 @@ import { PicsImageType } from '@/types/type'
 import { getImageSize } from '@/utils/helper'
 
 
-export default function ImageItem({ data } : { data: PicsImageType | any }) {
+export default function ImageItem({ data, view } : { data: PicsImageType | any; view?: string }) {
     const { imagesView, setSelectedData } = useDataContext();
 
     const getHeight = function() {
         let { height, width } = data;
-        return {height: getImageSize(height, width)}
+        return {height: (getImageSize(height, width) / (view == "profile" ? 1.4 : 1))}
     }
 
     const handlePress = function() {

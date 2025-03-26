@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         padding: 7,
         borderRadius: 8,
-        marginBottom: 15,
         gap: 10,
     },
     bookImage: {

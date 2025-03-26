@@ -102,20 +102,22 @@ export default function Music() {
             )}
         </View>
 
-        {(data.length > 0) ?
-            data.map((music: MusicType) => (
-                <AudioItem
-                    key={music._id}
-                    data={music}
-                    playSound={playSound}
-                    isPlaying={isPlaying}
-                    currentSongId={currentAudioId}
-                    handlePlayPause={handlePlayPause}
-                />
-            )) : (
-                <NoItem title={searchQuery ? `music for with the title "${searchQuery}" was` : "music"} />
-            )
-        }
+        {(data.length > 0) ? (
+            <View style={{ flex: 1, gap: 15 }}>
+                {data.map((music: MusicType) => (
+                    <AudioItem
+                        key={music._id}
+                        data={music}
+                        playSound={playSound}
+                        isPlaying={isPlaying}
+                        currentSongId={currentAudioId}
+                        handlePlayPause={handlePlayPause}
+                    />
+                ))}
+            </View>
+        ) : (
+            <NoItem title={searchQuery ? `music for with the title "${searchQuery}" was` : "music"} />
+        )}
     </ScrollView>
   )
 }

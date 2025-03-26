@@ -10,7 +10,7 @@ import { useAudioContext } from '@/context/AudioContext';
 import { useDataContext } from '@/context/DataContext';
 
 
-export default function PodcastItem({ data } : PodcastType | any) {
+export default function PodcastItem({ data } : { data: PodcastType | any }) {
 	const router = useRouter()
     const { setSelectedData } = useDataContext()
     const { currentEpsParent, currentAudioType, isPlaying } = useAudioContext();
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         padding: 7,
         borderRadius: 8,
-        marginBottom: 15,
         gap: 10,
     },
     audioImage: {

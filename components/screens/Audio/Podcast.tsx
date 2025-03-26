@@ -7,7 +7,6 @@ import NoItem from "@/components/layouts/NoItem";
 import { PodcastType } from "@/types/type";
 import PodcastItem from "@/components/layouts/PodcastItem";
 import Spinner from "@/components/elements/Spinner";
-import { useAuth } from "@/context/AuthContext";
 import { useFetchedContext } from "@/context/FetchedContext";
 
 
@@ -57,9 +56,11 @@ export default function Podcast() {
 			</View>
 
             {(data?.length > 0) ? (
-                data.map((data: PodcastType) => (
-                    <PodcastItem data={data} key={data._id} />
-                ))
+                <View style={{ flex: 1, gap: 20 }}>
+                    {data.map((data: PodcastType) => (
+                        <PodcastItem data={data} key={data._id} />
+                    ))}
+                </View>
             ) : (
                 <NoItem title={searchQuery ? `podcasts for with the title "${searchQuery}" was` : "podcasts"} />
             )}

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { unknownAudioImageUri } from '@/constants/images';
 import { typography } from '@/constants/typography';
 import variables from '@/constants/variables';
-import { truncateString } from '@/utils/helper';
+import { countNum, formatDateAgo, truncateString } from '@/utils/helper';
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { MusicType } from '@/types/type';
@@ -18,9 +18,10 @@ interface Props {
     isPlaying: boolean;
     currentSongId: string;
     handlePlayPause: Function;
+    forProfile?: boolean;
 }
 
-export default function AudioItem({ data, playSound, isPlaying, currentSongId, handlePlayPause } : Props) {
+export default function AudioItem({ data, playSound, isPlaying, currentSongId, handlePlayPause, forProfile } : Props) {
     const router = useRouter();
     const { setCurrentAudioType } = useAudioContext();
     const { setSelectedProfileId } = useDataContext();
@@ -67,11 +68,23 @@ export default function AudioItem({ data, playSound, isPlaying, currentSongId, h
                 <View style={{ width: "100%" }}>
                     <Text style={[styles.audioTitle, { color: isActive ? variables.colors.primary : variables.colors.text } ]}>{truncateString(data?.title, 30)}</Text>
 
-                    <Pressable onPress={handlePress} style={{ alignSelf: "flex-start" }}>
-                        <Text numberOfLines={1} style={styles.audioArtistText}>
-                            {data?.creatorProfile?.profileName || "Unkwown Creator"}
+                    {forProfile ? (
+                        <Text style={{ fontSize: 12, color: variables.colors.textSecondary }}>
+                            {countNum(data.streams ?? 0)} listens{"  "}•{"  "}{formatDateAgo(data.createdAt)}
                         </Text>
-                    </Pressable>
+                    ): (
+                        <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+                            <Pressable onPress={handlePress} style={{ alignSelf: "flex-start" }}>
+                                <Text numberOfLines={1} style={styles.audioArtistText}>
+                                    {data?.creatorProfile?.profileName || "Unkwown Creator"}
+                                </Text>
+                            </Pressable>
+
+                            <Text style={{ fontSize: 12, color: variables.colors.textSecondary }}>
+                                {"  "}•{"  "}{countNum(data.streams ?? 0)} listens{"  "}•{"  "}{formatDateAgo(data.createdAt)}
+                            </Text>
+                        </View>
+                    )}
                 </View>
             </View>
 
@@ -101,7 +114,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 7,
         borderRadius: 8,
-        marginBottom: 10,
         gap: 10,
     },
     audioImage: {

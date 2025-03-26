@@ -43,9 +43,11 @@ export default function Book() {
         </View>
 
         {(data.length > 0) ? (
-            data.map((data: BookType) => (
-                <BookItem data={data} key={data._id} />
-            ))
+            <View style={{ flex: 1, gap: 15 }}>
+                {data.map((data: BookType) => (
+                    <BookItem data={data} key={data._id} />
+                ))}
+            </View>
         ) : (
             <NoItem title={searchQuery ? `books for with the title "${searchQuery}" was` : "books"} />
         )}

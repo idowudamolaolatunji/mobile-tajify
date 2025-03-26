@@ -7,7 +7,7 @@ import { BlogType } from '@/types/type';
 import { useRouter } from 'expo-router';
 
 
-export default function BlogItem({ data } : BlogType | any) {
+export default function BlogItem({ data } : { data: BlogType | any }) {
 	const router = useRouter()
 
     return (
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         padding: 7,
         borderRadius: 8,
-        marginBottom: 15,
         gap: 10,
     },
     blogImage: {

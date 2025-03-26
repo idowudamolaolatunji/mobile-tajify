@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#4CAF50',
         paddingHorizontal: 15,
         paddingVertical: 10,
-        borderRadius: 5,
+        borderRadius: 4,
     },
     buttonText: {
         ...typography.paragraphBg
