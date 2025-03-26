@@ -103,25 +103,25 @@ export default function AcctProfile() {
 
 	
 	useEffect(function() {
-		// handleFetchProfile()
+		handleFetchProfile();
 	}, []);
 
 
 	useEffect(function() {
 		console.log(tab)
 		if(profile?._id) {
-			// handleFetchPosts();
+			handleFetchPosts();
 		}
 	}, [tab, profile])
 
 
-	// if(loading) {
-	// 	return (
-	// 		<View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50, backgroundColor: variables.colors.background }}>
-	// 			<ActivityIndicator size={"large"} color={variables.colors.text} />
-	// 		</View>
-	// 	)
-	// }
+	if(loading) {
+		return (
+			<View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50, backgroundColor: variables.colors.background }}>
+				<ActivityIndicator size={"large"} color={variables.colors.text} />
+			</View>
+		)
+	}
 
 	return (
 		<React.Fragment>
@@ -195,22 +195,15 @@ export default function AcctProfile() {
 
 					<View>
 						{/* NO DATA, BUT LOADER */}
-						{/* {(postLoader[tab] && posts[tab].length < 1) && <BoxSpinner />} */}
+						{(postLoader[tab] && posts[tab].length < 1) && <BoxSpinner />}
 
 						{/* NO DATA, AND NO LOADER */}
-						{/* {(!postLoader[tab] && posts[tab].length < 1) && <NoItem title={tab} />} */}
+						{(!postLoader[tab] && posts[tab].length < 1) && <NoItem title={tab} />}
 
 						{/* DATA, BUT NO LOADER */}
-						{/* {(!postLoader[tab] && posts[tab].length > 1) && (
-							posts[tab].map((post: any) => (
-								<ProfilePost post={post} tab={tab} />
-							))
-						)} */}
-						{/* {(!postLoader[tab] && posts[tab].length > 1) && (
-							<ProfilePost post={post} tab={tab} />
-						)} */}
-
-						<ProfilePost posts={posts} tab={tab} defaultProfile={true} />
+						{(!postLoader[tab] && posts[tab].length > 1) && (
+							<ProfilePost posts={posts[tab]} tab={tab} defaultProfile={true} />
+						)}
 					</View>
 				</View>
 			</ScrollView>

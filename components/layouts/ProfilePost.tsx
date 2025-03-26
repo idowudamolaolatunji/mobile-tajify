@@ -10,8 +10,11 @@ import { Entypo } from "@expo/vector-icons";
 import PodcastItem from "./PodcastItem";
 import ImageItem from "./ImageItem";
 import BookItem from "./BookItem";
+import BlogItem from "./BlogItem";
+import AudioItem from "./AudioItem";
+import { router } from "expo-router";
 import { useDataContext } from "@/context/DataContext";
-
+import { useAudioContext } from "@/context/AudioContext";
 
 interface Props {
     posts: TubeType[] | MusicType[] | PodcastType[] | PicsImageType[] | BlogType[] | BookType[] | Array<unknown> | any;
@@ -19,28 +22,19 @@ interface Props {
     defaultProfile?: boolean;
 }
 
-// temps
-import { useFetchedContext } from "@/context/FetchedContext";
-import { tubeMax, podcasts, picsImages, books, musics } from "@/utils/data";
-import { router } from "expo-router";
-import { unknownUserImageUri } from "@/constants/images";
-import BlogItem from "./BlogItem";
-import AudioItem from "./AudioItem";
-import { useAudioContext } from "@/context/AudioContext";
-
 
 export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) {
-    const { tubeShorts } = useFetchedContext();
+    console.log(posts);
     const { setSelectedData } = useDataContext();
     const { sound, isPlaying, currentAudioId, playSound, handlePlayPause } = useAudioContext()
 
     const handlePressShort = function(data: TubeType) {
-		setSelectedData(data)
+		setSelectedData(data);
 		router.navigate('/viewShort')
 	}
 
     const handlePressTubeMax = function(data: TubeType) {
-		setSelectedData(data)
+		setSelectedData(data);
 		router.navigate('/videoViewer')
 	}
 
@@ -165,13 +159,10 @@ export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) 
 }
 
 const styles = StyleSheet.create({
-   
     container: {
         flex: 1,
         gap: 20,
     },
-
-    //////////////////////
     shortItem: {
         position: "relative",
         height: 160,
@@ -189,7 +180,6 @@ const styles = StyleSheet.create({
         height: "100%",
         borderRadius: 4,
     },
-    //////////////////////
     tubeCard: {
 		backgroundColor: variables.colors.card,
         flexDirection: "row",
