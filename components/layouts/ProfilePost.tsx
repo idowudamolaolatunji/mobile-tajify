@@ -104,7 +104,7 @@ export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) 
                 </View>
 			)}
 
-			{tab == "audio" && (
+			{tab == "music" && (
 				<View style={styles.container}>
                     {posts.map((music: MusicType) => (
                         <AudioItem

@@ -1,7 +1,7 @@
 import { typography } from '@/constants/typography';
 import variables from '@/constants/variables';
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 
 type Tab = {
@@ -16,24 +16,14 @@ type SubTab = {
 };
 
 const tabs = [
-    { 
-        name: "Tube",
-        slug: "tube",
-        subTabs: [
-            { name: "Tube Shorts", slug: "tube-shorts" },
-            { name: "Tube Max", slug: "tube-max" },
-            // { name: "favorite", slug: "favorite" },
-        ]
-    },
-    { 
-        name: "Audio",
-        slug: "audio",
-        subTabs: [
-            { name: "Podcast", slug: "podcast" },
-            { name: "Music", slug: "music" },
-            // { name: "favorite", slug: "favorite" },
-        ]
-    },
+    { name: "Tube", slug: "tube", subTabs: [
+        { name: "Tube Shorts", slug: "tube-shorts" },
+        { name: "Tube Max", slug: "tube-max" },
+    ]},
+    { name: "Audio", slug: "audio", subTabs: [
+        { name: "Podcast", slug: "podcast" },
+        { name: "Music", slug: "music" },
+    ]},
     { name: "Image", slug: "image", subTabs: [] },
     { name: "Blog & Articles", slug: "blog-and-article", subTabs: [] },
     { name: "Book", slug: "book", subTabs: [] }
@@ -46,7 +36,7 @@ interface Props {
 
 function ChannelsMainTabs({ handleOnChangeTabs } : Props) {
     const [activeTab, setActiveTab] = useState<Tab>(tabs[0]);
-    const [activeSubTab, setActiveSubTab] = useState<SubTab>(tabs[0].subTabs[0]);
+    const [activeSubTab, setActiveSubTab] = useState<SubTab>(tabs[0].subTabs[0] || []);
 
     // WE HANDLE THE CHANGES LIKE A RESET ONLY WHEN WE SWITCH TABS
     const handleSetActiveTabs = function(tab: Tab) {

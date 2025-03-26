@@ -8,10 +8,10 @@ import TubeShorts from "@/components/screens/Tube/TubeShorts";
 import TubeMax from "@/components/screens/Tube/TubeMax";
 import Podcast from "@/components/screens/Audio/Podcast";
 import Books from "@/components/screens/Books/Book";
-import BlogAndArticle from "@/components/screens/BlogAndArticle/Blog";
 import Music from "@/components/screens/Audio/Music";
-import FloatingPlayer from "@/components/layouts/FloatingPlayer";
 import ImageAndArts from "@/components/screens/Images/ImageAndArts";
+import BlogAndArticle from "@/components/screens/BlogAndArticle/Blog";
+import FloatingPlayer from "@/components/layouts/FloatingPlayer";
 
 
 export default function HomeScreen() {
@@ -27,7 +27,7 @@ export default function HomeScreen() {
 
 
 	return (
-		<>
+		<React.Fragment>
 			<Stack.Screen options={{ header: () => <Header />, headerShown: true }} />
 			<View style={styles.container}>
 
@@ -62,7 +62,7 @@ export default function HomeScreen() {
 					</View>
 				</View>
 			</View>
-		</>
+		</React.Fragment>
 	);
 }
 

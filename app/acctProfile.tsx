@@ -30,7 +30,7 @@ export default function AcctProfile() {
 	const [postLoader, setPostLoader] = useState<PostLoaderState>({
 		shorts: true,
 		tube_max: true,
-		audio: true,
+		music: true,
 		podcasts: true,
 		images: true,
 		blogs: true,
@@ -40,7 +40,7 @@ export default function AcctProfile() {
 	const [posts, setPosts] = useState<PostState>({
 		shorts: [],
 		tube_max: [],
-		audio: [],
+		music: [],
 		podcasts: [],
 		images: [],
 		blogs: [],
@@ -78,7 +78,7 @@ export default function AcctProfile() {
 		try {
 			setPostLoader({ ...postLoader, [tab]: true });
 
-			const route = tab == "shorts" || "tube_max" ? "tubes" : tab == "audio" ? "music" : tab == "images" ? "pics" : tab;
+			const route = tab == "shorts" || "tube_max" ? "tubes" : tab == "images" ? "pics" : tab;
 
 			const res = await fetch(`${API_URL}/channels/${route}/my-${tab == "images" ? tab : route}`, {
 				method: "GET",
@@ -176,8 +176,8 @@ export default function AcctProfile() {
 						<Pressable style={styles.tabItem} onPress={() => setTab("tube_max")}>
 							<Text style={[typography.paragraphBg, tab === "tube_max" ? { color: variables.colors.primary } : {}]}>Tube Max</Text>
 						</Pressable>
-						<Pressable style={styles.tabItem} onPress={() => setTab("audio")}>
-							<Text style={[typography.paragraphBg, tab == "audio" ? { color: variables.colors.primary } : {}]}>Music</Text>
+						<Pressable style={styles.tabItem} onPress={() => setTab("music")}>
+							<Text style={[typography.paragraphBg, tab == "music" ? { color: variables.colors.primary } : {}]}>Music</Text>
 						</Pressable>
 						<Pressable style={styles.tabItem} onPress={() => setTab("podcasts")}>
 							<Text style={[typography.paragraphBg, tab == "podcasts" ? { color: variables.colors.primary } : {}]}>Podcasts</Text>

@@ -14,7 +14,6 @@ interface DataContextType {
     setSelectedData: (data: unknown) => void;
     selectedProfileId: string | any;
     setSelectedProfileId: (profile: string) => void;
-
 }
 
 const DataContext = createContext<DataContextType | any>(null);
@@ -50,7 +49,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         setSelectedProfileId,
 
         pickedShortUrl,
-        setPickedShortUrl
+        setPickedShortUrl,
     }
 
     return <DataContext.Provider value={contextData}>{children}</DataContext.Provider>
