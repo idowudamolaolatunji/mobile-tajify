@@ -5,9 +5,9 @@ import variables from "@/constants/variables";
 import { View, ScrollView, RefreshControl, StyleSheet, Platform, ActivityIndicator, Alert, Pressable } from "react-native";
 import Profile from "@/components/layouts/Profile";
 import { useRouter } from "expo-router";
-import { CreatorProfileType } from "@/types/type";
+import { CreatorProfileType, TubeType } from "@/types/type";
 
-const API_URL = `https://api-tajify.koyeb.app/api/profiles`;
+const API_URL = `https://api-tajify.koyeb.app/api`;
 
 type PostState = Record<string, any[]>;
 type PostLoaderState = Record<string, boolean>;
@@ -24,7 +24,7 @@ export default function CreatorProfile() {
 	const [postLoader, setPostLoader] = useState<PostLoaderState>({
 		shorts: false,
 		tube_max: false,
-		audio: false,
+		music: false,
 		podcasts: false,
 		images: false,
 		blogs: false,
@@ -34,7 +34,7 @@ export default function CreatorProfile() {
 	const [posts, setPosts] = useState<PostState>({
 		shorts: [],
 		tube_max: [],
-		audio: [],
+		music: [],
 		podcasts: [],
 		images: [],
 		blogs: [],
@@ -48,7 +48,7 @@ export default function CreatorProfile() {
 	}, [selectedProfileId])
 
 	useEffect(function() {
-		const id = profile?._id
+		const id = profile?._id;
 		if(id) {
 			handleFetchPosts(id)
 		}
@@ -64,7 +64,7 @@ export default function CreatorProfile() {
 		const id = selectedProfileId;
 		setLoading(true)
 		try {
-			const res = await fetch(`${API_URL}/${id}`, { 
+			const res = await fetch(`${API_URL}/profiles/${id}`, { 
 				method: "GET", 
 				headers
 			});
@@ -83,35 +83,26 @@ export default function CreatorProfile() {
 	}
 
 	async function handleFetchPosts(id?: string) {
-		console.log(id)
 		try {
 			setPostLoader({ ...postLoader, [tab]: true });
-			console.log(tab);
+			const route = tab == "shorts" ? "tubes" : tab == "tube_max" ? "tubes" : tab == "images" ? "pics" : tab;
 
-			const route = tab == "shorts" || "tube_max" ? "tubes" : tab == "audio" ? "music" : tab == "images" ? "pics" : tab;
-			const params = tab == "shorts" ? "tube-short" : "tube-max"
-
-			const res = await fetch(`${API_URL}/channels/${route}/${id}/${params}`);
+			const res = await fetch(`${API_URL}/channels/${route}/creator/${id}`);
 			const data = await res.json();
 
-			console.log(res, data)
-			if (data?.status !== 200 || data?.status !== "success") {
-				throw new Error(data?.message || data?.error);
-			}
+			const shorts = (data.data.tubes).filter((tube: TubeType) => tube.type == "tube-short");
+			const tube_max = (data.data.tubes).filter((tube: TubeType) => tube.type == "tube-max");
 
-			// console.log(data);
-			// setPosts({ ...posts, [tab]: data?.data[route] });
+			setPosts({ ...posts, [tab]: tab == "shorts" ? shorts : tab == "tube_max" ? tube_max : tab == "music" ? data.data?.musics : route });
 
 		} catch(err) {
 			return err;
 		} finally {
 			setTimeout(() => {
 				setPostLoader({ ...postLoader, [tab]: false });
-			}, 1000);
+			}, 500);
 		}
 	}
-
-	console.log(posts)
 
 	if(loading) {
 		return (
@@ -130,7 +121,6 @@ export default function CreatorProfile() {
 					profile={profile}
 					posts={posts}
 					postLoader={postLoader}
-					profileType="others"
 				/>
 			</ScrollView>
 		</React.Fragment>

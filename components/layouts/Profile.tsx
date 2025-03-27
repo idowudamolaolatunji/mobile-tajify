@@ -21,13 +21,10 @@ interface Props {
 
     tab: string;
     setTab: (tab: string) => void;
-    profileType: string;
 }
 
-export default function Profile({ profile, posts, postLoader, tab, setTab, profileType } : Props) {
-	
+export default function Profile({ profile, posts, postLoader, tab, setTab } : Props) {
 	const [followersLength, setFollowersLength] = useState(profile?.followers?.length || 0);
-
 
 	const handleSetFollowers = function(action: string) {
 		if(action == "follow") {
@@ -36,9 +33,6 @@ export default function Profile({ profile, posts, postLoader, tab, setTab, profi
 			setFollowersLength(followersLength - 1)
 		}
 	}
-
-    const handleEdit = function() {}
-
 
   return (
         <React.Fragment>
@@ -75,18 +69,14 @@ export default function Profile({ profile, posts, postLoader, tab, setTab, profi
 						</View>
 
 						<View style={styles.detailsSub}>
-                            {profileType == "others" ? (
-                                <FollowButton
-									id={profile?._id}
-									name={truncateString(profile.profileName, 4)}
-									isFollowingCreator={profile?.isFollowingCreator || false}
-									handleFollowerAmountChange={handleSetFollowers}
-								/>
-                            ) : (
-                                <Pressable onPress={handleEdit}>
-                                    <AntDesign name="edit" color={variables.colors.text} size={24} />
-                                </Pressable>
-                            )}
+                            
+							<FollowButton
+								id={profile?._id}
+								name={truncateString(profile.profileName, 4)}
+								isFollowingCreator={profile?.isFollowingCreator || false}
+								handleFollowerAmountChange={handleSetFollowers}
+							/>
+                            
 						</View>
 					</View>
 				</View>
@@ -124,10 +114,8 @@ export default function Profile({ profile, posts, postLoader, tab, setTab, profi
 						{(!postLoader[tab] && posts[tab].length < 1) && <NoItem title={tab} />}
 
 						{/* DATA, BUT NO LOADER */}
-						{(!postLoader[tab] && posts[tab].length > 1) && (
-							posts[tab].map((post: any) => (
-								<ProfilePost post={post} />
-							))
+						{(!postLoader[tab] && posts[tab].length > 0) && (
+							<ProfilePost posts={posts[tab]} tab={tab} />
 						)}
 					</View>
 				</View>

@@ -100,7 +100,7 @@ export default function AcctProfile() {
 		} finally {
 			setTimeout(() => {
 				setPostLoader({ ...postLoader, [tab]: false });
-			}, 1000);
+			}, 500);
 		}
 	}
 
@@ -111,7 +111,6 @@ export default function AcctProfile() {
 
 
 	useEffect(function() {
-		console.log(tab)
 		if(profile?._id) {
 			handleFetchPosts();
 		}
