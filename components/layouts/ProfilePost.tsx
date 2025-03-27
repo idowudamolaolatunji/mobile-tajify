@@ -15,7 +15,7 @@ import AudioItem from "./AudioItem";
 import { router } from "expo-router";
 import { useDataContext } from "@/context/DataContext";
 import { useAudioContext } from "@/context/AudioContext";
-import { picsImages, podcasts } from "@/utils/data";
+
 
 interface Props {
     posts: TubeType[] | MusicType[] | PodcastType[] | PicsImageType[] | BlogType[] | BookType[] | Array<unknown> | any;

@@ -96,7 +96,6 @@ export default function CreatorProfile() {
 			;
 			const res = await fetch(`${API_URL}/channels/${route}/creator/${id}`);
 			const data = await res.json();
-
 			setPosts({
 				...posts, [tab]: 
 				tab == "shorts" ? ((data?.data?.tubes)?.filter((tube: TubeType) => tube.type == "tube-short") || [])
@@ -115,17 +114,12 @@ export default function CreatorProfile() {
 					:
 				[]
 			});
-
 		} catch(err) {
 			return err;
 		} finally {
-			setTimeout(() => {
-				setPostLoader({ ...postLoader, [tab]: false });
-			}, 500);
+			setPostLoader({ ...postLoader, [tab]: false });
 		}
 	}
-
-	// console.log([tab] + ":", posts[tab])
 
 	if(loading) {
 		return (

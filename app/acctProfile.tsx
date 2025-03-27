@@ -95,7 +95,6 @@ export default function AcctProfile() {
 			});
 
 			const data = await res.json();
-			console.log(data.data?.pics)
 			setPosts({
 				...posts, [tab]: 
 				tab == "shorts" ? ((data?.data?.tubes)?.filter((tube: TubeType) => tube.type == "tube-short") || [])

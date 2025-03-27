@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BackButton from "@/components/elements/BackButton";
 import ImageUploader from "@/components/forms/ImageUploader";
 import variables from "@/constants/variables";
@@ -9,12 +9,14 @@ import { truncateString } from "@/utils/helper";
 import VideoUploader from "@/components/forms/VideoUploader";
 import { useDataContext } from "@/context/DataContext";
 import TagInputEl from "@/components/forms/TagInputEl";
+import { router } from "expo-router";
 
 export default function ShortForm() {
 	const { pickedShortUrl, setPickedShortUrl } = useDataContext()
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [hashtags, setHashtags] = useState<string[]>([]);
+	const [loading, setLoading] = useState(false);
 
     const handleClear = function() {
         setTitle("");
@@ -22,10 +24,41 @@ export default function ShortForm() {
         setPickedShortUrl("");
 		setHashtags([])
     }
+
+	const reloadProfile = function() {
+		router.dismiss()
+		router.replace("/acctProfile")
+	}
+
+	const handleSubmit = async function() {
+		setLoading(true);
+		try {
+			
+
+			setTimeout(function() {
+				reloadProfile();
+			}, 1000)
+		} catch(err) {
+			Alert.alert((err as Error).message)
+		} finally {
+			setTimeout(function() {
+				setLoading(true);
+			}, 1000)
+		}
+	}
 	
 	useEffect(function() {
 		setPickedShortUrl("");
-	}, [])
+	}, []);
+
+
+	if(loading) {
+		return (
+			<View style={{ justifyContent: "center", alignItems: "center", flex: 1, marginTop: -50, backgroundColor: variables.colors.background }}>
+				<ActivityIndicator size={"large"} color={variables.colors.text} />
+			</View>
+		)
+	}
 
 	return (
 		<SafeAreaView style={styles.pageContainer}>
@@ -49,7 +82,7 @@ export default function ShortForm() {
                     
 
 					<View style={styles.buttons}>
-						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]}>
+						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]} onPress={handleSubmit}>
 							<Text style={[{ color: variables.colors.text }, typography.paragraphBg]}>Upload</Text>
 						</TouchableOpacity>
 						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.tintedWhite }]} onPress={handleClear}>
