@@ -24,7 +24,7 @@ interface Props {
 
 
 export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) {
-    console.log(posts);
+    console.log("Profile Posts", posts);
     const { setSelectedData } = useDataContext();
     const { sound, isPlaying, currentAudioId, playSound, handlePlayPause } = useAudioContext()
 

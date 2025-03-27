@@ -12,7 +12,7 @@ import ProfilePost from "@/components/layouts/ProfilePost";
 import BackButton from "@/components/elements/BackButton";
 import { useAuth } from "@/context/AuthContext";
 import { countNum } from "@/utils/helper";
-import { CreatorProfileType } from "@/types/type";
+import { CreatorProfileType, TubeType } from "@/types/type";
 import CreateButton from "@/components/elements/CreateButton";
 
 const API_URL = `https://api-tajify.koyeb.app/api`;
@@ -78,7 +78,7 @@ export default function AcctProfile() {
 		try {
 			setPostLoader({ ...postLoader, [tab]: true });
 
-			const route = tab == "shorts" || "tube_max" ? "tubes" : tab == "images" ? "pics" : tab;
+			const route = tab == "shorts" ? "tubes" : tab == "tube_max" ? "tubes" : tab == "images" ? "pics" : tab;
 
 			const res = await fetch(`${API_URL}/channels/${route}/my-${tab == "images" ? tab : route}`, {
 				method: "GET",
@@ -87,11 +87,14 @@ export default function AcctProfile() {
 
 			const data = await res.json();
 			console.log(data)
-			if (data?.status !== 200 || data?.status !== "success") {
-				throw new Error(data.message || data?.error);
-			}
+			// if (data?.status !== 200 || data?.status !== "success") {
+			// 	throw new Error(data.message || data?.error);
+			// }
 
-			// setPosts({ ...posts, [tab]: [] });
+			const shorts = (data.data.tubes).filter((tube: TubeType) => tube.type == "tube-short");
+			const tube_max = (data.data.tubes).filter((tube: TubeType) => tube.type == "tube-max");
+
+			setPosts({ ...posts, [tab]: tab == "shorts" ? shorts : tab == "tube_max" ? tube_max : tab == "music" ? data.data?.musics : route });
 		} catch(err) {
 			return err;
 		} finally {
@@ -193,7 +196,7 @@ export default function AcctProfile() {
 						</Pressable>
 					</ScrollView>
 
-					<View>
+					<View style={{ flex: 1 }}>
 						{/* NO DATA, BUT LOADER */}
 						{(postLoader[tab] && posts[tab].length < 1) && <BoxSpinner />}
 
@@ -201,7 +204,7 @@ export default function AcctProfile() {
 						{(!postLoader[tab] && posts[tab].length < 1) && <NoItem title={tab} />}
 
 						{/* DATA, BUT NO LOADER */}
-						{(!postLoader[tab] && posts[tab].length > 1) && (
+						{(!postLoader[tab] && posts[tab].length > 0) && (
 							<ProfilePost posts={posts[tab]} tab={tab} defaultProfile={true} />
 						)}
 					</View>

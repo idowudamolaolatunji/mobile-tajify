@@ -107,8 +107,9 @@ function ShortLayout({ short, activeId } : Props) {
             <Pressable onPress={handlePressed} style={styles.content}>
                 {!isPlaying && (
                     <Ionicons name="play" style={{
-                        position: "absolute", top: "40%", alignSelf: "center"
-                    }} size={70} color={variables.colors.white} />
+                        position: "absolute", top: "40%", alignSelf: "center", 
+                      
+                    }} size={70} color={variables.colors.primaryTint2} />
                 )}
 
                 <SafeAreaView style={{ flex: 1 }}>
