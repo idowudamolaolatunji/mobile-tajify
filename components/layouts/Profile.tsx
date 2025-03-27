@@ -115,7 +115,7 @@ export default function Profile({ profile, posts, postLoader, tab, setTab } : Pr
 
 						{/* DATA, BUT NO LOADER */}
 						{(!postLoader[tab] && posts[tab].length > 0) && (
-							<ProfilePost posts={posts[tab]} tab={tab} />
+							<ProfilePost posts={posts[tab]} tab={tab} defaultProfile={false} />
 						)}
 					</View>
 				</View>

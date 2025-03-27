@@ -61,7 +61,6 @@ export default function AcctProfile() {
 		try {
 			const res = await fetch(`${API_URL}/profiles/my/profile`, { method: "GET", headers, });
 			const data = await res.json();
-			console.log(res, data)
 			if (data?.status !== "success") {
 				throw new Error(data.message || data?.error);
 			}
@@ -78,29 +77,47 @@ export default function AcctProfile() {
 		try {
 			setPostLoader({ ...postLoader, [tab]: true });
 
-			const route = tab == "shorts" ? "tubes" : tab == "tube_max" ? "tubes" : tab == "images" ? "pics" : tab;
+			const route = 
+				tab == "shorts" ? "tubes" 
+					:
+				tab == "tube_max" ? "tubes" 
+					: 
+				tab == "images" ? "pics" 
+					:
+				tab
+			;
 
-			const res = await fetch(`${API_URL}/channels/${route}/my-${tab == "images" ? tab : route}`, {
+			const subRoute = tab == "images" ? "images" : route
+
+			const res = await fetch(`${API_URL}/channels/${route}/my-${subRoute}`, {
 				method: "GET",
 				headers
 			});
 
 			const data = await res.json();
-			console.log(data)
-			// if (data?.status !== 200 || data?.status !== "success") {
-			// 	throw new Error(data.message || data?.error);
-			// }
-
-			const shorts = (data.data.tubes).filter((tube: TubeType) => tube.type == "tube-short");
-			const tube_max = (data.data.tubes).filter((tube: TubeType) => tube.type == "tube-max");
-
-			setPosts({ ...posts, [tab]: tab == "shorts" ? shorts : tab == "tube_max" ? tube_max : tab == "music" ? data.data?.musics : route });
+			console.log(data.data?.pics)
+			setPosts({
+				...posts, [tab]: 
+				tab == "shorts" ? ((data?.data?.tubes)?.filter((tube: TubeType) => tube.type == "tube-short") || [])
+					: 
+				tab == "tube_max" ? ((data?.data?.tubes)?.filter((tube: TubeType) => tube.type == "tube-max") || [])
+					: 
+				tab == "music" ? (data?.data?.musics || [])
+					: 
+				tab == "podcasts" ? (data?.data?.podcasts || [])
+					:
+				tab == "images" ? (data?.data?.pics || [])
+					:
+				tab == "books" ? (data?.data?.books || [])
+					:
+				tab == "blogs" ? (data?.data?.blogs || [])
+					:
+				[]
+			});
 		} catch(err) {
 			return err;
 		} finally {
-			setTimeout(() => {
-				setPostLoader({ ...postLoader, [tab]: false });
-			}, 500);
+			setPostLoader({ ...postLoader, [tab]: false });
 		}
 	}
 
@@ -111,7 +128,7 @@ export default function AcctProfile() {
 
 
 	useEffect(function() {
-		if(profile?._id) {
+		if(profile?._id && posts[tab].length < 1) {
 			handleFetchPosts();
 		}
 	}, [tab, profile])

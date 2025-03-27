@@ -15,6 +15,7 @@ import AudioItem from "./AudioItem";
 import { router } from "expo-router";
 import { useDataContext } from "@/context/DataContext";
 import { useAudioContext } from "@/context/AudioContext";
+import { picsImages, podcasts } from "@/utils/data";
 
 interface Props {
     posts: TubeType[] | MusicType[] | PodcastType[] | PicsImageType[] | BlogType[] | BookType[] | Array<unknown> | any;
@@ -23,20 +24,25 @@ interface Props {
 }
 
 
-export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) {
-    console.log("Profile Posts", posts);
+export default function ProfilePost({ posts, tab, defaultProfile }: Props) {
     const { setSelectedData } = useDataContext();
     const { sound, isPlaying, currentAudioId, playSound, handlePlayPause } = useAudioContext()
+    console.log("Post", posts)
 
     const handlePressShort = function(data: TubeType) {
-		setSelectedData(data);
-		router.navigate('/viewShort')
+        if(!defaultProfile) {
+            setSelectedData(data);
+            router.navigate('/viewShort')
+        }
 	}
 
     const handlePressTubeMax = function(data: TubeType) {
-		setSelectedData(data);
-		router.navigate('/videoViewer')
+        if(!defaultProfile) {
+		    setSelectedData(data);
+		    router.navigate('/videoViewer')
+        }
 	}
+
 
     useEffect(function() {
         return sound
@@ -53,7 +59,7 @@ export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) 
                     data={posts}
                     numColumns={3}
                     renderItem={({ item } : { item: TubeType }) => (
-                        <Pressable style={styles.shortItem} onPress={() => !defaultProfile && handlePressShort(item)}>
+                        <Pressable style={styles.shortItem} onPress={() => handlePressShort(item)}>
                             <LinearGradient
                                 colors={["transparent", "rgba(0, 0, 0, .7)" ]}
                                 style={[StyleSheet.absoluteFillObject, { top: "-50%", zIndex: 10 }]}
@@ -83,8 +89,8 @@ export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) 
 
 			{tab == "tube_max" && (
 				<View style={styles.container}>
-                    {posts.map((tube: TubeType) => (
-                        <Pressable style={styles.tubeCard} onPress={() => !defaultProfile && handlePressTubeMax(tube)}>
+                    {posts?.map((tube: TubeType) => (
+                        <Pressable style={styles.tubeCard} onPress={() => handlePressTubeMax(tube)} key={tube._id}>
                             {/* @ts-ignore */}
                             <Image source={{ uri: tube.thumbnail.url }} style={styles.thumbnail} />
                             
@@ -106,7 +112,7 @@ export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) 
 
 			{tab == "music" && (
 				<View style={styles.container}>
-                    {posts.map((music: MusicType) => (
+                    {posts?.map((music: MusicType) => (
                         <AudioItem
                             key={music._id}
                             data={music}
@@ -122,7 +128,7 @@ export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) 
 
 			{tab == "podcasts" && (
 				<View style={styles.container}>
-                    {posts.map((podcast: PodcastType) => (
+                    {posts?.map((podcast: PodcastType) => (
                         <PodcastItem data={podcast} key={podcast._id} />
                     ))}
                 </View>
@@ -141,7 +147,7 @@ export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) 
 
 			{tab == "blogs" && (
 				<View style={styles.container}>
-                    {posts.map((post: BlogType) => (
+                    {posts?.map((post: BlogType) => (
                         <BlogItem data={post} key={post._id} />
                     ))}
                 </View>
@@ -149,7 +155,7 @@ export default function ProfilePost({ posts, tab, defaultProfile=true }: Props) 
 
 			{tab == "books" && (
 				<View style={styles.container}>
-                    {posts.map((book: BookType) => (
+                    {posts?.map((book: BookType) => (
                         <BookItem data={book} key={book._id} />
                     ))}
                 </View>

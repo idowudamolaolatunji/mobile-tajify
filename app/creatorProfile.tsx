@@ -49,7 +49,7 @@ export default function CreatorProfile() {
 
 	useEffect(function() {
 		const id = profile?._id;
-		if(id) {
+		if(id && posts[tab].length < 1) {
 			handleFetchPosts(id)
 		}
 	}, [tab, profile]);
@@ -85,15 +85,36 @@ export default function CreatorProfile() {
 	async function handleFetchPosts(id?: string) {
 		try {
 			setPostLoader({ ...postLoader, [tab]: true });
-			const route = tab == "shorts" ? "tubes" : tab == "tube_max" ? "tubes" : tab == "images" ? "pics" : tab;
-
+			const route = 
+				tab == "shorts" ? "tubes" 
+					:
+				tab == "tube_max" ? "tubes" 
+					: 
+				tab == "images" ? "pics" 
+					:
+				tab
+			;
 			const res = await fetch(`${API_URL}/channels/${route}/creator/${id}`);
 			const data = await res.json();
 
-			const shorts = (data.data.tubes).filter((tube: TubeType) => tube.type == "tube-short");
-			const tube_max = (data.data.tubes).filter((tube: TubeType) => tube.type == "tube-max");
-
-			setPosts({ ...posts, [tab]: tab == "shorts" ? shorts : tab == "tube_max" ? tube_max : tab == "music" ? data.data?.musics : route });
+			setPosts({
+				...posts, [tab]: 
+				tab == "shorts" ? ((data?.data?.tubes)?.filter((tube: TubeType) => tube.type == "tube-short") || [])
+					: 
+				tab == "tube_max" ? ((data?.data?.tubes)?.filter((tube: TubeType) => tube.type == "tube-max") || [])
+					: 
+				tab == "music" ? (data?.data?.musics || [])
+					: 
+				tab == "podcasts" ? (data?.data?.podcasts || [])
+					:
+				tab == "images" ? (data?.data?.pics || [])
+					:
+				tab == "books" ? (data?.data?.books || [])
+					:
+				tab == "blogs" ? (data?.data?.blogs || [])
+					:
+				[]
+			});
 
 		} catch(err) {
 			return err;
@@ -103,6 +124,8 @@ export default function CreatorProfile() {
 			}, 500);
 		}
 	}
+
+	// console.log([tab] + ":", posts[tab])
 
 	if(loading) {
 		return (
