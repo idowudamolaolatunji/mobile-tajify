@@ -26,13 +26,13 @@ export default function TagInputEl({ forHastTag=false, placeholder, label, tags,
 
                 // If editing an existing tag
                 const newTags = [...tags];
-                newTags[editIndex] = forHastTag ? tag : text.trim();
+                newTags[editIndex] = forHastTag ? tag.replaceAll(" ", "").toLowerCase() : text.trim();
                 setTags(newTags);
                 setEditIndex(null);
             } else {
 
                 // If adding a new tag
-                setTags([...tags, forHastTag ? tag : text.trim()]);
+                setTags([...tags, forHastTag ? tag.replaceAll(" ", "").toLowerCase() : text.trim()]);
             }
             setText('');
         }
@@ -85,7 +85,7 @@ export default function TagInputEl({ forHastTag=false, placeholder, label, tags,
                     placeholderTextColor={variables.colors.tintedWhite}
                 />
                 <TouchableOpacity onPress={addTag} 
-                    style={styles.addButton}>
+                    style={[styles.addButton, { backgroundColor: text ? '#4CAF50' : '#4CAF5078' }]} disabled={!text}>
                     <Text style={styles.buttonText}>
                         {editIndex !== null ? 'Update' : 'Add'}
                     </Text>
@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10
     },
     addButton: {
-        backgroundColor: '#4CAF50',
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 4,

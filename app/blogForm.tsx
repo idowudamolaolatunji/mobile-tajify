@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BackButton from "@/components/elements/BackButton";
 import ImageUploader from "@/components/forms/ImageUploader";
@@ -6,6 +6,7 @@ import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
 import Editor from "@/components/dom-components/hello-dom";
+import RichTextEditor from "@/components/forms/RichTextEditor";
 
 
 export default function BlogForm() {
@@ -15,6 +16,8 @@ export default function BlogForm() {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [coverImage, setCoverImage] = useState("");
+	const bodyRef = useRef("");
+	const editorRef = useRef(null);
 
     const handleClear = function() {
         setTitle("");
@@ -31,12 +34,10 @@ export default function BlogForm() {
             <View style={{ paddingBottom: 30 }}>
 				<Text style={[typography.h3, styles.heading]}>Write Blog</Text>
 
-                <ImageUploader label="Main Image (Required)" imageTitle="Select Blog Main Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
-
 				<View style={styles.formItems}>
 					<TextInputEl label="Blog Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
-                    
-					<Editor setPlainText={setPlainText} setEditorState={setEditorState} />
+					<ImageUploader label="Main Image (Required)" imageTitle="Select Blog Main Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
+					{/* <RichTextEditor label="Blog Body (Required)" editorRef={editorRef} onChange={(body) => bodyRef.current = body} /> */}
 
 					<View style={styles.buttons}>
 						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]}>

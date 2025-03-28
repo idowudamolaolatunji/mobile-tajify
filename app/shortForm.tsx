@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BackButton from "@/components/elements/BackButton";
-import ImageUploader from "@/components/forms/ImageUploader";
 import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
 import TextInputEl from "@/components/forms/TextInputEl";
-import { truncateString } from "@/utils/helper";
 import VideoUploader from "@/components/forms/VideoUploader";
 import { useDataContext } from "@/context/DataContext";
 import TagInputEl from "@/components/forms/TagInputEl";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 
 export default function ShortForm() {
+	const router = useRouter()
 	const { pickedShortUrl, setPickedShortUrl } = useDataContext()
-	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [hashtags, setHashtags] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
 
     const handleClear = function() {
-        setTitle("");
         setDescription("");
         setPickedShortUrl("");
-		setHashtags([])
+		setHashtags([]);
     }
 
-	const reloadProfile = function() {
+	const onReloadProfile = function() {
 		router.dismiss()
 		router.replace("/acctProfile")
 	}
@@ -36,7 +33,7 @@ export default function ShortForm() {
 			
 
 			setTimeout(function() {
-				reloadProfile();
+				onReloadProfile();
 			}, 1000)
 		} catch(err) {
 			Alert.alert((err as Error).message)

@@ -1,5 +1,5 @@
 import React from "react"
-import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import variables from '@/constants/variables';
 import { typography } from '@/constants/typography';
@@ -41,7 +41,7 @@ export default function ImageUploader({ imageTitle, label, image, setImage, cust
 
 
   return (
-    <React.Fragment>
+    <View>
         <Text style={styles.label}>{label}</Text>
         <TouchableOpacity style={[styles.container, { height: customHeight }]}>
             {image ? (
@@ -64,7 +64,7 @@ export default function ImageUploader({ imageTitle, label, image, setImage, cust
             )}
 
         </TouchableOpacity>
-    </React.Fragment>
+    </View>
   )
 }
 
