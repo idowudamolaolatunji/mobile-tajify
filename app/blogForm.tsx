@@ -37,7 +37,7 @@ export default function BlogForm() {
 				<View style={styles.formItems}>
 					<TextInputEl label="Blog Title (Required)" placeholder="Title, E.g: 'Wonderful work of Art'" value={title} setValue={setTitle} />
 					<ImageUploader label="Main Image (Required)" imageTitle="Select Blog Main Image" image={coverImage} setImage={setCoverImage} customHeight={250} />
-					{/* <RichTextEditor label="Blog Body (Required)" editorRef={editorRef} onChange={(body) => bodyRef.current = body} /> */}
+					<RichTextEditor label="Blog Body (Required)" editorRef={editorRef} onChange={(body) => bodyRef.current = body} />
 
 					<View style={styles.buttons}>
 						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]}>
