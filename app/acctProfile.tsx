@@ -22,7 +22,8 @@ type PostLoaderState = Record<string, boolean>;
 
 export default function AcctProfile() {
 	const { headers } = useAuth();
-	const [tab, setTab] = useState("shorts");
+	// const [tab, setTab] = useState("shorts");
+	const [tab, setTab] = useState("blogs");
 	const [loading, setLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 
