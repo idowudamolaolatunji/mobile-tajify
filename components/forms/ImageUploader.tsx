@@ -10,7 +10,7 @@ interface Props {
     imageTitle?: string;
     label?: string;
     image: string;
-    setImage: (file: string) => void;
+    setImage: ({ file, preview} : { file: any; preview: string }) => void;
     customHeight: number;
     aspect?: [number, number];
     allowCrop?: boolean;
@@ -30,13 +30,13 @@ export default function ImageUploader({ imageTitle, label, image, setImage, cust
         console.log(result);
     
         if (!result.canceled) {
-          setImage(result.assets[0].uri);
+          setImage({ preview: result.assets[0].uri, file: result.assets[0]});
         }
     }
 
     
     const onRemoveImage = function() {
-        setImage("");
+        setImage({ preview: "", file: null });
     }
 
 

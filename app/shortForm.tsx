@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import BackButton from "@/components/elements/BackButton";
 import variables from "@/constants/variables";
 import { typography } from "@/constants/typography";
@@ -8,17 +8,21 @@ import VideoUploader from "@/components/forms/VideoUploader";
 import { useDataContext } from "@/context/DataContext";
 import TagInputEl from "@/components/forms/TagInputEl";
 import { useRouter } from "expo-router";
+import { useAuth } from "@/context/AuthContext";
+
+const API_URL = "https://api-tajify.koyeb.app/api/channels/tubes/upload";
 
 export default function ShortForm() {
-	const router = useRouter()
-	const { pickedShortUrl, setPickedShortUrl } = useDataContext()
+	const router = useRouter();
+	const { formdataHeader } = useAuth();
+	const { pickedShortVideo, setPickedShortVideo } = useDataContext()
 	const [description, setDescription] = useState("");
 	const [hashtags, setHashtags] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
 
     const handleClear = function() {
         setDescription("");
-        setPickedShortUrl("");
+        setPickedShortVideo("");
 		setHashtags([]);
     }
 
@@ -27,25 +31,46 @@ export default function ShortForm() {
 		router.replace("/acctProfile")
 	}
 
-	const handleSubmit = async function() {
-		setLoading(true);
+	async function handleSubmit() {
+		if(!setDescription || !pickedShortVideo?.file) {
+			return Alert.alert("Complete all required fields")
+		}
+		setLoading(true)
+
 		try {
-			
+			const formData = new FormData();
+			formData.append('description', description);
+			formData.append('type', "tube-short");
+			formData.append('hashTags', JSON.stringify(hashtags));
+			if (pickedShortVideo.file !== null) {
+				formData.append('tube', pickedShortVideo?.file);
+			}
+
+			const res = await fetch(API_URL, {
+				headers: formdataHeader,
+				method: "POST",
+				body: formData,
+			})
+
+			const data = await res.json();
+			console.log(res, data)
+			if (res?.status != 201 && data?.status !== 'success') {
+				throw new Error(data?.message);
+			}
 
 			setTimeout(function() {
 				onReloadProfile();
 			}, 1000)
+
 		} catch(err) {
-			Alert.alert((err as Error).message)
+			return Alert.alert("Error", (err as Error).message);
 		} finally {
-			setTimeout(function() {
-				setLoading(true);
-			}, 1000)
+			setLoading(false)
 		}
 	}
 	
 	useEffect(function() {
-		setPickedShortUrl("");
+		setPickedShortVideo("");
 	}, []);
 
 
@@ -69,8 +94,8 @@ export default function ShortForm() {
                 <VideoUploader
 					type="short"
 					label="Short Video - 30 secs (Required)"
-					video={pickedShortUrl}
-					setVideo={setPickedShortUrl}
+					video={pickedShortVideo.url}
+					setVideo={setPickedShortVideo}
 				/>
 
 				<View style={styles.formItems}>

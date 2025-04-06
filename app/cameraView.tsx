@@ -8,7 +8,7 @@ import { router } from "expo-router";
 import variables from "@/constants/variables";
 
 export default function VideoCameraView({}) {
-	const { setPickedShortUrl, pickedShortUrl } = useDataContext()
+	const { setPickedShortVideo, pickedShortVideo } = useDataContext()
 	const [isRecording, setIsRecording] = useState(false);
 	const [facing, setFacing] = useState<CameraType>("back");
 	const [permission, requestPermission] = useCameraPermissions();
@@ -23,7 +23,7 @@ export default function VideoCameraView({}) {
 		console.log(result);
 
 		if (!result.canceled) {
-		  	setPickedShortUrl(result.assets[0].uri);
+		  	setPickedShortVideo(result.assets[0].uri);
 			// router.navigate("/shortForm");
 		}
 	};
@@ -38,7 +38,7 @@ export default function VideoCameraView({}) {
 	};
 
 	const onRemoveImage = function() {
-		setPickedShortUrl("");
+		setPickedShortVideo("");
 	}
 
 	if (!permission) {
@@ -63,11 +63,11 @@ export default function VideoCameraView({}) {
 					<Ionicons name="aperture" color="white" size={50} />
 				</TouchableOpacity>
 
-				{pickedShortUrl ? (
+				{pickedShortVideo ? (
 					<TouchableOpacity style={[styles.button, { position: "relative" } ]} onPress={saveVideo}>
 						<Ionicons name="checkmark-circle" color="white" size={100} />
 						<View style={styles.selected}>
-							<Image source={{ uri: pickedShortUrl }} style={styles.selectedImg} />
+							<Image source={{ uri: pickedShortVideo }} style={styles.selectedImg} />
 							<TouchableOpacity onPress={onRemoveImage} style={styles.remove}>
 							<AntDesign name="close" size={20} color={variables.colors.text} />
 						</TouchableOpacity>

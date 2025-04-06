@@ -11,7 +11,7 @@ interface Props {
     label?: string;
     type?: string;
     video: string;
-    setVideo: (value: string) => void;
+    setVideo: ({ url, file } : { url: string, file: any }) => void;
 }
 
 export default function VideoUploader({ label, type, video, setVideo } : Props) {
@@ -29,13 +29,13 @@ export default function VideoUploader({ label, type, video, setVideo } : Props) 
             });
     
             if (!result.canceled) {
-                setVideo(result.assets[0].uri);
+                setVideo({ url: result.assets[0].uri, file: result.assets[0] });
             }
         }
     }
 
     const onRemoveImage = function() {
-        setVideo("");
+        setVideo({ url: "", file: null });
     }
 
 

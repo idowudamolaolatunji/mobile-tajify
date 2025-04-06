@@ -48,6 +48,7 @@ export default function RichTextEditor({ label, editorRef, onChange } : Props) {
             <RichEditor
                 ref={editorRef}
                 onChange={onChange}
+                initialContentHTML="<h1>Quill Editor for react-native</h1>"
                 placeholder={"Write post"}
                 editorStyle={styles.editorContent}
                 containerStyle={styles.editorContainer}
@@ -63,8 +64,8 @@ export default function RichTextEditor({ label, editorRef, onChange } : Props) {
 
 const styles = StyleSheet.create({
     richBar: {
-        borderTopRightRadius: 8,
-        borderTopLeftRadius: 8,
+        borderTopRightRadius: 6,
+        borderTopLeftRadius: 6,
         backgroundColor: variables.colors.bgDark,
         marginBottom: -5,
     },
@@ -74,8 +75,8 @@ const styles = StyleSheet.create({
         borderColor: variables.colors.border,
         borderWidth: 1.5,
         borderTopWidth: 0,
-        borderBottomLeftRadius: 8,
-        borderBottomRightRadius: 8,
+        borderBottomLeftRadius: 6,
+        borderBottomRightRadius: 6,
     },
     editorContent: {
         color: variables.colors.background

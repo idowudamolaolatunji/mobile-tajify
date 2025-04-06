@@ -46,6 +46,12 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 		}),
 	};
 
+    const formdataHeader = {
+		"Content-Type": "multipart/form-data",
+		Authorization: `Bearer ${authState.token}`
+	}
+
+
 	const handleAuthChange = function (token: string, isAuthenticated: boolean, avatar: string) {
 		setAuthState({ token, isAuthenticated, avatar });
 	};
@@ -122,6 +128,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 
 	const value = {
 		headers,
+		formdataHeader,
 		authState,
 		handleAuthChange,
 		loading: authLoading,

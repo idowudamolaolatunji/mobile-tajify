@@ -7,8 +7,8 @@ import React, { createContext, useState, useContext } from "react";
 interface DataContextType {
     imagesView: string;
     handleChangeImagesView: (view: string) => void;
-    pickedShortUrl: string | any;
-    setPickedShortUrl: (url: string | null) => void;
+    pickedShortVideo: any;
+    setPickedShortVideo: ({ url, file } : { url: string, file: any }) => void;
 
     selectedData: unknown;
     setSelectedData: (data: unknown) => void;
@@ -30,7 +30,7 @@ interface DataProviderProps {
   
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     const [imagesView, setImagesView] = useState<string>("double") // single | double
-    const [pickedShortUrl, setPickedShortUrl] = useState<unknown>(null) // single | double
+    const [pickedShortVideo, setPickedShortVideo] = useState<unknown>({ url: "", file: null }) // single | double
     const [selectedData, setSelectedData] = useState<unknown>(null);
     const [selectedProfileId, setSelectedProfileId] = useState<unknown>(null);
 
@@ -48,8 +48,8 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         selectedProfileId,
         setSelectedProfileId,
 
-        pickedShortUrl,
-        setPickedShortUrl,
+        pickedShortVideo,
+        setPickedShortVideo,
     }
 
     return <DataContext.Provider value={contextData}>{children}</DataContext.Provider>
