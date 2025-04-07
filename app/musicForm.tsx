@@ -33,7 +33,7 @@ export default function MusicForm() {
 	}
 
 	async function handleSubmit() {
-		if(!title || !description || !coverImage.file || !music) {
+		if(!title || !coverImage.file || !music) {
 			return Alert.alert("Complete all required fields")
 		}
 
@@ -49,9 +49,11 @@ export default function MusicForm() {
 				formData.append('audio', music);
 			}
 
+			// console.log(formData?._parts)
+
 			const res = await fetch(API_URL, {
-				headers: formdataHeader,
 				method: "POST",
+				headers: formdataHeader,
 				body: formData,
 			});
 
@@ -101,7 +103,7 @@ export default function MusicForm() {
                     
 
 					<View style={styles.buttons}>
-						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]}>
+						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.primary }]} onPress={handleSubmit}>
 							<Text style={[{ color: variables.colors.text }, typography.paragraphBg]}>Upload</Text>
 						</TouchableOpacity>
 						<TouchableOpacity style={[styles.button, { backgroundColor: variables.colors.tintedWhite }]} onPress={handleClear}>

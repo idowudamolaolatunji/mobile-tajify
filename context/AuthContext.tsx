@@ -47,6 +47,7 @@ export const AuthProvider = function ({ children }: AuthProviderProps | any) {
 	};
 
     const formdataHeader = {
+		'Accept': 'application/json',
 		"Content-Type": "multipart/form-data",
 		Authorization: `Bearer ${authState.token}`
 	}
